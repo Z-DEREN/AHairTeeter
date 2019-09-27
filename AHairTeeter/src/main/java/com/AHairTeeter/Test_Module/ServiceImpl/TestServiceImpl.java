@@ -1,5 +1,7 @@
 package com.AHairTeeter.Test_Module.ServiceImpl;
 
-public class TestServiceImpl {
+import com.AHairTeeter.Test_Module.Service.TestService;
+
+public class TestServiceImpl implements TestService {
 
 }

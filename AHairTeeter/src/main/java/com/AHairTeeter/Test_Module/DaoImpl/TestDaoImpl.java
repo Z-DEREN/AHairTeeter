@@ -1,5 +1,7 @@
 package com.AHairTeeter.Test_Module.DaoImpl;
 
-public class TestDaoImpl {
+import com.AHairTeeter.Test_Module.Dao.TestDao;
+
+public class TestDaoImpl implements TestDao{
 
 }
