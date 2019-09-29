@@ -7,4 +7,10 @@ package com.AHairTeeter.Test_Module.Dao;
  */
 public interface TestDao {
 
+	
+	
+	//测试数据库连接情况
+	public int GetSqlMain();
+	
+	
 }

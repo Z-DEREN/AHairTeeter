@@ -1,5 +1,7 @@
 package com.AHairTeeter.Test_Module.ServiceImpl;
 
+import org.springframework.stereotype.Repository;
+
 import com.AHairTeeter.Test_Module.Service.TestService;
 
 /**
@@ -7,6 +9,8 @@ import com.AHairTeeter.Test_Module.Service.TestService;
  * @author ∫√»À
  *
  */
+
+@Repository
 public class TestServiceImpl implements TestService {
 
 }
