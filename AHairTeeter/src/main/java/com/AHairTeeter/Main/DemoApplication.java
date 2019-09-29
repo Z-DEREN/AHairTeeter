@@ -25,12 +25,7 @@ public class DemoApplication {
 		springApplication.setBannerMode(Banner.Mode.OFF);
 		springApplication.run(args);
 		logger.info("项目启动成功------------------------------"); // info级别的信息
-		
-		
 		//进行启动测试位
-		
-		
-		
 	}
 
 }
