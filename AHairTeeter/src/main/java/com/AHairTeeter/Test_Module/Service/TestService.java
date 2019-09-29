@@ -6,5 +6,13 @@ package com.AHairTeeter.Test_Module.Service;
  *
  */
 public interface TestService {
-
+	
+	
+	/**
+	 * 测试数据库连接情况
+	 */
+	public int GetSqlMain();
+	
+	
+	
 }

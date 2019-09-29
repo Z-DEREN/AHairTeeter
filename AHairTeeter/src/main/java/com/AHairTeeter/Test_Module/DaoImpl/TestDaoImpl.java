@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -25,26 +24,18 @@ public class TestDaoImpl implements TestDao {
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 
+	
 	/**
 	 * 测试数据库连接情况
 	 */
 	public int GetSqlMain() {
-		String sql = "";
+		String sql = " SELECT COUNT(ZDI) FROM userz";
 		int sqlretu = 0;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		sqlretu = jdbcTemplate.update(sql);
-//				.queryForList(sql);
+		list = jdbcTemplate.queryForList(sql);
+		System.out.println(list.get(0));
 		return sqlretu;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
