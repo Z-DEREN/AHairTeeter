@@ -5,11 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
+@SpringBootApplication
 @PropertySource(value = {"file:F://rdzgsq//Database//ALi120//application.properties"},
 ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
 public class DemoApplication {
@@ -26,7 +28,6 @@ public class DemoApplication {
 		springApplication.run(args);
 		logger.info("项目启动成功------------------------------"); // info级别的信息
 		//进行启动测试位
-		
 	}
 	
 	
