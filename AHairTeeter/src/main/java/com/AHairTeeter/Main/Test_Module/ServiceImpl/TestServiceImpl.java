@@ -1,8 +1,10 @@
-package com.AHairTeeter.Test_Module.ServiceImpl;
+package com.AHairTeeter.Main.Test_Module.ServiceImpl;
+
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
-import com.AHairTeeter.Test_Module.DaoImpl.TestDaoImpl;
-import com.AHairTeeter.Test_Module.Service.TestService;
+import com.AHairTeeter.Main.Test_Module.DaoImpl.TestDaoImpl;
+import com.AHairTeeter.Main.Test_Module.Service.TestService;
 
 /**
  * 基础测试Service实现类
@@ -13,8 +15,8 @@ import com.AHairTeeter.Test_Module.Service.TestService;
 @Repository
 public class TestServiceImpl implements TestService {
 
-	
-	public TestDaoImpl TestDaoImpl = new TestDaoImpl();
+	@Resource
+	public TestDaoImpl TestDaoImpl;
 	
 	/**
 	 * 测试数据库连接情况

@@ -52,21 +52,11 @@ public class Tool {
 
 	/**
 	 * Sql查询方法
-	 * <p>
-	 * ListMap
-	 * </p>
-	 * <p>
-	 * ArrayObject
-	 * </p>
-	 * <p>
-	 * HashMap
-	 * </p>
-	 * <p>
-	 * ArrayList
-	 * </p>
-	 * <p>
-	 * String
-	 * </p>
+	 * <p>ListMap</p>
+	 * <p>ArrayObject</p>
+	 * <p>HashMap</p>
+	 * <p>ArrayList</p>
+	 * <p>String</p>
 	 * 
 	 * @param Sql
 	 * @param Value
@@ -82,37 +72,38 @@ public class Tool {
 		// array
 		Object[] ArrayList = null;
 
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		if (Value == null) {
 			System.out.println("执行的SQL为:"+sql);
 			logger.info("执行的SQL为:"+sql); // info级别的信息
-			List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+			list = jdbcTemplate.queryForList(sql);
 		} else {
 			System.out.println("执行的SQL为:"+sql);
 			String sqlvalue = "执行的SQL为:"+sql+"; 值为:";
 			for(Object value : Value){
 				sqlvalue+= value+" , ";
-			} 
+			}
 			logger.info(sqlvalue); // info级别的信息
-			List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, Value);
+			list = jdbcTemplate.queryForList(sql, Value);
 		}
 		
-//		for (Map<String, Object> map : list) {
-//			Map<String, Object> AddMap = new HashMap<String, Object>();
-//			Set<Entry<String, Object>> entries = map.entrySet();
-//			if (entries != null) {
-//				Iterator<Entry<String, Object>> iterator = entries.iterator();
-//				while (iterator.hasNext()) {
-//					Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
-//					Object key = entry.getKey();
-//					Object value = entry.getValue();
-//					System.out.println(key + ":" + value);
-//					AddMap.put(key.toString(), value);
-//					HashMap.put(key.toString(), value);
-//					ArrayObject.add(value);
-//				}
-//			}
-//			ListMap.add(AddMap);
-//		}
+		for (Map<String, Object> map : list) {
+			Map<String, Object> AddMap = new HashMap<String, Object>();
+			Set<Entry<String, Object>> entries = map.entrySet();
+			if (entries != null) {
+				Iterator<Entry<String, Object>> iterator = entries.iterator();
+				while (iterator.hasNext()) {
+					Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
+					Object key = entry.getKey();
+					Object value = entry.getValue();
+					System.out.println(key + ":" + value);
+					AddMap.put(key.toString(), value);
+					HashMap.put(key.toString(), value);
+					ArrayObject.add(value);
+				}
+			}
+			ListMap.add(AddMap);
+		}
 
 		switch (type) {
 		case "ListMap":
