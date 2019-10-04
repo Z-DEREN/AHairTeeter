@@ -19,6 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<log4j.version>1.2.17</log4j.version>
 		<redis>2.9.0</redis>
+		<jsoup>1.11.3</jsoup>
 	</properties>
 
 	<dependencies>
@@ -97,9 +98,6 @@
 			<version>1.2</version>
 		</dependency>
 
-
-
-
 		<!-- tomcat 的支持. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -107,21 +105,25 @@
 			<scope>provided</scope>
 		</dependency>
 
-
-
-
-
 		<!-- XML支持 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
-
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
+		
+		<!-- 爬虫方法 -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>${jsoup}</version>
+		</dependency>
+		
+		
+		
 
 	</dependencies>
 	<build>

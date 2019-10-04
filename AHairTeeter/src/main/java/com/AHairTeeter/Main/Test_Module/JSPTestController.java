@@ -1,14 +1,11 @@
 package com.AHairTeeter.Main.Test_Module;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 /**
  * »ù´¡²âÊÔController
@@ -30,6 +27,5 @@ public class JSPTestController {
 		model.addAttribute("laji", "ÕæÀ¬»ø");
 		return "welcome";
 	}
-
 
 }

@@ -1,5 +1,6 @@
 package com.AHairTeeter.Tool;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,19 +15,18 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class Tool {
-	
+
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-	
-	
-	private static final Logger logger = LogManager.getLogger(Tool.class.getName());
 
-	
+	private static final Logger logger = LogManager.getLogger(Tool.class.getName());
 
 	private static SimpleDateFormat DT1 = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat DT2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -52,11 +52,21 @@ public class Tool {
 
 	/**
 	 * Sql查询方法
-	 * <p>ListMap</p>
-	 * <p>ArrayObject</p>
-	 * <p>HashMap</p>
-	 * <p>ArrayList</p>
-	 * <p>String</p>
+	 * <p>
+	 * ListMap
+	 * </p>
+	 * <p>
+	 * ArrayObject
+	 * </p>
+	 * <p>
+	 * HashMap
+	 * </p>
+	 * <p>
+	 * ArrayList
+	 * </p>
+	 * <p>
+	 * String
+	 * </p>
 	 * 
 	 * @param Sql
 	 * @param Value
@@ -74,19 +84,19 @@ public class Tool {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		if (Value == null) {
-			System.out.println("执行的SQL为:"+sql);
-			logger.info("执行的SQL为:"+sql); // info级别的信息
+			System.out.println("执行的SQL为:" + sql);
+			logger.info("执行的SQL为:" + sql); // info级别的信息
 			list = jdbcTemplate.queryForList(sql);
 		} else {
-			System.out.println("执行的SQL为:"+sql);
-			String sqlvalue = "执行的SQL为:"+sql+"; 值为:";
-			for(Object value : Value){
-				sqlvalue+= value+" , ";
+			System.out.println("执行的SQL为:" + sql);
+			String sqlvalue = "执行的SQL为:" + sql + "; 值为:";
+			for (Object value : Value) {
+				sqlvalue += value + " , ";
 			}
 			logger.info(sqlvalue); // info级别的信息
 			list = jdbcTemplate.queryForList(sql, Value);
 		}
-		
+
 		for (Map<String, Object> map : list) {
 			Map<String, Object> AddMap = new HashMap<String, Object>();
 			Set<Entry<String, Object>> entries = map.entrySet();
@@ -179,6 +189,30 @@ public class Tool {
 			e.printStackTrace();
 		}
 		return DateTime;
+	}
+
+	private static Document doc = null;
+	private static String Sdoc = null;
+
+	/**
+	 * 简单爬取方法(只能用于简单爬取)
+	 * @param url
+	 * @return 对应网址源码
+	 */
+	public String BriefnessAcquire(String url) {
+		
+		try {
+			doc = Jsoup.connect(url)
+					.header("user-agent",
+							"Mozilla/5.0 (Windows NT 10.0; WOW64) " + "AppleWebKit/537.36 (KHTML, like Gecko) "
+									+ "Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36")
+					.ignoreContentType(true).get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Sdoc = doc.html();
+		return Sdoc;
 	}
 
 }
