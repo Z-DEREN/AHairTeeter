@@ -36,6 +36,28 @@ public class Tool {
 
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 
+	
+	
+	
+	public String GetZDInum(String type) {
+		
+		
+		if() {
+			
+		}
+		
+		
+		
+		
+		
+		
+		return type;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 静态代码块 (存入缓存当中)
 	 */
