@@ -23,6 +23,7 @@ public class IPpool {
 
 	Tool Tool = new Tool();
 	String ChinaIPCryp = "https://www.xicidaili.com/nn/";
+	String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";
 	String present = "";// 用来存储本机ip(作用是与代理ip进校验,是否已经更换ip)
 
 	/**
@@ -50,12 +51,7 @@ public class IPpool {
 	 */
 	public void save_IP_6100000000(Map<String, String> IPmap,String type) {
 		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-		sql+="("+Tool.GetZDInum(type)+",'"+IPmap.get("ip")+"',"+IPmap.get("port")+",'"+IPmap.get("area")+"',"+IPmap.get("msec")+",'"+Tool.GetNewDateTime(2)+"','"+type+"')";
-		
-		
-	
-	
-	
+		sql+="("+Tool.GetNewZDInum(type)+",'"+IPmap.get("ip")+"',"+IPmap.get("port")+",'"+IPmap.get("area")+"',"+IPmap.get("msec")+",'"+Tool.GetNewDateTime(2)+"','"+type+"')";
 	}
 
 	/**
@@ -99,7 +95,7 @@ public class IPpool {
 			long startTime = System.currentTimeMillis(); // 获取开始时间
 			System.getProperties().setProperty("http.proxyHost", map.get("ip"));
 			System.getProperties().setProperty("http.proxyPort", map.get("port"));
-			Iptext = Tool.BriefnessAcquire("http://pv.sohu.com/cityjson?ie=utf-8");// 测试接口
+			Iptext = Tool.BriefnessAcquire(IPTest);// 测试接口
 			long endTime = System.currentTimeMillis();
 			// 首先判断连接消耗的时间,再判断
 			Long time = endTime - startTime;

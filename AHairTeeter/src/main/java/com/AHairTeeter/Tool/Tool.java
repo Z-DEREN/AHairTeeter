@@ -39,16 +39,35 @@ public class Tool {
 	
 	
 	
-	public String GetZDInum(String type) {
+	public String GetNewZDInum(String type) {
 		
 		
-		if() {
+		if(type.equals("614")) {
+			System.out.println("获取国内高匿IP新ZDI码");
+			
+			//6140000000
+			
+			
+			//查询该特殊段的最大ZDI码
+			
+			
+			//对该码加一操作
+			
+			
+			//判断是否超过最大容量6149999999
+			//如果超过则对前50000条进行保存至磁盘中并删除数据库中这些参数
+			//
+			
+			
+			
+			
+			
+			
+			
+			
+		}else if(type.equals("000")) {
 			
 		}
-		
-		
-		
-		
 		
 		
 		return type;
