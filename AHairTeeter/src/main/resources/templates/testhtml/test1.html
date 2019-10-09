@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+
+
+<meta charset="UTF-8" />
+<!-- 或者  <meta charset="UTF-8" ></meta> -->
+<title>Thymeleaf Demo</title>
+<!-- <script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/jquery-2.1.1.min.js"></script> -->
+</head>
+<body>
+	<h2 th:text="${Time}"></h2>
+	<!-- 标签按钮中访问 -->
+<!-- 	<button type="button" th:οnclick="'javascript:check('+${corp.id}+',2)'">审核</button> -->
+
+
+<a th:href="@{/htmltest/test2}">测试位1</a>
+
+
+</body>
+</html>

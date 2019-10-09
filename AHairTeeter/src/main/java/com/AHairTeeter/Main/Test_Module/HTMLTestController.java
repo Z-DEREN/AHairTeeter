@@ -15,7 +15,7 @@ import com.AHairTeeter.Tool.Tool;
 public class HTMLTestController {
 	
 	
-	@Autowired
+	@Autowired	
 	public TestServiceImpl TestServiceImpl;
 	
 	Tool Tool =new Tool();
@@ -23,14 +23,14 @@ public class HTMLTestController {
 	@RequestMapping(value = "/test1", method = RequestMethod.GET)
 	public String passParam(Model model) {
 		model.addAttribute("Time", Tool.GetNewDateTime(2));
-		return "test1";
+		return "/testhtml/test1";
 	}
 	
 	
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET,RequestMethod.POST})
 	public String TestSQL1(Map<String, Object> map) {
 		TestServiceImpl.GetSqlMain();
-		return null;
+		return "/testhtml/test1";
 	}
 	
 	@RequestMapping(value = "/test3", method = {RequestMethod.GET,RequestMethod.POST})
