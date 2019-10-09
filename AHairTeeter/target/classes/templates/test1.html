@@ -1,18 +1,17 @@
-<!DOCTYPE HTML>
-
-<html xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
 <head>
-    <title>Passing Paraments</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script th:inline="javascript">
-        function ShowMessage(){
-            document.getElementById("message2").innerHTML = "Thymeleaf String by JS: " + [[${message2}]];
-        }
-    </script>
-</head>
 
+
+<meta charset="UTF-8" />
+<!-- 或者  <meta charset="UTF-8" ></meta> -->
+<title>Thymeleaf Demo</title>
+</head>
 <body>
-<h1>成功</h1>
+<h2 th:text="${Time}"></h2>
+
+<a @{/saveProduct}>233</a>
+
+
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.AHairTeeter.Tool.Crawler;
 import java.util.Scanner;
 
 import com.AHairTeeter.Tool.Crawler.TestFilter.TestFilterMain;
-import com.ssm.Pusots.Subject.pachongs;
 
 /**
  * 爬虫方法 提供 1.可选IP池 2.可选user_agent 3.爬取方式
@@ -35,16 +34,16 @@ public class Crawler {
 			break;
 		case "2":
 			// 爬取网站
-			PusotsUrl();
+//			PusotsUrl();
 			break;
 		case "3":
 			// 系统爬取
-			pachongs pachongs = new pachongs();
-			pachongs.wanzhengpac();
+//			pachongs pachongs = new pachongs();
+//			pachongs.wanzhengpac();
 			break;
 		case "4":
 			// 图片爬取
-			PictLi();
+//			PictLi();
 			break;
 		default:
 			break;

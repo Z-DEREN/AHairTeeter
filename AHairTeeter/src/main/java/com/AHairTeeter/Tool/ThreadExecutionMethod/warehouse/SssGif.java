@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
+
+
 /**
  * 
- * 鍥剧墖閾炬帴鑾峰彇鏂规硶(V)
- * 
- * @author 濂戒汉
+ * 图片链接获取方法(V)
+ * @author 好人
  * 
  */
 public class SssGif {
@@ -19,23 +21,28 @@ public class SssGif {
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
-	 * 鏍规嵁椤电爜杩涜鐖彇
+	 * 根据页码进行爬取
 	 * 
 	 * @param no1
 	 * @param no2
 	 * @throws InterruptedException
 	 */
 	public List<Map<String, Object>> first_no1(int no1, int no2) {
+		
+		
 		/**
-		 * 爬虫位 目前爬虫没有使用ip池,会被锁ip
+		 * 爬虫位
+		 * 目前爬虫没有使用ip池,会被锁ip
 		 */
-
 		Spiders spiders = new Spiders();
-
+		
+		
+		
+		
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		try {
 			for (int i = no1; i <= no2; i++) {
-				System.out.println("姝ｅ湪杩涜绗?:" + i + "椤垫暟鎹埇鍙?:" + "https://www.sex.com/pics/?page=" + i);
+				System.out.println("正在进行第:" + i + "页数据爬取:" + "https://www.sex.com/pics/?page=" + i);
 				String text = spiders.spiders("https://www.sex.com/pics/?page=" + i, 1);
 //				System.out.println(text);
 				listmap.addAll(first_no2(text, i, "https://www.sex.com/?page=" + i));

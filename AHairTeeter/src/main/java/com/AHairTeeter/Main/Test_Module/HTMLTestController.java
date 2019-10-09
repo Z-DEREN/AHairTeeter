@@ -4,9 +4,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.AHairTeeter.Main.Test_Module.ServiceImpl.TestServiceImpl;
+import com.AHairTeeter.Tool.Tool;
 
 @Controller
 @RequestMapping("/htmltest")
@@ -16,10 +18,11 @@ public class HTMLTestController {
 	@Autowired
 	public TestServiceImpl TestServiceImpl;
 	
+	Tool Tool =new Tool();
+	
 	@RequestMapping(value = "/test1", method = RequestMethod.GET)
-	public String passParam(Map<String, Object> map) {
-		map.put("message1", "Hello, Spring Boot!");
-		map.put("message2", "Hello, Spring Boot!");
+	public String passParam(Model model) {
+		model.addAttribute("Time", Tool.GetNewDateTime(2));
 		return "test1";
 	}
 	

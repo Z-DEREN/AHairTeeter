@@ -37,32 +37,25 @@ public class Tool {
 	MD5 md5 = new MD5();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 
-	public String GetNewZDInum(String type,String data ) {
-		
-		
+	public String GetNewZDInum(String type) {
 		Object[] array = new Object[7];
-
 		String sql = "";
 		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
 
 		if (type.equals("61")) {
 			System.out.println("获取高匿待测试ip段DI码");
 			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
-			array[1] = "高匿待测试ip";
-			
 			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '?%' ";
-
+			array[1] = "高匿待测试ip";
 			array[5] = "1";
 			array[6] = "1";
-			
-			
 		} else if (type.equals("62")) {
 			System.out.println("获取高匿可用ip段DI码");
 			logger.info(" 获取高匿可用ip段DI码------------------------------------------------------------"); // info级别的信息
-
 			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '?%' ";
-			
-			
+			array[1] = "高匿可用ip段";
+			array[5] = "1";
+			array[6] = "1";
 		} else if (type.equals("xx")) {
 			System.out.println("获取高匿待测试ip段DI码");
 		} else if (type.equals("xx")) {
