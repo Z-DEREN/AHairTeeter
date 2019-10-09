@@ -20,6 +20,8 @@ import org.jsoup.nodes.Document;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 @Repository
 public class Tool {
 
@@ -30,53 +32,73 @@ public class Tool {
 
 	private static SimpleDateFormat DT1 = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat DT2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 	private static SimpleDateFormat DT3 = new SimpleDateFormat("HH:mm:ss");
 	private static SimpleDateFormat DT4 = new SimpleDateFormat("HH:mm");
-
+	MD5 md5 = new MD5();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 
-	
-	
-	
-	public String GetNewZDInum(String type) {
+	public String GetNewZDInum(String type,String data ) {
 		
 		
-		if(type.equals("614")) {
-			System.out.println("获取国内高匿IP新ZDI码");
+		Object[] array = new Object[7];
+
+		String sql = "";
+		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
+
+		if (type.equals("61")) {
+			System.out.println("获取高匿待测试ip段DI码");
+			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
+			array[1] = "高匿待测试ip";
 			
-			//6140000000
-			
-			
-			//查询该特殊段的最大ZDI码
-			
-			
-			//对该码加一操作
-			
-			
-			//判断是否超过最大容量6149999999
-			//如果超过则对前50000条进行保存至磁盘中并删除数据库中这些参数
-			//
-			
+			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '?%' ";
+
+			array[5] = "1";
+			array[6] = "1";
 			
 			
+		} else if (type.equals("62")) {
+			System.out.println("获取高匿可用ip段DI码");
+			logger.info(" 获取高匿可用ip段DI码------------------------------------------------------------"); // info级别的信息
+
+			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '?%' ";
 			
 			
-			
-			
-			
-		}else if(type.equals("000")) {
-			
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		} else if (type.equals("xx")) {
+			System.out.println("获取高匿待测试ip段DI码");
+		}
+
+		//获取对应类型的DI码
+		String ZDI = GetArrayListSql(sql, new Object[]{type}, "String").toString();
+		int NewZDI = Integer.parseInt(ZDI)+1;
+		//将下标0替换为新DI码
+		array[0] = NewZDI;
+		array[2] = GetNewDateTime(2);
+		array[3] = GetNewDateTime(2);
+		array[4] = md5.saltMD5(NewZDI+GetNewDateTime(2)+array[1].toString()+array[5].toString()+array[6].toString());
+		
+		
+		int retnum = jdbcTemplate.update(savesql,array);
+		if(retnum>0) {
+			logger.info(" 新DI码插入成功------------------------------------------------------------"); // info级别的信息
+			System.out.println("新DI码插入成功");
 		}
 		
 		
-		return type;
+		return NewZDI+"";
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * 静态代码块 (存入缓存当中)
 	 */
@@ -237,11 +259,12 @@ public class Tool {
 
 	/**
 	 * 简单爬取方法(只能用于简单爬取)
+	 * 
 	 * @param url
 	 * @return 对应网址源码
 	 */
 	public String BriefnessAcquire(String url) {
-		
+
 		try {
 			doc = Jsoup.connect(url)
 					.header("user-agent",
