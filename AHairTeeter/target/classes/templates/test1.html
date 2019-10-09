@@ -6,11 +6,13 @@
 <meta charset="UTF-8" />
 <!-- 或者  <meta charset="UTF-8" ></meta> -->
 <title>Thymeleaf Demo</title>
+<script type="text/javascript" th:src="@{/resources/templates/jstest/test1.js}"></script>
 </head>
 <body>
-<h2 th:text="${Time}"></h2>
+	<h2 th:text="${Time}"></h2>
+	<!-- 标签按钮中访问 -->
+	<button type="button" th:οnclick="'javascript:check('+${corp.id}+',2)'">审核</button>
 
-<a @{/saveProduct}>233</a>
 
 
 </body>
