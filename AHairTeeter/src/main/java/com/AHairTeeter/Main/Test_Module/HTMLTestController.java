@@ -28,14 +28,20 @@ public class HTMLTestController {
 	
 	
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET,RequestMethod.POST})
-	public String TestSQL1(Map<String, Object> map) {
+	public String TestSQL2(Model model) {
 		TestServiceImpl.GetSqlMain();
+		model.addAttribute("Time", Tool.GetNewDateTime(2));
+		
+		String test = Tool.GetNewZDInum("61");
+		model.addAttribute("Time", test);
 		return "/testhtml/test1";
 	}
 	
 	@RequestMapping(value = "/test3", method = {RequestMethod.GET,RequestMethod.POST})
-	public void TestSQL2(Map<String, Object> map) {
+	public String TestSQL3(Model model) {
 		TestServiceImpl.GetSqlMain();
+		model.addAttribute("Time", Tool.GetNewDateTime(2));
+		return "/testhtml/test1";
 	}
 	
 	
