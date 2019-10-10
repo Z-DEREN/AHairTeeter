@@ -18,10 +18,15 @@ public class HTMLTestController {
 	@Autowired	
 	public TestServiceImpl TestServiceImpl;
 	
+	
 	Tool Tool =new Tool();
 	
 	@RequestMapping(value = "/test1", method = RequestMethod.GET)
 	public String passParam(Model model) {
+		int usernum = TestServiceImpl.GetSqlMain();
+		if(usernum > 0) {
+			model.addAttribute("test", "数据库连接成功");
+		}
 		model.addAttribute("Time", Tool.GetNewDateTime(2));
 		return "/testhtml/test1";
 	}
@@ -29,11 +34,11 @@ public class HTMLTestController {
 	
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET,RequestMethod.POST})
 	public String TestSQL2(Model model) {
-		TestServiceImpl.GetSqlMain();
+		int usernum = TestServiceImpl.GetSqlMain();
 		model.addAttribute("Time", Tool.GetNewDateTime(2));
-		
-		String test = Tool.GetNewZDInum("61");
-		model.addAttribute("Time", test);
+		//获取指定表DI码
+		String test = TestServiceImpl.GetintZDInum("61", "String").toString();
+		model.addAttribute("test", test);
 		return "/testhtml/test1";
 	}
 	
@@ -43,7 +48,6 @@ public class HTMLTestController {
 		model.addAttribute("Time", Tool.GetNewDateTime(2));
 		return "/testhtml/test1";
 	}
-	
 	
 	
 	

@@ -32,13 +32,9 @@ public class TestMain {
 		TestMain.GetChinaIPCryp();
 		System.out.println("结束");
 	}
-	//////////////////// 获取国内ip////////////////////
-
-	////////////////////// 主体///////////////////////
 
 	Tool Tool = new Tool();
 	String ChinaIPCryp = "https://www.xicidaili.com/nn/";
-	String present = "";// 用来存储本机ip(作用是与代理ip进校验,是否已经更换ip)
 
 	/**
 	 * 作为定时执行获取ip方法
@@ -48,32 +44,36 @@ public class TestMain {
 		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
 		ChinaIPList = GetChinaIPCryp();
 		//入库(6300060000)
-		Localip();// 获取本机ip
+		String present = Localip();// 用来存储本机ip(作用是与代理ip进校验,是否已经更换ip)
 		// 测试ip
 		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
-		PerfectCHIP = GetPerfectCHIP(ChinaIPList);
+		PerfectCHIP = GetPerfectCHIP(ChinaIPList,present);
 		//入库国内高匿ip(6400060000)
-
+		
 	}
-
 	
-//////////////////////主体///////////////////////
-
-	
-	///////////////////////测试////////////////////////////
-	
-	
-	
-	
-///////////////////////测试////////////////////////////
-	
+	/**
+	 * 保存至 IP库
+	 * 
+	 * @param IPmap map集合数据
+	 * @param type  对应ZDI类型
+	 */
+	public String saveIP(Map<String, String> IPmap, String type) {
+		
+		
+		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
+		sql += "(" + Tool.GetNewZDInum(type) + ",'" + IPmap.get("ip") + "'," + IPmap.get("port") + ",'"
+				+ IPmap.get("area") + "'," + IPmap.get("msec") + ",'" + Tool.GetNewDateTime(2) + "','" + type + "')";
+		
+		return sql;
+	}
 	/**
 	 * 测试ip方法
 	 * @param ChinaIPList
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public List<Map<String, String>> GetPerfectCHIP(List<Map<String, String>> ChinaIPList) {
+	public List<Map<String, String>> GetPerfectCHIP(List<Map<String, String>> ChinaIPList,String present) {
 		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
 		String Iptext = "";
 		for (Map<String, String> map : PerfectCHIP) {
@@ -107,14 +107,14 @@ public class TestMain {
 	 * 获取本机ip端口地区
 	 * 
 	 */
-	public void Localip() {
+	public String Localip() {
 		String text = Tool.BriefnessAcquire("http://pv.sohu.com/cityjson?ie=utf-8");// 测试接口
 		int beginIndex;
 		int endIndex;
 		beginIndex = text.indexOf("cip");
 		endIndex = text.indexOf("\",");
-		present = text;
 		logger.info("本地ip省市IP为:" + text.substring(beginIndex + 7, endIndex));
+		return text;
 	}
 
 	/**
@@ -142,12 +142,14 @@ public class TestMain {
 		}
 		return ListIP;
 	}
-	
-	/////////////////////////// 爬取//////////////////////
 
-	public int num = 1;
 	Set<String> setlist = new HashSet<String>();
-
+	private int num = 1;
+	/**
+	 * 筛选方法
+	 * @param text
+	 * @return
+	 */
 	public List<Map<String, String>> Getiplist(String text) {
 		List<Map<String, String>> ListIP = new ArrayList<Map<String, String>>();
 		String area = "";// 地区
@@ -186,14 +188,11 @@ public class TestMain {
 				if (!setlist.contains(textno4[1] + ":" + textno4[2] + ":" + area)) {
 					setlist.add(textno4[1] + ":" + textno4[2] + ":" + area);
 					ListIP.add(map);
+					num++;
 				}
 			}
 		}
 		return ListIP;
 	}
-
-///////////////////////////爬取//////////////////////
-
-	//////////////////// 获取国内ip////////////////////
 
 }

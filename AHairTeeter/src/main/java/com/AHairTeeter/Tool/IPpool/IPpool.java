@@ -36,22 +36,26 @@ public class IPpool {
 		Localip();// 获取本机ip
 		// 测试ip,每有一条通过直接入库,国内高匿ip(6140000000),可通过修改save_IP_6140000000入库方法如缓存库或修改入库语句
 		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
-		PerfectCHIP = GetPerfectCHIP(ChinaIPList,"614");
-		
+		PerfectCHIP = GetPerfectCHIP(ChinaIPList, "614");
+
 	}
-/**
- *保存至 国内高匿ip(6140000000)
- * @param IPmap
- */
+
+	/**
+	 * 保存至 国内高匿ip(6140000000)
+	 * 
+	 * @param IPmap
+	 */
 	/**
 	 * 保存至 IP库
 	 * 
 	 * @param IPmap map集合数据
-	 * @param type 对应ZDI类型
+	 * @param type  对应ZDI类型
 	 */
-	public void save_IP_6100000000(Map<String, String> IPmap,String type) {
+	public String save_IP_6100000000(Map<String, String> IPmap, String type) {
 		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-		sql+="("+Tool.GetNewZDInum(type)+",'"+IPmap.get("ip")+"',"+IPmap.get("port")+",'"+IPmap.get("area")+"',"+IPmap.get("msec")+",'"+Tool.GetNewDateTime(2)+"','"+type+"')";
+		sql += "(" + Tool.GetNewZDInum(type) + ",'" + IPmap.get("ip") + "'," + IPmap.get("port") + ",'"
+				+ IPmap.get("area") + "'," + IPmap.get("msec") + ",'" + Tool.GetNewDateTime(2) + "','" + type + "')";
+		return sql;
 	}
 
 	/**
@@ -87,7 +91,7 @@ public class IPpool {
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public List<Map<String, String>> GetPerfectCHIP(List<Map<String, String>> ChinaIPList,String type ) {
+	public List<Map<String, String>> GetPerfectCHIP(List<Map<String, String>> ChinaIPList, String type) {
 		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
 		String Iptext = "";
 		for (Map<String, String> map : PerfectCHIP) {
@@ -109,7 +113,7 @@ public class IPpool {
 				retuenListMap.put("area", map.get("area"));
 				retuenListMap.put("msec", time.toString());
 				PerfectCHIP.add(retuenListMap);
-				save_IP_6100000000(retuenListMap,type);//入库
+				save_IP_6100000000(retuenListMap, type);// 入库
 			} else {
 				logger.info("false	测试失败==IP-----" + map.get("ip") + ":" + map.get("port") + ":" + map.get("area") + ":"
 						+ time / 1000 + "秒");

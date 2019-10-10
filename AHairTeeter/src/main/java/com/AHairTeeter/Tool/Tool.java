@@ -45,7 +45,7 @@ public class Tool {
 		if (type.equals("61")) {
 			System.out.println("获取高匿待测试ip段DI码");
 			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
-			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '?%' ";
+			sql = " SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '61%' ";
 			array[1] = "高匿待测试ip";
 			array[5] = "1";
 			array[6] = "1";
