@@ -138,13 +138,20 @@ public class TestDaoImpl implements TestDao {
 		int [] retu = jdbcTemplate.batchUpdate(strings);
 		return 0;
 	}
-
+	
+	/**
+	 * 单条sql入库方法
+	 */
 	@Override
 	public int SaveOneSql(String sql , Object [] value ) {
 		int retnum = jdbcTemplate.update(sql, value);
 		if(retnum>0) {
-			logger.info(" 新DI码插入成功------------------------------------------------------------"); // info级别的信息
-			System.out.println("新DI码插入成功");
+			
+			String text = sql+":";
+			for(Object sss : value) {
+				text+=sss+",";
+			}
+			logger.info(" 插入成功:"+text); // info级别的信息
 			return retnum;
 		}else {
 			return -1;
