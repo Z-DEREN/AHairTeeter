@@ -40,15 +40,20 @@ public class TestMain {
 	 * 作为定时执行获取ip方法
 	 */
 	public void ChinaIPMain() {
-		// 获取国内高匿ip(6300060000)
+		// 获取国内高匿ip(61)
 		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
 		ChinaIPList = GetChinaIPCryp();
-		//入库(6300060000)
+		//入库
 		String present = Localip();// 用来存储本机ip(作用是与代理ip进校验,是否已经更换ip)
 		// 测试ip
 		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
 		PerfectCHIP = GetPerfectCHIP(ChinaIPList,present);
-		//入库国内高匿ip(6400060000)
+		//入库国内高匿ip(62)
+		List<String> list62 = new ArrayList<String>();
+		for(Map<String, String> keyval : PerfectCHIP) {
+			list62.add(saveIP(keyval,"62"));
+		}
+		
 		
 	}
 	
@@ -59,12 +64,9 @@ public class TestMain {
 	 * @param type  对应ZDI类型
 	 */
 	public String saveIP(Map<String, String> IPmap, String type) {
-		
-		
 		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
 		sql += "(" + Tool.GetNewZDInum(type) + ",'" + IPmap.get("ip") + "'," + IPmap.get("port") + ",'"
 				+ IPmap.get("area") + "'," + IPmap.get("msec") + ",'" + Tool.GetNewDateTime(2) + "','" + type + "')";
-		
 		return sql;
 	}
 	/**
@@ -95,6 +97,9 @@ public class TestMain {
 				retuenListMap.put("area", map.get("area"));
 				retuenListMap.put("msec", time.toString());
 				PerfectCHIP.add(retuenListMap);
+				
+				
+				
 			} else {
 				logger.info("false	测试失败==IP-----" + map.get("ip") + ":" + map.get("port") + ":" + map.get("area") + ":"
 						+ time / 1000 + "秒");

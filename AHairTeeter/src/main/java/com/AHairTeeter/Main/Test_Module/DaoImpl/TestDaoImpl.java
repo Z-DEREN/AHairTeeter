@@ -128,4 +128,32 @@ public class TestDaoImpl implements TestDao {
 		}
 	}
 
+	/**
+	 * 	批量执行sql语句
+	 */
+	@Override
+	public int SaveListSql(List<String> list) {
+		String[] strings = new String[list.size()];
+		list.toArray(strings);
+		int [] retu = jdbcTemplate.batchUpdate(strings);
+		return 0;
+	}
+
+	@Override
+	public int SaveOneSql(String sql , Object [] value ) {
+		int retnum = jdbcTemplate.update(sql, value);
+		if(retnum>0) {
+			logger.info(" 新DI码插入成功------------------------------------------------------------"); // info级别的信息
+			System.out.println("新DI码插入成功");
+			return retnum;
+		}else {
+			return -1;
+		}
+	}
+	
+	
+	
+	
+	
+
 }

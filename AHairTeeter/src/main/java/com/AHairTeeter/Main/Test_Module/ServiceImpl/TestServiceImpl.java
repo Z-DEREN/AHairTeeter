@@ -1,6 +1,11 @@
 package com.AHairTeeter.Main.Test_Module.ServiceImpl;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +15,7 @@ import com.AHairTeeter.Main.Test_Module.DaoImpl.TestDaoImpl;
 import com.AHairTeeter.Main.Test_Module.Service.TestService;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
+import com.AHairTeeter.Tool.IPpool.IPpool;
 
 /**
  * 基础测试Service实现类
@@ -23,6 +29,7 @@ public class TestServiceImpl implements TestService {
 	@Resource
 	public TestDaoImpl TestDaoImpl;
 	
+	Tool Tool = new Tool();
 	private static final Logger logger = LogManager.getLogger(TestServiceImpl.class.getName());
 
 	
@@ -78,5 +85,51 @@ public class TestServiceImpl implements TestService {
 		int retnum = TestDaoImpl.SaveZDIvalue(savesql,array);
 		return NewZDI+"";
 	}
+
+
+	/**
+	 * IP爬取与测试及入库方法
+	 * @return
+	 */
+	@Override
+	public int SetIPPool() {
+		IPpool IPpool = new IPpool();
+
+		// 获取国内高匿ip(61)
+		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
+		ChinaIPList = IPpool.GetChinaIPCryp();
+		String present = IPpool.Localip();// 获取本机ip
+		// 测试ip,每有一条通过直接入库,国内高匿ip(61),可通过修改save_IP入库方法如缓存库或修改入库语句
+		Map<String, String> PerfectCHIP = new HashMap<String, String>();
+		
+		for(Map<String, String> keyval : ChinaIPList) {
+			PerfectCHIP = IPpool.GetPerfectCHIP(keyval, present);
+			if(PerfectCHIP!=null) {
+				String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
+				sql += "(" + GetintZDInum("62","String") + ",'" + 
+						PerfectCHIP.get("ip") + "'," + 
+						PerfectCHIP.get("port") + ",'"+ 
+						PerfectCHIP.get("area") + "'," + 
+						PerfectCHIP.get("msec") + ",'" + 
+				Tool.GetNewDateTime(2) + "','" + 1 + "')";
+				int num = TestDaoImpl.SaveOneSql(sql, null);
+			}
+		}
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

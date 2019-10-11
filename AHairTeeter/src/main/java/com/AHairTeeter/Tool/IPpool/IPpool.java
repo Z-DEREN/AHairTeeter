@@ -29,19 +29,18 @@ public class IPpool {
 	/**
 	 * 主体方法 定时任务获取可用ip
 	 */
-	public void ChinaIPMain() {
-		// 获取国内高匿ip(6130000000)
-		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
-		ChinaIPList = GetChinaIPCryp();
-		Localip();// 获取本机ip
-		// 测试ip,每有一条通过直接入库,国内高匿ip(6140000000),可通过修改save_IP_6140000000入库方法如缓存库或修改入库语句
-		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
-		PerfectCHIP = GetPerfectCHIP(ChinaIPList, "614");
-
-	}
+//	public void ChinaIPMain() {
+//		// 获取国内高匿ip(61)
+//		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
+//		ChinaIPList = GetChinaIPCryp();
+//		String present = Localip();// 获取本机ip
+//		// 测试ip,每有一条通过直接入库,国内高匿ip(61),可通过修改save_IP入库方法如缓存库或修改入库语句
+//		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
+//		PerfectCHIP = GetPerfectCHIP(ChinaIPList, present);
+//	}
 
 	/**
-	 * 保存至 国内高匿ip(6140000000)
+	 * 保存至 国内高匿ip()
 	 * 
 	 * @param IPmap
 	 */
@@ -51,7 +50,7 @@ public class IPpool {
 	 * @param IPmap map集合数据
 	 * @param type  对应ZDI类型
 	 */
-	public String save_IP_6100000000(Map<String, String> IPmap, String type) {
+	public String save_IP(Map<String, String> IPmap, String type) {
 		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
 		sql += "(" + Tool.GetNewZDInum(type) + ",'" + IPmap.get("ip") + "'," + IPmap.get("port") + ",'"
 				+ IPmap.get("area") + "'," + IPmap.get("msec") + ",'" + Tool.GetNewDateTime(2) + "','" + type + "')";
@@ -70,7 +69,7 @@ public class IPpool {
 
 		List<Map<String, String>> ListIP = new ArrayList<Map<String, String>>();
 		// 爬取前20页ip数据
-		for (int i = 1; i <= 20; i++) {
+		for (int i = 1; i <= 2; i++) {
 			url = ChinaIPCryp + i;
 			text = Tool.BriefnessAcquire(url);
 			ListIP.addAll(Getiplist(text));
@@ -91,49 +90,54 @@ public class IPpool {
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public List<Map<String, String>> GetPerfectCHIP(List<Map<String, String>> ChinaIPList, String type) {
-		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
+	public Map<String, String> GetPerfectCHIP(Map<String, String> ChinaIPList, String present) {
+		List<String> list = new ArrayList<String>();
 		String Iptext = "";
-		for (Map<String, String> map : PerfectCHIP) {
-			System.out.println("正在测试的是" + map.get("area") + "--" + map.get("ip") + "--" + map.get("port"));
-			long startTime = System.currentTimeMillis(); // 获取开始时间
-			System.getProperties().setProperty("http.proxyHost", map.get("ip"));
-			System.getProperties().setProperty("http.proxyPort", map.get("port"));
-			Iptext = Tool.BriefnessAcquire(IPTest);// 测试接口
-			long endTime = System.currentTimeMillis();
-			// 首先判断连接消耗的时间,再判断
-			Long time = endTime - startTime;
-			// 是否为本机ip
-			if (!Iptext.contains(present)) {
-				Map<String, String> retuenListMap = new HashMap<String, String>();
-				logger.info("true	测试通过==IP-----" + map.get("ip") + ":" + map.get("port") + ":" + map.get("area") + ":"
-						+ time / 1000 + "秒");
-				retuenListMap.put("ip", map.get("ip"));
-				retuenListMap.put("port", map.get("port"));
-				retuenListMap.put("area", map.get("area"));
+		System.out.println("正在测试的是" + ChinaIPList.get("area") + "--" + ChinaIPList.get("ip") + "--" + ChinaIPList.get("port"));
+		long startTime = System.currentTimeMillis(); // 获取开始时间
+		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("ip"));
+		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("port"));
+		Iptext = Tool.BriefnessAcquire(IPTest);// 测试接口
+		long endTime = System.currentTimeMillis();
+		// 首先判断连接消耗的时间,再判断
+		Long time = endTime - startTime;
+		// 是否为本机ip
+		if (!Iptext.contains(present)) {
+			Map<String, String> retuenListMap = new HashMap<String, String>();
+			logger.info("true	测试通过==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":" + ChinaIPList.get("area") + ":"
+					+ time + "毫秒");
+			retuenListMap.put("ip", ChinaIPList.get("ip"));
+			retuenListMap.put("port", ChinaIPList.get("port"));
+			retuenListMap.put("area", ChinaIPList.get("area"));
+			if(time == 0) {
+				retuenListMap.put("msec", "1");
+			}else {
 				retuenListMap.put("msec", time.toString());
-				PerfectCHIP.add(retuenListMap);
-				save_IP_6100000000(retuenListMap, type);// 入库
-			} else {
-				logger.info("false	测试失败==IP-----" + map.get("ip") + ":" + map.get("port") + ":" + map.get("area") + ":"
-						+ time / 1000 + "秒");
 			}
+			
+			
+			
+			return retuenListMap;
+		} else {
+			logger.info("false	测试失败==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":" + ChinaIPList.get("area") + ":"
+					+ time / 1000 + "秒");
+			return null;
 		}
-		return PerfectCHIP;
+		
 	}
 
 	/**
 	 * 获取本机ip端口地区
 	 * 
 	 */
-	public void Localip() {
+	public String Localip() {
 		String text = Tool.BriefnessAcquire("http://pv.sohu.com/cityjson?ie=utf-8");// 测试接口
 		int beginIndex;
 		int endIndex;
 		beginIndex = text.indexOf("cip");
 		endIndex = text.indexOf("\",");
-		present = text;
 		logger.info("本地ip省市IP为:" + text.substring(beginIndex + 7, endIndex));
+		return text;
 	}
 
 /////////////////////////// 爬取//////////////////////
@@ -179,12 +183,11 @@ public class IPpool {
 				if (!setlist.contains(textno4[1] + ":" + textno4[2] + ":" + area)) {
 					setlist.add(textno4[1] + ":" + textno4[2] + ":" + area);
 					ListIP.add(map);
+					num++;
 				}
 			}
 		}
 		return ListIP;
 	}
-
-///////////////////////////爬取//////////////////////
 
 }

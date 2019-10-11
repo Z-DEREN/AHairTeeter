@@ -42,10 +42,16 @@ public class HTMLTestController {
 		return "/testhtml/test1";
 	}
 	
+	/**
+	 * 获取IP数据
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/test3", method = {RequestMethod.GET,RequestMethod.POST})
 	public String TestSQL3(Model model) {
 		TestServiceImpl.GetSqlMain();
 		model.addAttribute("Time", Tool.GetNewDateTime(2));
+		int test = TestServiceImpl.SetIPPool();
 		return "/testhtml/test1";
 	}
 	

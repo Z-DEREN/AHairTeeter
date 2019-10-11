@@ -19,5 +19,15 @@ public interface TestService {
 	 * @return
 	 */
 	public Object GetintZDInum(String type , String retModel);
+	
+	
+	/**
+	 * IP爬取与测试及入库方法
+	 * 
+	 * @return
+	 */
+	public int SetIPPool();
+	
+	
 
 }
