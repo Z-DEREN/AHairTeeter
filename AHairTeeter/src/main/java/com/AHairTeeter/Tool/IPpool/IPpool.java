@@ -22,28 +22,9 @@ public class IPpool {
 	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
 
 	Tool Tool = new Tool();
-	String ChinaIPCryp = "https://www.xicidaili.com/nn/";
-	String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";
-	String present = "";// 用来存储本机ip(作用是与代理ip进校验,是否已经更换ip)
+	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";//国内高匿ip
+	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";//ip测试页
 
-	/**
-	 * 主体方法 定时任务获取可用ip
-	 */
-//	public void ChinaIPMain() {
-//		// 获取国内高匿ip(61)
-//		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
-//		ChinaIPList = GetChinaIPCryp();
-//		String present = Localip();// 获取本机ip
-//		// 测试ip,每有一条通过直接入库,国内高匿ip(61),可通过修改save_IP入库方法如缓存库或修改入库语句
-//		List<Map<String, String>> PerfectCHIP = new ArrayList<Map<String, String>>();
-//		PerfectCHIP = GetPerfectCHIP(ChinaIPList, present);
-//	}
-
-	/**
-	 * 保存至 国内高匿ip()
-	 * 
-	 * @param IPmap
-	 */
 	/**
 	 * 保存至 IP库
 	 * 

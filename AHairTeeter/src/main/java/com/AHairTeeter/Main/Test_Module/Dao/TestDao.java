@@ -26,7 +26,7 @@ public interface TestDao {
 	public int SaveListSql(List<String> list);
 	
 	//µ¥ÌõÖ´ĞĞsqlÓï¾ä
-	public int SaveOneSql(String sql , Object [] value );
+	public int SaveSingleSql(String sql , Object [] value );
 	
 	
 	

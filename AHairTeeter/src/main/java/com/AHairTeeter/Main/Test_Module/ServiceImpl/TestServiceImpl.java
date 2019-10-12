@@ -112,7 +112,7 @@ public class TestServiceImpl implements TestService {
 						PerfectCHIP.get("area") + "'," + 
 						PerfectCHIP.get("msec") + ",'" + 
 				Tool.GetNewDateTime(2) + "','" + 1 + "')";
-				int num = TestDaoImpl.SaveOneSql(sql, null);
+				int num = TestDaoImpl.SaveSingleSql(sql, null);
 			}
 		}
 		return 0;

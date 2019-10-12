@@ -143,7 +143,7 @@ public class TestDaoImpl implements TestDao {
 	 * 单条sql入库方法
 	 */
 	@Override
-	public int SaveOneSql(String sql , Object [] value ) {
+	public int SaveSingleSql(String sql , Object [] value ) {
 		int retnum = jdbcTemplate.update(sql, value);
 		if(retnum>0) {
 			
