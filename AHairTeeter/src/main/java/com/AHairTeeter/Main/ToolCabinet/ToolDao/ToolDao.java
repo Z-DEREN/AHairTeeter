@@ -9,7 +9,7 @@ public interface ToolDao {
 	 * @param list
 	 * @return
 	 */
-	public int SaveListSql(List<String> list);
+	public int ListSaveUpdeteSql(List<String> list);
 	
 	/**
 	 * 单条新增更新sql语句
@@ -17,7 +17,18 @@ public interface ToolDao {
 	 * @param value 值(可为null)
 	 * @return
 	 */
-	public int SaveSingleSql(String sql , Object [] value );
+	public int SingleSaveUpdeteSql(String sql , Object [] value );
+	
+	
+	/**
+	 * 测试数据库数据获取方法
+	 * @param sql
+	 * @param Value
+	 * @param type
+	 * @return
+	 */
+	public Object  GetSelObjsql(String sql, Object[] Value, String type);
+	
 	
 	
 	

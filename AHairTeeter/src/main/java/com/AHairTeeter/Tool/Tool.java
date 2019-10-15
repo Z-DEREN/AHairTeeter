@@ -72,24 +72,23 @@ public class Tool {
 			System.out.println("获取高匿待测试ip段DI码");
 		}
 
-		//获取对应类型的DI码
-		String ZDI = GetArrayListSql(sql, new Object[]{type}, "String").toString();
-		int NewZDI = Integer.parseInt(ZDI)+1;
-		//将下标0替换为新DI码
+		// 获取对应类型的DI码
+		String ZDI = GetArrayListSql(sql, new Object[] { type }, "String").toString();
+		int NewZDI = Integer.parseInt(ZDI) + 1;
+		// 将下标0替换为新DI码
 		array[0] = NewZDI;
 		array[2] = GetNewDateTime(2);
 		array[3] = GetNewDateTime(2);
-		array[4] = md5.saltMD5(NewZDI+GetNewDateTime(2)+array[1].toString()+array[5].toString()+array[6].toString());
-		
-		
-		int retnum = jdbcTemplate.update(savesql,array);
-		if(retnum>0) {
+		array[4] = md5
+				.saltMD5(NewZDI + GetNewDateTime(2) + array[1].toString() + array[5].toString() + array[6].toString());
+
+		int retnum = jdbcTemplate.update(savesql, array);
+		if (retnum > 0) {
 			logger.info(" 新DI码插入成功------------------------------------------------------------"); // info级别的信息
 			System.out.println("新DI码插入成功");
 		}
-		
-		
-		return NewZDI+"";
+
+		return NewZDI + "";
 	}
 
 	/**
@@ -270,6 +269,34 @@ public class Tool {
 		}
 		Sdoc = doc.html();
 		return Sdoc;
+	}
+
+	// 获取对应ipDI码以及相关参数
+	public List<String> GetIPtypeDI(String typenum) {
+		List<String> list = new ArrayList<String>();
+		String sql = "";
+		
+		switch (typenum) {
+		case "61":
+			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '61%' ");
+			list.add("高匿待测试ip");
+			list.add("1");
+			list.add("1");
+			break;
+		case "62":
+			logger.info(" 获取高匿可用ip段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '62%' ");
+			list.add("高匿可用ip段");
+			list.add("1");
+			list.add("1");
+			break;
+		default:
+			logger.info("对应参数有误:"+typenum); // info级别的信息
+			break;
+		}
+
+		return list;
 	}
 
 }

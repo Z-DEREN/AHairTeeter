@@ -54,7 +54,6 @@ public class TestServiceImpl implements TestService {
 		Object[] array = new Object[7];
 		String sql = "";
 		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
-
 		if (type.equals("61")) {
 			System.out.println("获取高匿待测试ip段DI码");
 			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息

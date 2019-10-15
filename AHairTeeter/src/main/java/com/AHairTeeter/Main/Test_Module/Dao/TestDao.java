@@ -2,7 +2,6 @@ package com.AHairTeeter.Main.Test_Module.Dao;
 
 import java.util.List;
 
-import com.AHairTeeter.Main.Test_Module.pojo.ZDIvo;
 
 /**
  * »ù´¡²âÊÔDao
