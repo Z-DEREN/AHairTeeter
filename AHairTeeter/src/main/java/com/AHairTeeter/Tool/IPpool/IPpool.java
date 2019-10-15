@@ -43,14 +43,14 @@ public class IPpool {
 	 * 
 	 * @throws InterruptedException
 	 */
-	public List<Map<String, String>> GetChinaIPCryp() {
+	public List<Map<String, String>> Get61ChinaIPCryp(int pagination) {
 		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
 		String url = "";// 存储当前页url
 		String text = "";// 存储爬取到的页面源码
 
 		List<Map<String, String>> ListIP = new ArrayList<Map<String, String>>();
 		// 爬取前20页ip数据
-		for (int i = 1; i <= 2; i++) {
+		for (int i = 1; i <= pagination; i++) {
 			url = ChinaIPCryp + i;
 			text = Tool.BriefnessAcquire(url);
 			ListIP.addAll(Getiplist(text));

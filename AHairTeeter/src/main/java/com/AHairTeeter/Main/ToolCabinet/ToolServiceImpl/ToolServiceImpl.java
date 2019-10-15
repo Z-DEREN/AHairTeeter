@@ -20,37 +20,8 @@ public class ToolServiceImpl implements ToolService{
 
 	private ToolDaoImpl ToolDaoImpl;
 	Tool Tool = new Tool();
+	IPpool IPpool = new IPpool();
 	
-	/**
-	 * IP爬取与测试及入库方法
-	 * @return
-	 */
-	@Override
-	public int SaveIP() {
-		IPpool IPpool = new IPpool();
-
-		// 获取国内高匿ip(61)
-		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
-		ChinaIPList = IPpool.GetChinaIPCryp();
-		String present = IPpool.Localip();// 获取本机ip
-		// 测试ip,每有一条通过直接入库,国内高匿ip(61),可通过修改save_IP入库方法如缓存库或修改入库语句
-		Map<String, String> PerfectCHIP = new HashMap<String, String>();
-		
-		for(Map<String, String> keyval : ChinaIPList) {
-			PerfectCHIP = IPpool.GetPerfectCHIP(keyval, present);
-			if(PerfectCHIP!=null) {
-				String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-				sql += "(" + GetintZDInum("62","String") + ",'" + 
-						PerfectCHIP.get("ip") + "'," + 
-						PerfectCHIP.get("port") + ",'"+ 
-						PerfectCHIP.get("area") + "'," + 
-						PerfectCHIP.get("msec") + ",'" + 
-				Tool.GetNewDateTime(2) + "','" + 1 + "')";
-				int num = ToolDaoImpl.SingleSaveUpdeteSql(sql, null);
-			}
-		}
-		return 0;
-	}
 	
 	public Object GetintZDInum(String type , String retModel) {
 		Tool Tool =new Tool();
@@ -75,4 +46,8 @@ public class ToolServiceImpl implements ToolService{
 		int retnum = ToolDaoImpl.SingleSaveUpdeteSql(savesql,array);
 		return NewZDI+"";
 	}
+
+	
+	
+	
 }

@@ -1,6 +1,7 @@
 package com.AHairTeeter.Main.ToolCabinet.ToolDao;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ToolDao {
 
@@ -30,6 +31,29 @@ public interface ToolDao {
 	public Object  GetSelObjsql(String sql, Object[] Value, String type);
 	
 	
+	
+	
+	
+	/**
+	 *获取国内未测试高匿ip
+	 * @return
+	 */
+	public List<Map<String, String>> Get61ChinaIP();
+	
+	
+	/**
+	 *测试ip可用性
+	 * @return
+	 */
+	public void UseTestIP(List<Map<String, String>> ip,String typenum);
+	
+	/**
+	 * 批量ip入库方法
+	 * @param typenum 对应DI段
+	 * @param ip ip集合
+	 * @return
+	 */
+	public int SaveIPlistnum(String typenum,List<Map<String, String>> ip);
 	
 	
 	

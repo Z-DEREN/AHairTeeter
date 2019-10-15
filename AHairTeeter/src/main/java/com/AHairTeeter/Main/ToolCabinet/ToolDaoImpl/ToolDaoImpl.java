@@ -16,6 +16,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.AHairTeeter.Main.Test_Module.DaoImpl.TestDaoImpl;
 import com.AHairTeeter.Main.ToolCabinet.ToolDao.ToolDao;
+import com.AHairTeeter.Tool.MD5;
+import com.AHairTeeter.Tool.Tool;
+import com.AHairTeeter.Tool.IPpool.IPpool;
 
 public class ToolDaoImpl implements ToolDao {
 	
@@ -24,6 +27,9 @@ public class ToolDaoImpl implements ToolDao {
 	
 	private static final Logger logger = LogManager.getLogger(ToolDaoImpl.class.getName());
 
+	
+	Tool Tool = new Tool();
+	IPpool IPpool = new IPpool();
 	/**
 	 * 	批量执行sql语句
 	 */
@@ -47,14 +53,15 @@ public class ToolDaoImpl implements ToolDao {
 	@Override
 	public int SingleSaveUpdeteSql(String sql , Object [] value ) {
 		int retnum = jdbcTemplate.update(sql, value);
+		String text = sql+":";
+		for(Object sss : value) {
+			text+=sss+",";
+		}
 		if(retnum>0) {
-			String text = sql+":";
-			for(Object sss : value) {
-				text+=sss+",";
-			}
-			logger.info(" SaveSingleSql执行新增更新操作,执行成功:"+text); // info级别的信息
+			logger.info("成功  执行单条sql新增更新操作,执行成功:"+text); // info级别的信息
 			return retnum;
 		}else {
+			logger.info("失败  执行单条sql新增更新操作,执行失败:"+text); // info级别的信息
 			return -1;
 		}
 	}
@@ -134,4 +141,86 @@ public class ToolDaoImpl implements ToolDao {
 	}
 	
 	
+	
+	/**
+	 * 获取国内未测试高匿ip
+	 * @return
+	 */
+	@Override
+	public List<Map<String, String>> Get61ChinaIP() {
+		List<Map<String, String>> ChinaIPList= IPpool.Get61ChinaIPCryp(5);
+		return ChinaIPList;
+	}
+
+
+	/**
+	 *测试ip可用性
+	 * @return
+	 */
+	@Override
+	public void UseTestIP(List<Map<String, String>> ip,String typenum) {
+		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
+		int frequency = (ip.size() / 5) + 1;
+		String present = IPpool.Localip();// 获取本机ip
+		int num = frequency;
+		for(int i = 0 ; i < ip.size() ; i++) {
+			ChinaIPList.add(IPpool.GetPerfectCHIP(ip.get(i), present));
+			if(i == num) {
+				//入库
+				SaveIPlistnum(present,ChinaIPList);
+				num+=frequency;
+				ChinaIPList.clear();
+			}
+		}
+	}
+	
+	
+	public Object GetintZDInum(String type , String retModel) {
+		Tool Tool =new Tool();
+		MD5 md5 = new MD5();
+		Object[] array = new Object[7];
+		String sql = "";
+		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
+		List<String> list = Tool.GetIPtypeDI(type);
+		array[1] =list.get(0);
+		array[5] =list.get(1);
+		array[6] =list.get(2);
+		String ZDI =GetSelObjsql(sql, null, retModel).toString();
+		//获取对应类型的DI码
+		int NewZDI = Integer.parseInt(ZDI)+1;
+		//将下标0替换为新DI码
+		array[0] = NewZDI;
+		array[2] = Tool.GetNewDateTime(2);
+		array[3] = array[2];
+		array[4] = md5.saltMD5(NewZDI+array[2].toString()+array[1].toString()+array[5].toString()+array[6].toString());
+		
+		//向总ZDI中插入新DI值
+		int retnum = SingleSaveUpdeteSql(savesql,array);
+		return NewZDI+"";
+	}
+	
+	
+	/**
+	 * 批量ip入库方法
+	 * @param typenum 对应DI段
+	 * @param ip ip集合
+	 * @return
+	 */
+	@Override
+	public int SaveIPlistnum(String typenum, List<Map<String, String>> ip) {
+		for(int i = 0 ; i < ip.size() ; i++) {
+			if (ip.get(i) != null) {
+				String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
+				sql += "(" + GetintZDInum(typenum,"String") + ",'" + 
+						ip.get(i).get("ip") + "'," + 
+						ip.get(i).get("port") + ",'"+ 
+						ip.get(i).get("area") + "'," + 
+						ip.get(i).get("msec") + ",'" + 
+						Tool.GetNewDateTime(2) + "','" + 
+						1 + "')";
+				int num = SingleSaveUpdeteSql(sql, null);
+			}
+		}
+		return 0;
+	}
 }
