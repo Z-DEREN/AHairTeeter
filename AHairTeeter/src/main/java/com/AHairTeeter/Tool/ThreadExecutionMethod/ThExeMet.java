@@ -7,6 +7,9 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo1;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo3;
@@ -18,7 +21,8 @@ import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
 import com.AHairTeeter.Tool.NetworkGraphic.imageDownload;
 
 public class ThExeMet {
-
+	private static final Logger logger = LogManager.getLogger(ThExeMet.class.getName());
+	
 	/**
 	 * 获取 执行 返回
 	 * 
@@ -36,26 +40,30 @@ public class ThExeMet {
 	}
 
 	public void middleman(int num) {
-//		logger.info(" ThExeMet选择多线程执行方法执行------------------------------------------------------------"); // info级别的信息
+		logger.info(" ThExeMet选择多线程执行方法执行------------------------------------------------------------"); // info级别的信息
 		System.out.println("ThExeMet选择多线程执行方法执行" + "--执行参数" + num);
 		List<Map<String, Object>> testlist = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String name = "LaJiWenJIan";// 默认文件名
+		String url = "";
 		switch (num) {
 		case 0:
 			TestList TestList = new TestList();
-			listmap = TestList.Testlist(1, 2);
+			listmap = TestList.Testlist(1, 300);
 			name = "测试文件夹";
+			
 			break;
 		case 1:
 			SssGif img = new SssGif();
 			listmap = img.first_no1(21, 30);
 			name = "SssGif文件夹";
+			url= "https://www.sex.com/";
 			break;
 		case 2:
 			Moeimg moeimg = new Moeimg();
 			listmap = moeimg.moeimg_img(10000, 10020);
 			name = "Moeimg文件夹";
+			url= "http://moeimg.net/";
 			break;
 		case 3:
 
@@ -76,38 +84,44 @@ public class ThExeMet {
 		Queue<Integer> queueno1 = new LinkedBlockingQueue<>();
 		testlist = listmap.subList(0, nums);
 		queueno1.add(testlist.size() - 1);
-		new threadNNo1(queueno1, testlist.size() - 1, testlist, name, num).start();
+		new threadNNo1(queueno1, testlist.size() - 1, testlist, name, num,url).start();
 		testlist = null;
 
 		Queue<Integer> queueno2 = new LinkedBlockingQueue<>();
 		testlist = listmap.subList(nums + 1, nums * 2);
 		queueno2.add(testlist.size() - 1);
-		new threadNNo2(queueno2, testlist.size() - 1, testlist, name, num).start();
+		new threadNNo2(queueno2, testlist.size() - 1, testlist, name, num,url).start();
 		testlist = null;
 
 		Queue<Integer> queueno3 = new LinkedBlockingQueue<>();
 		testlist = listmap.subList(nums * 2 + 1, nums * 3);
 		queueno3.add(testlist.size() - 1);
-		new threadNNo3(queueno3, testlist.size() - 1, testlist, name, num).start();
+		new threadNNo3(queueno3, testlist.size() - 1, testlist, name, num,url).start();
 		testlist = null;
 
 		Queue<Integer> queueno4 = new LinkedBlockingQueue<>();
 		testlist = listmap.subList(nums * 3 + 1, nums * 4);
 		queueno4.add(testlist.size() - 1);
-		new threadNNo4(queueno4, testlist.size() - 1, testlist, name, num).start();
+		new threadNNo4(queueno4, testlist.size() - 1, testlist, name, num,url).start();
 		testlist = null;
 
 		Queue<Integer> queueno5 = new LinkedBlockingQueue<>();
 		testlist = listmap.subList(nums * 4 + 1, listmap.size());
 		queueno5.add(testlist.size() - 1);
-		new threadNNo5(queueno5, testlist.size() - 1, testlist, name, num).start();
+		new threadNNo5(queueno5, testlist.size() - 1, testlist, name, num,url).start();
 		testlist = null;
 	}
 
 	// 图片下载方法(防盗链)
 	imageDownload imageDownload = new imageDownload();
 
-	public void method(Map<String, Object> map, int type, String name) {
+	/**
+	 * 多线程执行方法
+	 * @param map 参数
+	 * @param type 执行对应方法
+	 * @param name 文件夹名
+	 */
+	public void method(Map<String, Object> map, int type, String name,String url) {
 
 		switch (type) {
 		case 0:
@@ -117,7 +131,7 @@ public class ThExeMet {
 		case 1:
 		case 2:
 			String urlList = map.get("urlList").toString();
-			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", "https://www.sex.com/");
+			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
 			break;
 		case 3:
 

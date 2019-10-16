@@ -28,17 +28,11 @@ public class SssGif {
 	 * @throws InterruptedException
 	 */
 	public List<Map<String, Object>> first_no1(int no1, int no2) {
-		
-		
 		/**
 		 * 爬虫位
 		 * 目前爬虫没有使用ip池,会被锁ip
 		 */
 		Spiders spiders = new Spiders();
-		
-		
-		
-		
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		try {
 			for (int i = no1; i <= no2; i++) {

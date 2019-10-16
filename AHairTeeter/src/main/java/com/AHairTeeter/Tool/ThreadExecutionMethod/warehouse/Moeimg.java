@@ -35,10 +35,6 @@ public class Moeimg {
 		 */
 		
 		Spiders spiders = new Spiders();
-		
-		
-		
-		
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		try {
 			for (int i = no1; i <= no2; i++) {

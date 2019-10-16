@@ -13,13 +13,13 @@ import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
-import com.AHairTeeter.Main.Test_Module.DaoImpl.TestDaoImpl;
 import com.AHairTeeter.Main.ToolCabinet.ToolDao.ToolDao;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.IPpool.IPpool;
-
+@Service
 public class ToolDaoImpl implements ToolDao {
 	
 	@Resource

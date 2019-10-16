@@ -8,7 +8,7 @@ import java.util.Map;
 public class TestList {
 
 	/**
-	 * 娴嬭瘯鐢ㄩ亶鍘嗛泦鍚堟暟瀛?
+	 * 测试用遍历集合数字
 	 * 
 	 * @param no1
 	 * @param no2
@@ -16,7 +16,7 @@ public class TestList {
 	 */
 	public List<Map<String, Object>> Testlist(int no1, int no2) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < no2; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("testid", i);
 			listmap.add(map);
