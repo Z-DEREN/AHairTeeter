@@ -20,6 +20,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<redis>2.9.0</redis>
 		<jsoup>1.11.3</jsoup>
+		<commons-lang>2.6</commons-lang>
 	</properties>
 
 	<dependencies>
@@ -130,6 +131,12 @@
 			<version>${jsoup}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang}</version>
+		</dependency>
 
 
 

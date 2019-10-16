@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolService.ToolService;
@@ -13,6 +14,7 @@ import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 @Service
 public class ToolServiceImpl implements ToolService {
 
+	@Autowired
 	public ToolDaoImpl ToolDaoImpl;
 	
 	Tool Tool = new Tool();
@@ -49,18 +51,26 @@ public class ToolServiceImpl implements ToolService {
 	 */
 	@Override
 	public void ToolIPSave(String type) {
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		switch (type) {
 		case "61":
 			list = ToolDaoImpl.Get61ChinaIP();
-			ToolDaoImpl.UseTestIP(list, type);
 			break;
-
 		default:
 			break;
 		}
-		ToolDaoImpl.Get61ChinaIP();
-
+		
+		//进行入库操作
+		List<String> sqllist =  ToolDaoImpl.SaveIPList(list);
+		ToolDaoImpl.ListSaveUpdeteSql(sqllist);
+		System.out.println("入库结束");
+		//对数据库内数据进行操作
+		
+//		List<Map<String,String>> MapList = new ArrayList<Map<String,String>>();
+//		//测试ip
+//		ToolDaoImpl.UseTestIP(MapList, type);
+		
+		
 	}
 
 }

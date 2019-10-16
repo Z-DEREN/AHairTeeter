@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
+import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
 /**
  * ip代理池
@@ -21,47 +24,39 @@ import com.AHairTeeter.Tool.Tool;
 public class IPpool {
 	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
 
+	public ToolDaoImpl ToolDaoImpl;
 	Tool Tool = new Tool();
 	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";//国内高匿ip
 	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";//ip测试页
-
-	/**
-	 * 保存至 IP库
-	 * 
-	 * @param IPmap map集合数据
-	 * @param type  对应ZDI类型
-	 */
-	public String save_IP(Map<String, String> IPmap, String type) {
-		String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-		sql += "(" + Tool.GetNewZDInum(type) + ",'" + IPmap.get("ip") + "'," + IPmap.get("port") + ",'"
-				+ IPmap.get("area") + "'," + IPmap.get("msec") + ",'" + Tool.GetNewDateTime(2) + "','" + type + "')";
-		return sql;
-	}
-
 	/**
 	 * 获取国内高匿ip
 	 * 
 	 * @throws InterruptedException
 	 */
-	public List<Map<String, String>> Get61ChinaIPCryp(int pagination) {
-		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
-		String url = "";// 存储当前页url
-		String text = "";// 存储爬取到的页面源码
-
-		List<Map<String, String>> ListIP = new ArrayList<Map<String, String>>();
-		// 爬取前20页ip数据
-		for (int i = 1; i <= pagination; i++) {
-			url = ChinaIPCryp + i;
-			text = Tool.BriefnessAcquire(url);
-			ListIP.addAll(Getiplist(text));
-			try {
-				Thread.sleep(1000 * 60);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	public List<Map<String,String>> Get61ChinaIPCryp(int pagination) {
+		
+		IOLocalFile IOLocalFile = new IOLocalFile();
+		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
+		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
 		return ListIP;
+		
+//		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
+//		String url = "";// 存储当前页url
+//		String text = "";// 存储爬取到的页面源码
+//		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
+//		// 爬取前20页ip数据
+//		for (int i = 1; i <= pagination; i++) {
+//			url = ChinaIPCryp + i;
+//			text = Tool.BriefnessAcquire(url);
+//			ListIP.addAll(Getiplist(text));
+//			try {
+//				Thread.sleep(1000 * 60);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return ListIP;
 	}
 
 	/**
@@ -74,7 +69,7 @@ public class IPpool {
 	public Map<String, String> GetPerfectCHIP(Map<String, String> ChinaIPList, String present) {
 		List<String> list = new ArrayList<String>();
 		String Iptext = "";
-		System.out.println("正在测试的是" + ChinaIPList.get("area") + "--" + ChinaIPList.get("ip") + "--" + ChinaIPList.get("port"));
+		logger.info("正在测试的是" + ChinaIPList.get("area") + "--" + ChinaIPList.get("ip") + "--" + ChinaIPList.get("port"));
 		long startTime = System.currentTimeMillis(); // 获取开始时间
 		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("ip"));
 		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("port"));
@@ -126,8 +121,8 @@ public class IPpool {
 	public int num = 1;
 	Set<String> setlist = new HashSet<String>();
 
-	public List<Map<String, String>> Getiplist(String text) {
-		List<Map<String, String>> ListIP = new ArrayList<Map<String, String>>();
+	public List<Map<String,String>> Getiplist(String text) {
+		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
 		String area = "";// 地区
 		String textno1 = "";
 		int beginIndex = 0;// 筛选用存储下标位
@@ -158,9 +153,14 @@ public class IPpool {
 					area = "未知";
 				}
 				logger.info("获取国内IP-----num:" + num + "---" + textno4[1] + ":" + textno4[2] + ":" + area);
+//				map.put("SID",GetSID("ippoolinspect"));
+				map.put("ADI", "62");
 				map.put("ip", textno4[1]);
 				map.put("port", textno4[2]);
 				map.put("area", area);
+				map.put("SAVETIME", Tool.GetNewDateTime(2));
+				map.put("TYPE", "1");
+				
 				if (!setlist.contains(textno4[1] + ":" + textno4[2] + ":" + area)) {
 					setlist.add(textno4[1] + ":" + textno4[2] + ":" + area);
 					ListIP.add(map);
@@ -170,5 +170,13 @@ public class IPpool {
 		}
 		return ListIP;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

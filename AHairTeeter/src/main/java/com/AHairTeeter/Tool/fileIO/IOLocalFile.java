@@ -30,20 +30,20 @@ public class IOLocalFile {
 					txt2 = txt2.concat(txt1.trim());
 				}
 			} catch (FileNotFoundException e) {
-				// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
-				// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			} finally {
 				if (br != null) {
 					try {
 						br.close();
 					} catch (IOException e) {
-						// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+						// TODO 自动生成的 catch 块
 						e.printStackTrace();
 					}
 				}
@@ -51,23 +51,26 @@ public class IOLocalFile {
 			}
 
 		} else {
-			System.out.println("鏂囦欢涓嶅瓨鍦?");
+			System.out.println("文件不存在");
 		}
 		return txt2;
 
+		
 	}
 
+	
+	
 	public void input(String text, String test) {
 		FileOutputStream fos = null;
 		OutputStreamWriter osw = null;
 		try {
 
-			String 鍦板潃 = rou.本地存储地址 + test + ".txt";
-			fos = new FileOutputStream(鍦板潃);
+			String 地址 = rou.本地存储地址 + test + ".txt";
+			fos = new FileOutputStream(地址);
 			osw = new OutputStreamWriter(fos, "gb2312");
 			osw.write(text);
 			osw.close();
-			System.out.println("淇濆瓨瀹屾瘯");
+			System.out.println("保存完毕");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +79,7 @@ public class IOLocalFile {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 			}
@@ -85,7 +88,7 @@ public class IOLocalFile {
 				try {
 					osw.close();
 				} catch (IOException e) {
-					// TODO 鑷姩鐢熸垚鐨? catch 鍧?
+					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 			}

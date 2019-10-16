@@ -38,7 +38,7 @@ public interface ToolDao {
 	 *获取国内未测试高匿ip
 	 * @return
 	 */
-	public List<Map<String, String>> Get61ChinaIP();
+	public List<Map<String,String>> Get61ChinaIP();
 	
 	
 	/**
@@ -56,10 +56,21 @@ public interface ToolDao {
 	public int SaveIPlistnum(String typenum,List<Map<String, String>> ip);
 	
 	
+	/**
+	 * List<Map<String,String>>转为List<String> 入库sql
+	 * @param list
+	 */
+	public List<String> SaveIPList(List<Map<String,String>> list);
 	
-	
-	
-	
+
+	/**
+	 * 验证待测试ip表 SID唯一
+	 * @param table 表名
+	 * @param ADI 字符串id
+	 * @return
+	 */
+	public boolean TableSID(String table , String SID);
+
 	
 	
 }

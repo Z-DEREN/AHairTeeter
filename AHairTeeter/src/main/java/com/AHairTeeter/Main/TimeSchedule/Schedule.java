@@ -27,8 +27,6 @@ public class Schedule {
 	@Scheduled(cron = "0 0,30 0 * * ?") // 每一秒运行一次
 	public void Date2() {
 		try {
-			System.out.println("Date2:两秒执行一次");
-			System.out.println(tool.GetNewDateTime(2));
 			logger.info("Date2:两秒执行一次,当前线程为" + Thread.currentThread().getName());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
