@@ -20,7 +20,6 @@ public interface ToolDao {
 	 */
 	public int SingleSaveUpdeteSql(String sql , Object [] value );
 	
-	
 	/**
 	 * 测试数据库数据获取方法
 	 * @param sql
@@ -29,10 +28,6 @@ public interface ToolDao {
 	 * @return
 	 */
 	public Object  GetSelObjsql(String sql, Object[] Value, String type);
-	
-	
-	
-	
 	
 	/**
 	 *获取国内未测试高匿ip
