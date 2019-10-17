@@ -1,12 +1,11 @@
 package com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 
 
@@ -17,9 +16,9 @@ import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
  * 
  */
 public class SssGif {
-
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
+	private int ADI = 20;	//特殊DI头
+	Tool Tool = new Tool();
+	String url = "https://www.sex.com/";
 	/**
 	 * 根据页码进行爬取
 	 * 
@@ -27,7 +26,7 @@ public class SssGif {
 	 * @param no2
 	 * @throws InterruptedException
 	 */
-	public List<Map<String, Object>> first_no1(int no1, int no2) {
+	public List<Map<String, Object>> first_no1(int no1, int no2,String Type) {
 		/**
 		 * 爬虫位
 		 * 目前爬虫没有使用ip池,会被锁ip
@@ -36,10 +35,10 @@ public class SssGif {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		try {
 			for (int i = no1; i <= no2; i++) {
-				System.out.println("正在进行第:" + i + "页数据爬取:" + "https://www.sex.com/pics/?page=" + i);
-				String text = spiders.spiders("https://www.sex.com/pics/?page=" + i, 1);
+				System.out.println("正在进行第:" + i + "页数据爬取:" + url+Type+"/?page=" + i);
+				String text = spiders.spiders(url+Type+"/?page=" + i, 1);
 //				System.out.println(text);
-				listmap.addAll(first_no2(text, i, "https://www.sex.com/?page=" + i));
+				listmap.addAll(first_no2(text));
 				Thread.sleep(1000 * 10);
 			}
 		} catch (InterruptedException e) {
@@ -49,10 +48,8 @@ public class SssGif {
 		return listmap;
 	}
 
-	public List<Map<String, Object>> first_no2(String text, int num, String referrerurl) {
-		Date date = new Date();
+	public List<Map<String, Object>> first_no2(String text) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		String captutime = df.format(date);
 		int beginIndex = 0;
 		int endIndex = 0;
 		String textno1 = "";
@@ -68,17 +65,25 @@ public class SssGif {
 //			System.out.println(urlList);
 			String type = urlList.substring(urlList.lastIndexOf(".") + 1);
 			String id = urlList.substring(urlList.lastIndexOf("/") + 1, urlList.lastIndexOf("."));
-			String url = urlList.substring(urlList.lastIndexOf("images") - 1);
+			String returnurl = urlList.substring(urlList.lastIndexOf("images") - 1);
 			String setuptime = urlList
 					.substring(urlList.lastIndexOf("pinporn") + 8, urlList.lastIndexOf("pinporn") + 18)
 					.replace("/", "-");
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("urlList", urlList);
-			map.put("id", id);
-			map.put("type", type);
-			map.put("url", url);
-			map.put("setuptime", setuptime);
-			map.put("captutime", captutime);
+			
+			map.put("SID", null);//字符串id
+			map.put("ADI", ADI);//特殊DI头
+			map.put("ZDI", null);//特殊DI码
+			map.put("type", 1);//存储类型
+			map.put("classify", url);//链接
+			map.put("title", "图片");//存储标题
+			map.put("line", type);//存储行数据
+			map.put("url", returnurl);//链接
+			map.put("uniqueid", id);//存储数据自带id
+			map.put("text",null);//大容量主体数据存储体
+			map.put("recorddate", setuptime);//数据内时间
+			map.put("acquiredate", Tool.GetNewDateTime(2));//爬取时间
+			
 			listmap.add(map);
 		}
 		return listmap;

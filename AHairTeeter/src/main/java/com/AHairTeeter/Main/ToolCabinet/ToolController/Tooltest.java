@@ -9,13 +9,20 @@ import com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl.ToolServiceImpl;
 
 import com.AHairTeeter.Tool.Tool;
 @Controller
-@RequestMapping("/Tooltest")
+@RequestMapping("/AHairTeeter")
 public class Tooltest {
 
 	@Autowired	
 	public ToolServiceImpl ToolServiceImpl;
 	
 	Tool Tool =new Tool();
+	
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Model model) {
+		model.addAttribute("Time", Tool.GetNewDateTime(2));
+		return "/testhtml/test1";
+	}
+	
 	
 	@RequestMapping(value = "/test1", method = RequestMethod.GET)
 	public String passParam(Model model) {

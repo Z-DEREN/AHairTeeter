@@ -164,5 +164,74 @@ public class Tool {
 		return list;
 	}
 	
+	
+	/**
+	 * 按照所给分数several 对 Olist 集合进行分割 份数
+	 * 用于多线程分配数据
+	 * @param Olist
+	 * @param several
+	 * @return
+	 */
+	public List<List<Map<String,Object>>> SplitSet(List<Map<String,Object>> Olist, int several) {
+		List<List<Map<String,Object>>> ROlist = new ArrayList<List<Map<String,Object>>>();
+		///////////////
+		System.out.println(Olist.size());
+		System.out.println(several);
+		//////////////////
+		if (Olist.size() > 0 &&  Olist.size() > several) {
+			int nums = Olist.size() / several;
+			int start = 0;
+			int terminus = nums;
+			for(int i = 0 ; i < several ;i++) {
+				if(i == 0 ) {
+					ROlist.add(Olist.subList(start ,terminus));
+				}else {
+					if(i == (several-1)) {
+						ROlist.add(Olist.subList(start,Olist.size()));
+					}else {
+						ROlist.add(Olist.subList(start ,terminus));
+					}
+				}
+				start+=nums;
+				terminus +=nums;
+			}
+			return ROlist;
+		}
+		return null;
+	}
+	
+	/**
+	 * 对爬取数据进行入库操作
+	 * @param listmap
+	 */
+	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
+		String sql = "insert into ";
+		
+		for(Map<String, Object> map : listmap) {
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

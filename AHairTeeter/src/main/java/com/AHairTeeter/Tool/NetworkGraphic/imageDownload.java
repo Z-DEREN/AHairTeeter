@@ -17,9 +17,9 @@ public class imageDownload {
 	/**
 	 * À¬»øÍ¼Æ¬·ÀµÁÁ´
 	 * 
-	 * @param urlList
-	 * @param imagerName
-	 * @param referrer
+	 * @param urlList    Ä¿±êÍ¼Æ¬Á´½Ó
+	 * @param imagerName ±£´æÃû×Ö
+	 * @param referrer   Ö÷Ò³Á´½Ó
 	 * @return
 	 */
 	public String downloadPicture(String urlList, String imagerName, String referrer) {
@@ -66,6 +66,5 @@ public class imageDownload {
 		} finally {
 			return null;
 		}
-
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 
 
@@ -17,9 +18,9 @@ import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
  */
 public class Moeimg {
 
-	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	private final String url= "http://moeimg.net/";
-	
+	Tool Tool = new Tool();
+	private int ADI = 21;
 	/**
 	 * 根据页码进行爬取
 	 * 
@@ -53,7 +54,6 @@ public class Moeimg {
 	public List<Map<String, Object>> moeimgSub(String text, int num, String referrerurl) {
 		Date date = new Date();
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		String captutime = df.format(date);
 		int beginIndex = 0;
 		int endIndex = 0;
 		String textno1 = "";
@@ -71,10 +71,19 @@ public class Moeimg {
 			endIndex = urlList.indexOf("\" target=\"_blank\"");
 			urlList = urlList.substring(0, endIndex);
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("urlList", urlList);
-			map.put("type", num);
-			map.put("url", url);
-			map.put("captutime", captutime);
+			
+			map.put("SID", null);//字符串id
+			map.put("ADI", ADI);//特殊DI头
+			map.put("ZDI", null);//特殊DI码
+			map.put("type", 1);//存储类型
+			map.put("classify", url);//链接
+			map.put("title", "图片");//存储标题
+			map.put("line", null);//存储行数据
+			map.put("url", urlList);//链接
+			map.put("uniqueid", null);//存储数据自带id
+			map.put("text",null);//大容量主体数据存储体
+			map.put("recorddate", null);//数据内时间
+			map.put("acquiredate", Tool.GetNewDateTime(2));//爬取时间
 			listmap.add(map);
 		}
 		return listmap;

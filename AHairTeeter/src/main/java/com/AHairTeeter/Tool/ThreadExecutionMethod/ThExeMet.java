@@ -18,17 +18,18 @@ import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo5;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Moeimg;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.SssGif;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
+import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Xvideos;
+import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.NetworkGraphic.imageDownload;
 
 public class ThExeMet {
 	private static final Logger logger = LogManager.getLogger(ThExeMet.class.getName());
-	
+	Tool Tool = new Tool();
 	/**
 	 * 获取 执行 返回
 	 * 
 	 * 
 	 */
-
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		ThExeMet ThExeMet = new ThExeMet();
@@ -36,37 +37,41 @@ public class ThExeMet {
 		System.out.println("0.TestList");
 		System.out.println("1.SssGif");
 		System.out.println("2.Moeimg");
+		System.out.println("3.xvideos : teen");
 		ThExeMet.middleman(input.nextInt());
 	}
 
 	public void middleman(int num) {
 		logger.info(" ThExeMet选择多线程执行方法执行------------------------------------------------------------"); // info级别的信息
 		System.out.println("ThExeMet选择多线程执行方法执行" + "--执行参数" + num);
-		List<Map<String, Object>> testlist = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String name = "LaJiWenJIan";// 默认文件名
 		String url = "";
 		switch (num) {
 		case 0:
 			TestList TestList = new TestList();
-			listmap = TestList.Testlist(1, 300);
+			listmap = TestList.Testlist(1, 200);
 			name = "测试文件夹";
-			
 			break;
 		case 1:
+			//特殊字段20
 			SssGif img = new SssGif();
-			listmap = img.first_no1(21, 30);
+			listmap = img.first_no1(21, 30,"pics");
 			name = "SssGif文件夹";
 			url= "https://www.sex.com/";
 			break;
 		case 2:
+			//特殊字段21
 			Moeimg moeimg = new Moeimg();
 			listmap = moeimg.moeimg_img(10000, 10020);
 			name = "Moeimg文件夹";
 			url= "http://moeimg.net/";
 			break;
 		case 3:
-
+			//特殊字段22
+			Xvideos xvideos = new Xvideos();
+			listmap = xvideos.videoNum(1,20,"teen");
+			name = "xvideosUrl";
 			break;
 		case 4:
 
@@ -77,44 +82,67 @@ public class ThExeMet {
 			System.out.println("ThExeMet选择多线程执行类别输入参数有误");
 			break;
 		}
+		
+		//入库方法
 
-		int nums = listmap.size() / 5;
-		System.out.println("每线程分" + nums + "个数据");
+		
+		
+		List<List<Map<String,Object>>> ROlist=  Tool.SplitSet(listmap, 5);
+		System.out.println("每线程分" + ROlist.get(0).size() + "个数据");
 
 		Queue<Integer> queueno1 = new LinkedBlockingQueue<>();
-		testlist = listmap.subList(0, nums);
-		queueno1.add(testlist.size() - 1);
-		new threadNNo1(queueno1, testlist.size() - 1, testlist, name, num,url).start();
-		testlist = null;
+		queueno1.add(ROlist.get(0).size());
+		new threadNNo1(queueno1, ROlist.get(0).size() - 1, ROlist.get(0), name, num,url).start();
 
 		Queue<Integer> queueno2 = new LinkedBlockingQueue<>();
-		testlist = listmap.subList(nums + 1, nums * 2);
-		queueno2.add(testlist.size() - 1);
-		new threadNNo2(queueno2, testlist.size() - 1, testlist, name, num,url).start();
-		testlist = null;
+		queueno2.add(ROlist.get(1).size());
+		new threadNNo2(queueno2, ROlist.get(1).size() - 1, ROlist.get(1), name, num,url).start();
 
 		Queue<Integer> queueno3 = new LinkedBlockingQueue<>();
-		testlist = listmap.subList(nums * 2 + 1, nums * 3);
-		queueno3.add(testlist.size() - 1);
-		new threadNNo3(queueno3, testlist.size() - 1, testlist, name, num,url).start();
-		testlist = null;
+		queueno3.add(ROlist.get(2).size());
+		new threadNNo3(queueno3, ROlist.get(2).size() - 1,  ROlist.get(2), name, num,url).start();
 
 		Queue<Integer> queueno4 = new LinkedBlockingQueue<>();
-		testlist = listmap.subList(nums * 3 + 1, nums * 4);
-		queueno4.add(testlist.size() - 1);
-		new threadNNo4(queueno4, testlist.size() - 1, testlist, name, num,url).start();
-		testlist = null;
+		queueno4.add(ROlist.get(3).size());
+		new threadNNo4(queueno4, ROlist.get(3).size() - 1,  ROlist.get(3), name, num,url).start();
 
 		Queue<Integer> queueno5 = new LinkedBlockingQueue<>();
-		testlist = listmap.subList(nums * 4 + 1, listmap.size());
-		queueno5.add(testlist.size() - 1);
-		new threadNNo5(queueno5, testlist.size() - 1, testlist, name, num,url).start();
-		testlist = null;
+		queueno5.add(ROlist.get(4).size());
+		new threadNNo5(queueno5, ROlist.get(4).size() - 1,  ROlist.get(4), name, num,url).start();
 	}
 
 	// 图片下载方法(防盗链)
 	imageDownload imageDownload = new imageDownload();
 
+	
+	
+	
+	/**
+	 *   `ID`,
+  `SID`,
+  `ADI`,
+  `ZDI`,
+  `type`,
+  `classify`,
+  `title`,
+  `line`,
+  `url`,
+  `uniqueid`,
+  `text`,
+  `recorddate`,
+  `acquiredate`,
+  `SPARE1`,
+  `SPARE2`,
+  `SPARE3`,
+  `SPARE4`,
+  `SPARE5`,
+  `SPARE6`
+	 */
+	
+	
+	
+	
+	
 	/**
 	 * 多线程执行方法
 	 * @param map 参数
@@ -134,6 +162,9 @@ public class ThExeMet {
 			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
 			break;
 		case 3:
+			
+			
+			
 
 			break;
 

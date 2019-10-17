@@ -1,5 +1,11 @@
 package com.AHairTeeter.Tool;
 
+
+/**
+ * 本地链接
+ * @author 好人
+ *
+ */
 public class Route {
 
 	public final static String 动态爬虫模块地址 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe";
