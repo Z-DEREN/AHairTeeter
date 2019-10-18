@@ -75,7 +75,7 @@ public class SssGif {
 			map.put("ADI", ADI);//特殊DI头
 			map.put("ZDI", null);//特殊DI码
 			map.put("type", 1);//存储类型
-			map.put("classify", url);//链接
+			map.put("classify", url);//存储标识,区分数据源头
 			map.put("title", "图片");//存储标题
 			map.put("line", type);//存储行数据
 			map.put("url", returnurl);//链接

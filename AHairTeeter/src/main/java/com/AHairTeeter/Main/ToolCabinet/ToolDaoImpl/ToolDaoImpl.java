@@ -37,7 +37,7 @@ public class ToolDaoImpl implements ToolDao {
 	 */
 	@Override
 	public int ListSaveUpdeteSql(List<String> list) {
-		if ( list.size() > 0) {
+		if (list.size() > 0) {
 			try {
 				String[] strings = new String[list.size()];
 				list.toArray(strings);
@@ -64,18 +64,21 @@ public class ToolDaoImpl implements ToolDao {
 	 * 单条sql入库方法
 	 */
 	@Override
-	public int SingleSaveUpdeteSql(String sql, Object[] value) {
-		int retnum = jdbcTemplate.update(sql, value);
+	public Boolean SingleSaveUpdeteSql(String sql, Object[] value) {
 		String text = sql + ":";
-		for (Object sss : value) {
-			text += sss + ",";
+		if(value != null) {
+			for (Object sss : value) {
+				text += sss + ",";
+			}
 		}
+		System.out.println("执行的sql为:"+text);
+		int retnum = jdbcTemplate.update(sql, value);
 		if (retnum > 0) {
 			logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
-			return retnum;
+			return true;
 		} else {
 			logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
-			return -1;
+			return false;
 		}
 	}
 
@@ -178,21 +181,21 @@ public class ToolDaoImpl implements ToolDao {
 
 	/**
 	 * 获取ZDI码
+	 * 
 	 * @param type
 	 * @param retModel
 	 * @return
 	 */
-	public Object GetintZDInum(String type, String retModel) {
+	public Object GetintZDInum(String type) {
 		Tool Tool = new Tool();
 		MD5 md5 = new MD5();
 		Object[] array = new Object[7];
-		String sql = "";
 		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
 		List<String> list = Tool.GetIPtypeDI(type);
-		array[1] = list.get(0);
-		array[5] = list.get(1);
-		array[6] = list.get(2);
-		String ZDI = GetSelObjsql(sql, null, retModel).toString();
+		array[1] = list.get(1);
+		array[5] = list.get(2);
+		array[6] = list.get(3);
+		String ZDI = GetSelObjsql(list.get(0), null, "String").toString();
 		// 获取对应类型的DI码
 		int NewZDI = Integer.parseInt(ZDI) + 1;
 		// 将下标0替换为新DI码
@@ -203,7 +206,7 @@ public class ToolDaoImpl implements ToolDao {
 				NewZDI + array[2].toString() + array[1].toString() + array[5].toString() + array[6].toString());
 
 		// 向总ZDI中插入新DI值
-		int retnum = SingleSaveUpdeteSql(savesql, array);
+		Boolean retnum = SingleSaveUpdeteSql(savesql, array);
 		return NewZDI + "";
 	}
 
@@ -219,10 +222,10 @@ public class ToolDaoImpl implements ToolDao {
 		for (int i = 0; i < ip.size(); i++) {
 			if (ip.get(i) != null) {
 				String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-				sql += "(" + GetintZDInum(typenum, "String") + ",'" + ip.get(i).get("ip") + "'," + ip.get(i).get("port")
-						+ ",'" + ip.get(i).get("area") + "'," + ip.get(i).get("msec") + ",'" + Tool.GetNewDateTime(2)
-						+ "','" + 1 + "')";
-				int num = SingleSaveUpdeteSql(sql, null);
+				sql += "(" + GetintZDInum(typenum) + ",'" + ip.get(i).get("ip") + "'," + ip.get(i).get("port") + ",'"
+						+ ip.get(i).get("area") + "'," + ip.get(i).get("msec") + ",'" + Tool.GetNewDateTime(2) + "','"
+						+ 1 + "')";
+				Boolean retnum =  SingleSaveUpdeteSql(sql, null);
 			}
 		}
 		return 0;
@@ -237,9 +240,10 @@ public class ToolDaoImpl implements ToolDao {
 	 */
 	@Override
 	public boolean TableSID(String table, String SID) {
-		String sql = "select COUNT(ADI) FROM " + table + " where SID = '" + SID + "'";
+		String sql = "select COUNT(SID) FROM " + table + " where SID = '" + SID + "'";
 		boolean TF = true;
 		String TFnum = GetSelObjsql(sql, null, "String").toString();
+		System.out.println(TFnum);
 		if (!TFnum.equals("1")) {
 			TF = false;
 		}
@@ -284,6 +288,99 @@ public class ToolDaoImpl implements ToolDao {
 			tf = TableSID(table, SID);
 		} while (tf);
 		return SID;
+	}
+
+	/**
+	 * 对数据进行入库操作
+	 * 
+	 * @param listmap
+	 */
+	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
+		for (Map<String, Object> map : listmap) {
+			
+			
+			 
+			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '"+map.get("classify")+"' AND uniqueid = '"+map.get("uniqueid")+"';";
+			
+			if() {
+				
+			}
+			
+			
+			String sql = "insert into legal_information_heyhey (";
+			String value = ") VALUES (";
+			// 字符串id
+			sql += "SID,";
+			value += "'" + GetSID("legal_information_heyhey") + "',";
+			
+			if (map.containsKey("ADI") && map.get("ADI") != null) {
+				// 特殊DI头
+				sql += "ADI,";
+				value += "'" + map.get("ADI") + "',";
+				// 特殊DI码
+				sql += "ZDI,";
+				value += "'" + GetintZDInum(map.get("ADI").toString()) + "',";
+			}
+
+			if (map.containsKey("type") && map.get("type") != null) {
+				// 存储类型
+				sql += "type,";
+				value += "" + map.get("type") + ",";
+			}
+
+			if (map.containsKey("classify") && map.get("classify") != null) {
+				// 存储标识,区分数据源头
+				sql += "classify,";
+				value += "'" + map.get("classify") + "',";
+			}
+
+			if (map.containsKey("title") && map.get("title") != null) {
+				// 存储标题
+				sql += "title,";
+				value += "'" + map.get("title") + "',";
+			}
+
+			if (map.containsKey("line") && map.get("line") != null) {
+				// 存储行数据
+				sql += "line,";
+				value += "'" + map.get("line") + "',";
+			}
+
+			if (map.containsKey("url") && map.get("url") != null) {
+				// 链接
+				sql += "url,";
+				value += "'" + map.get("url") + "',";
+			}
+
+			if (map.containsKey("uniqueid") && map.get("uniqueid") != null) {
+				// 存储数据自带id
+				sql += "uniqueid,";
+				value += "'" + map.get("uniqueid") + "',";
+			}
+
+			if (map.containsKey("text") && map.get("text") != null) {
+				// 大容量主体数据存储体
+				sql += "text,";
+				value += "'" + map.get("text") + "',";
+			}
+
+			if (map.containsKey("recorddate") && map.get("recorddate") != null) {
+				// 数据内时间
+				sql += "recorddate,";
+				value += "'" + map.get("recorddate") + "',";
+			}
+
+			// 备用SPARE1~SPARE6
+			
+			// 爬取时间
+			sql += "acquiredate ";
+			value += "'" + map.get("acquiredate") + "')";
+			
+			
+//			入库
+			SingleSaveUpdeteSql(sql+value, null);
+		}
+
 	}
 
 }

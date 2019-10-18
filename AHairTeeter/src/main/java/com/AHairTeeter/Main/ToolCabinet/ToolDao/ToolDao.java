@@ -18,7 +18,7 @@ public interface ToolDao {
 	 * @param value 值(可为null)
 	 * @return
 	 */
-	public int SingleSaveUpdeteSql(String sql , Object [] value );
+	public Boolean SingleSaveUpdeteSql(String sql , Object [] value );
 	
 	/**
 	 * 测试数据库数据获取方法

@@ -42,6 +42,13 @@ public class ToolThread {
 		return "/testhtml/test1";
 	}
 	
+	@RequestMapping(value = "/Xvideos", method = RequestMethod.GET)
+	public String Xvideos(Model model) {
+		model.addAttribute("text", "执行多线程Xvideos");
+		ToolServiceImpl.middleman(3);
+		return "/testhtml/test1";
+	}
+	
 	
 	
 	

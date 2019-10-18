@@ -17,22 +17,18 @@ import org.jsoup.Jsoup;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class Tool {
 	private static final Logger logger = LogManager.getLogger(Tool.class.getName());
-
-	
-	
 	private static SimpleDateFormat DT1 = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat DT2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static SimpleDateFormat DT3 = new SimpleDateFormat("HH:mm:ss");
 	private static SimpleDateFormat DT4 = new SimpleDateFormat("HH:mm");
 	MD5 md5 = new MD5();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
-
-
 	
 	
 	/**
@@ -134,14 +130,14 @@ public class Tool {
 
 	/**
 	 * 获取对应ipDI码以及相关参数
-	 * @param typenum
+	 * @param typenum 特殊DI头(ADI)
 	 * @return
 	 */
-	public List<String> GetIPtypeDI(String typenum) {
+	public List<String> GetIPtypeDI(String ADI) {
 		List<String> list = new ArrayList<String>();
 		String sql = "";
 		
-		switch (typenum) {
+		switch (ADI) {
 		case "61":
 			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
 			list.add(" SELECT MAX(ZDI) AS ZDI FROM tonuminvi WHERE ZDI LIKE '61%' ");
@@ -156,8 +152,34 @@ public class Tool {
 			list.add("1");
 			list.add("1");
 			break;
+			
+			
+			
+		case "20":
+			logger.info(" 获取SssGif:20段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '20%' ");
+			list.add("SssGif图片");
+			list.add("1");
+			list.add("1");
+			break;
+		case "21":
+			logger.info(" 获取Moeimg:21段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '21%' ");
+			list.add("Moeimg图片");
+			list.add("1");
+			list.add("1");
+			break;
+		case "22":
+			logger.info(" 获取Xvideos:22段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '22%' ");
+			list.add("Xvideos视频");
+			list.add("1");
+			list.add("1");
+			break;
+			
+			
 		default:
-			logger.info("对应参数有误:"+typenum); // info级别的信息
+			logger.info("对应参数有误:"+ADI); // info级别的信息
 			break;
 		}
 
@@ -199,37 +221,6 @@ public class Tool {
 		}
 		return null;
 	}
-	
-	/**
-	 * 对爬取数据进行入库操作
-	 * @param listmap
-	 */
-	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
-		String sql = "insert into ";
-		
-		for(Map<String, Object> map : listmap) {
-			
-			
-			
-		}
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
