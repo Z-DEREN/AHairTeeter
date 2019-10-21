@@ -31,6 +31,7 @@ public class Tool {
 	private static SimpleDateFormat DT4 = new SimpleDateFormat("HH:mm");
 	private static SimpleDateFormat DT5 = new SimpleDateFormat("yyyyMMddHHmmss");
 	MD5 md5 = new MD5();
+	IOLocalFile IOLocalFile = new IOLocalFile();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 	
 	
@@ -233,7 +234,6 @@ public class Tool {
 	 * @param listmap
 	 */
 	public void IOSaveFile(List<Map<String, Object>> listmap) {
-		IOLocalFile IOLocalFile = new IOLocalFile();
 		String text = "";
 		Boolean TF = false;
 		for (Map<String, Object> map : listmap) {
@@ -243,8 +243,23 @@ public class Tool {
 			}
 		}
 		if(TF) {
-			IOLocalFile.input(text, "IOSave"+GetNewDateTime(5));
+			IOSaveFile(text,"");
 		}
 	}
+	
+	/**
+	 * 将数据保存到本地
+	 * @param text
+	 * @param name
+	 */
+	public void IOSaveFile(String text,String name) {
+		IOLocalFile.input(text, "IOSave_"+name+"_"+GetNewDateTime(5));
+	}
+	
+	
+	
+	
+	
+	
 
 }

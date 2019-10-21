@@ -1,34 +1,15 @@
 package com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo1;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo3;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo4;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo5;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Moeimg;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.SssGif;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Xvideos;
 import com.AHairTeeter.Main.Thread.ThreadServiceImpl;
-import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Tool.NetworkGraphic.imageDownload;
+import com.AHairTeeter.Tool.IMGNetworkGraphic.imageDownload;
 
 @Service
 public class ParaphraseMethod {

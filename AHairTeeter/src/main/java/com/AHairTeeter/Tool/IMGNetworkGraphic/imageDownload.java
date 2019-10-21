@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.NetworkGraphic;
+package com.AHairTeeter.Tool.IMGNetworkGraphic;
 
 import java.io.File;
 import java.io.FileOutputStream;

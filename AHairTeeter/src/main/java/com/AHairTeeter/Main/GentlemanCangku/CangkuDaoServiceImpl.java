@@ -22,6 +22,7 @@ public class CangkuDaoServiceImpl implements CangkuDaoService {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
+	
 	@Resource
 	private ToolDaoImpl ToolDaoImpl;
 	Tool Tool = new Tool();

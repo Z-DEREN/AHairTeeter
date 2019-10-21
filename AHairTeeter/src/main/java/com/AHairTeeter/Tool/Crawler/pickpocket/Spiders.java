@@ -2,11 +2,12 @@ package com.AHairTeeter.Tool.Crawler.pickpocket;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection.Method;
-import org.jsoup.Connection.Response;
-import org.jsoup.nodes.Document;
+
 
 /**
  * 多样爬虫工具
@@ -16,6 +17,10 @@ import org.jsoup.nodes.Document;
  */
 public class Spiders {
 
+	
+	private static final Logger logger = LogManager.getLogger(Spiders.class.getName());
+	
+	
 	/**
 	 * 
 	 * 
@@ -35,7 +40,8 @@ public class Spiders {
 	 */
 	public String spiders(String url, int num) {
 		Connection conn = null;
-		String Sdoc = null;
+		String Sdoc = "";
+		boolean TF = true;
 		try {
 			switch (num) {
 			case 99999:
@@ -44,16 +50,21 @@ public class Spiders {
 						"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36");
 				conn.ignoreContentType(true);
 				conn.method(Method.GET);
-				Response response;
-				response = conn.execute();
-				Sdoc = response.body();
+				Sdoc = conn.execute().body();
 				break;
+			default:
+				TF = false;
+				logger.info(" 爬取方法spiders参数有误:"+num+"------------------------------"); // info级别的信息
+				break;
+				
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Sdoc = unicode(Sdoc);
+		if(TF) {
+			Sdoc = unicode(Sdoc);
+		}
 		return Sdoc;
 	}
 	
