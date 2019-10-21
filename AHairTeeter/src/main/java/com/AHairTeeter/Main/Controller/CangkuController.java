@@ -1,7 +1,5 @@
-package com.AHairTeeter.Main.GentlemanCangku;
+package com.AHairTeeter.Main.Controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
 
 import com.AHairTeeter.Tool.Tool;
 

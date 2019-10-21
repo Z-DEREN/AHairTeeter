@@ -1,4 +1,4 @@
-package com.AHairTeeter.Main.GentlemanCangku;
+package com.AHairTeeter.Main.Vo;
 
 public class CangkuVo {
 

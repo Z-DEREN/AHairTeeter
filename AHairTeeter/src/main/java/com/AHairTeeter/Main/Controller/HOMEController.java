@@ -1,12 +1,10 @@
-package com.AHairTeeter.Main.ToolCabinet.ToolController;
+package com.AHairTeeter.Main.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.AHairTeeter.Tool.Tool;
-
 @Controller
 @RequestMapping("/AHairTeeter")
 public class HOMEController {
