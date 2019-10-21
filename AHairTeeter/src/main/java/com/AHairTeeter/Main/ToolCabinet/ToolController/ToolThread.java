@@ -17,7 +17,7 @@ public class ToolThread {
 	public ToolServiceImpl ToolServiceImpl;
 	
 	Tool Tool =new Tool();
-	
+	@Autowired
 	ThExeMet ThExeMet = new ThExeMet();
 	
 	
@@ -25,28 +25,28 @@ public class ToolThread {
 	public String Testlist(Model model) {
 		model.addAttribute("text", "执行多线程Testlist");
 		ThExeMet.middleman(0);
-		return "/testhtml/test1";
+		return "redirect:/main/HOME/navigation";
 	}
 	
 	@RequestMapping(value = "/Moeimg", method = RequestMethod.GET)
 	public String Moeimg(Model model) {
 		model.addAttribute("text", "执行多线程Moeimg");
 		ThExeMet.middleman(2);
-		return "/testhtml/test1";
+		return "redirect:/main/HOME/navigation";
 	}
 	
 	@RequestMapping(value = "/SssGif", method = RequestMethod.GET)
 	public String SssGif(Model model) {
 		model.addAttribute("text", "执行多线程SssGif");
 		ThExeMet.middleman(1);
-		return "/testhtml/test1";
+		return "redirect:/main/HOME/navigation";
 	}
 	
 	@RequestMapping(value = "/Xvideos", method = RequestMethod.GET)
 	public String Xvideos(Model model) {
 		model.addAttribute("text", "执行多线程Xvideos");
 		ToolServiceImpl.middleman(3);
-		return "/testhtml/test1";
+		return "redirect:/main/HOME/navigation";
 	}
 	
 	

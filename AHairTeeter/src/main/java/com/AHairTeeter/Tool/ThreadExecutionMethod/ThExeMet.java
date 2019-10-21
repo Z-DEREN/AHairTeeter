@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo1;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
@@ -28,23 +29,26 @@ import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.NetworkGraphic.imageDownload;
 
-@Component
+@Service
 public class ThExeMet {
 	private static final Logger logger = LogManager.getLogger(ThExeMet.class.getName());
 	Tool Tool = new Tool();
 
 //	@Resource
 //	private  ToolDaoImpl ToolDaoImpl = new ToolDaoImpl();
-
+	
 	@Autowired
-	private ToolDaoImpl ToolDaoImplservice;
+	private  ToolDaoImpl ToolDaoImpl;
 
-	private static ToolDaoImpl ToolDaoImpl;
-
-	@PostConstruct
-	public void init() {
-		ToolDaoImpl = ToolDaoImplservice;
-	}
+//	@Autowired
+//	private ToolDaoImpl ToolDaoImplservice;
+//
+//	private static ToolDaoImpl ToolDaoImpl;
+//
+//	@PostConstruct
+//	public void init() {
+//		ToolDaoImpl = ToolDaoImplservice;
+//	}
 
 	/**
 	 * 获取 执行 返回
@@ -109,9 +113,6 @@ public class ThExeMet {
 		// 入库方法
 		ToolDaoImpl.SaveCrawlersql(listmap);
 		logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
-
-		
-		
 		
 		List<List<Map<String, Object>>> ROlist = Tool.SplitSet(listmap, 5);
 		System.out.println("每线程分" + ROlist.get(0).size() + "个数据");
@@ -160,7 +161,7 @@ public class ThExeMet {
 			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
 			break;
 		case 3:
-
+			
 			break;
 
 		default:

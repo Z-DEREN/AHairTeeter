@@ -27,7 +27,7 @@ public class CangkuController {
 	Tool Tool = new Tool();
 
 	@Autowired
-	private CangkuServiceImpl CangkuServiceImpl;
+	private CangkuDaoServiceImpl CangkuDaoServiceImpl;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Model model) {
@@ -47,36 +47,13 @@ public class CangkuController {
 	public Object user(HttpServletResponse response, HttpServletRequest request, ModelAndView model,
 			@PathVariable String type) {
 		System.out.println("调用一次 值为:" + type);
-		CangkuServiceImpl.delelaji();
-		List<String> RetList = new ArrayList<String>();
-
-		Map<String, String> map = new HashMap<String, String>();
-		List<CangkuVo> list = new ArrayList<CangkuVo>();
-		list = CangkuServiceImpl.seleminid(type);// 获取id
-		map.put("num", CangkuServiceImpl.Gettypenum(type));
-
-		if (list.size() > 0) {
-
-			System.out.println("id:" + list.get(0).getNewid() + "\n" + "pan:" + list.get(0).getPan() + "\n" + "提取码:"
-					+ list.get(0).getTiqu() + "\n" + "密码:" + list.get(0).getMima() + "\n" + "类型:"
-					+ list.get(0).getType() + "\n" + "时间:" + list.get(0).getTime());
-			logger.info(" 仓库" + " id:" + list.get(0).getNewid()); // info级别的信息
-			map.put("id", list.get(0).getNewid());
-			map.put("pan", list.get(0).getPan());
-			map.put("tiqu", list.get(0).getTiqu());
-			map.put("mima", list.get(0).getMima() + "_");
-			if (list.get(0).getMima().equals("") || list.get(0).getMima() != null) {
-				map.put("newmima", "密码");
-			}
-			map.put("type", list.get(0).getType());
-			map.put("time", list.get(0).getTime() + " ");
-			CangkuServiceImpl.updateminid(list.get(0).getNewid());// 逻辑删除
+		Map<String, String> map = CangkuDaoServiceImpl.seleminid(type);// 获取id
+		if (map != null) {
 			model.addObject("retmap", map);
-			model.addObject("retvaluelist", RetList);
 			model.setViewName("/main/cangku/Changkupan");
 			return model;
 		} else {
-			return "redirect:/Cangku/TypeList";
+			return "redirect:/main/Cangku/TypeList";
 		}
 
 	}
@@ -92,7 +69,7 @@ public class CangkuController {
 	@RequestMapping(value = "/TypeList", method = { RequestMethod.POST, RequestMethod.GET })
 	public Object TypeList(ModelAndView model) {
 		System.out.println("集合");
-		List<Map<String, Object>> TypeList = CangkuServiceImpl.Alltype();
+		List<Map<String, Object>> TypeList = CangkuDaoServiceImpl.Alltype();
 		model.addObject("TypeList", TypeList);
 		model.setViewName("/main/cangku/Changku");
 		return model;

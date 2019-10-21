@@ -32,13 +32,6 @@ public class Xvideos {
 	 * @return
 	 */
 	public List<Map<String, Object>> videoNum(int no1, int no2,String Type) {
-		
-//		IOLocalFile IOLocalFile = new IOLocalFile();
-//		String text = IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\xvideostest1.txt");
-//		Xvideos Xvideos = new Xvideos();
-//		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-//		listmap.addAll(Xvideos.videoWAP(text));
-		
 		//https://www.xvideos.com/new/1
 		//https://www.xvideos.com/
 		//https://www.xvideos.com/c/Big+Tits-23
@@ -64,16 +57,6 @@ public class Xvideos {
 			e.printStackTrace();
 		}
 		return listmap;
-	}
-
-	public static void main(String[] args) {
-//		IOLocalFile IOLocalFile = new IOLocalFile();
-//		String text = IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\xvideo.txt");
-//		Xvideos Xvideos = new Xvideos();
-//		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-//		listmap.addAll(Xvideos.videoWAP(text,"2333"));
-//		Xvideos Xvideos = new Xvideos();
-//		Xvideos.videoNum(1,2,null);
 	}
 
 	/**
@@ -142,7 +125,6 @@ public class Xvideos {
 	    Response response;
 		response = conn.execute();
 	    Sdoc = response.body(); 
-	    
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -151,6 +133,11 @@ public class Xvideos {
 	}
 	
 	
+	/**
+	 * 获取视频链接
+	 * @param text
+	 * @return
+	 */
 	public String tiqushipinlianjie(String text) {
 		int beginIndex = 0;
 		int endIndex = 0;

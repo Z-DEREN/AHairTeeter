@@ -1,19 +1,11 @@
 package com.AHairTeeter.Main.GentlemanCangku;
 
 import java.util.List;
+import java.util.Map;
 
-public interface CangkuService {
 
-	
-	/**
-	 * 获取表内全部信息
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public List<CangkuVo> selectpan();
-
-	/**
+public interface CangkuDaoService {
+    /**
 	 * 删除无用项
 	 * 
 	 * @return
@@ -28,7 +20,7 @@ public interface CangkuService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<CangkuVo> seleminid(String type_num) ;
+	public Map<String, String>  seleminid(String type_num) ;
 
 
 	/**
@@ -40,5 +32,5 @@ public interface CangkuService {
 	 */
 	public boolean updateminid(String newid);
 
-	
+
 }

@@ -11,7 +11,7 @@ import com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl.ToolServiceImpl;
 
 import com.AHairTeeter.Tool.Tool;
 @Controller
-@RequestMapping("/AHairTeeter")
+@RequestMapping("/Tooltest")
 public class Tooltest {
 
 	@Autowired	
@@ -19,35 +19,15 @@ public class Tooltest {
 	
 	Tool Tool =new Tool();
 	
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(Model model) {
-		model.addAttribute("Time", Tool.GetNewDateTime(2));
-		return "/testhtml/test1";
-	}
-	
-	
-	@RequestMapping(value = "/test1", method = RequestMethod.GET)
-	public String passParam(Model model) {
-		model.addAttribute("Time", Tool.GetNewDateTime(2));
-		return "/testhtml/test1";
-	}
-	
-	
-	@RequestMapping(value = "/test2", method = {RequestMethod.GET,RequestMethod.POST})
-	public String TestSQL2(ModelAndView model) {
-		model.addObject("test", "test2");
-		return "/testhtml/test1";
-	}
-	
 	/**
 	 * 获取IP数据
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/test3", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/toolIP61", method = {RequestMethod.GET,RequestMethod.POST})
 	public String TestSQL3(Model model) {
 		ToolServiceImpl.ToolIPSave("61");
-		return "/testhtml/test1";
+		return "/main/HOME/test1";
 	}
 	
 	
