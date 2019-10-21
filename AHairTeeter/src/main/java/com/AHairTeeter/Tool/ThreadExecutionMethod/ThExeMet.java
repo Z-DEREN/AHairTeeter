@@ -58,7 +58,7 @@ public class ThExeMet {
 		System.out.println("0.TestList");
 		System.out.println("1.SssGif");
 		System.out.println("2.Moeimg");
-		System.out.println("3.xvideos : teen");
+		System.out.println("3.xvideos");
 		ThExeMet.middleman(input.nextInt());
 	}
 
@@ -90,7 +90,7 @@ public class ThExeMet {
 		case 3:
 			// 特殊字段22
 			Xvideos xvideos = new Xvideos();
-			listmap = xvideos.videoNum(1, 20, "teen");
+			listmap = xvideos.videoNum(1, 10, "teen");
 			name = "xvideosUrl";
 			break;
 		case 4:
@@ -103,10 +103,16 @@ public class ThExeMet {
 			break;
 		}
 
+		//保存本地文件方法
+		Tool.IOSaveFile(listmap);
+		
 		// 入库方法
 		ToolDaoImpl.SaveCrawlersql(listmap);
 		logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 
+		
+		
+		
 		List<List<Map<String, Object>>> ROlist = Tool.SplitSet(listmap, 5);
 		System.out.println("每线程分" + ROlist.get(0).size() + "个数据");
 

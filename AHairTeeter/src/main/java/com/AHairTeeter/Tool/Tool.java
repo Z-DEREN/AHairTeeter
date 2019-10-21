@@ -15,6 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
+import com.AHairTeeter.Tool.fileIO.IOLocalFile;
+
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,7 @@ public class Tool {
 	private static SimpleDateFormat DT2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static SimpleDateFormat DT3 = new SimpleDateFormat("HH:mm:ss");
 	private static SimpleDateFormat DT4 = new SimpleDateFormat("HH:mm");
+	private static SimpleDateFormat DT5 = new SimpleDateFormat("yyyyMMddHHmmss");
 	MD5 md5 = new MD5();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 	
@@ -41,6 +44,8 @@ public class Tool {
 		DTMap.put("DT2", DT2);
 		DTMap.put("DT3", DT3);
 		DTMap.put("DT4", DT4);
+		DTMap.put("DT5", DT5);
+		
 	}
 
 
@@ -223,6 +228,19 @@ public class Tool {
 	}
 	
 	
-	
+	/**
+	 * 将数据特殊位数据保存至本地
+	 * @param listmap
+	 */
+	public void IOSaveFile(List<Map<String, Object>> listmap) {
+		IOLocalFile IOLocalFile = new IOLocalFile();
+		String text = "";
+		for (Map<String, Object> map : listmap) {
+			if (map.containsKey("specialIO") && map.get("specialIO") != null) {
+				text += map.get("specialIO").toString() + "\r\n";
+			}
+		}
+		IOLocalFile.input(text, "IOSave"+GetNewDateTime(5));
+	}
 
 }

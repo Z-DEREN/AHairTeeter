@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl.ToolServiceImpl;
 
 import com.AHairTeeter.Tool.Tool;
@@ -32,8 +34,8 @@ public class Tooltest {
 	
 	
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET,RequestMethod.POST})
-	public String TestSQL2(Model model) {
-		model.addAttribute("test", "test2");
+	public String TestSQL2(ModelAndView model) {
+		model.addObject("test", "test2");
 		return "/testhtml/test1";
 	}
 	

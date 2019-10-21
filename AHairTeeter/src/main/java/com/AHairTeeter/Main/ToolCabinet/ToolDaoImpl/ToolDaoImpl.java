@@ -20,6 +20,7 @@ import com.AHairTeeter.Main.ToolCabinet.ToolDao.ToolDao;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.IPpool.IPpool;
+import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
 @Service
 public class ToolDaoImpl implements ToolDao {
@@ -30,6 +31,7 @@ public class ToolDaoImpl implements ToolDao {
 	private static final Logger logger = LogManager.getLogger(ToolDaoImpl.class.getName());
 
 	Tool Tool = new Tool();
+	
 	IPpool IPpool = new IPpool();
 
 	/**
@@ -83,8 +85,12 @@ public class ToolDaoImpl implements ToolDao {
 	}
 
 	/**
-	 * 测试数据库数据获取方法 String sql 查询sql Object[] Value 参数,可为null String type 返回值类型
-	 * ListMap : List<Map<String, Object>> ArrayObject : List<Object> HashMap :
+	 * 测试数据库数据获取方法 String sql 
+	 * 查询sql Object[] Value 参数,可为null 
+	 * String type 返回值类型
+	 * ListMap : List<Map<String, Object>> 
+	 * ArrayObject : List<Object> 
+	 * HashMap :
 	 * Map<String, Object> ArrayList : Object[] String : 第一个值
 	 */
 	@Override
@@ -302,9 +308,9 @@ public class ToolDaoImpl implements ToolDao {
 			 
 			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '"+map.get("classify")+"' AND uniqueid = '"+map.get("uniqueid")+"';";
 			
-			if() {
+//			if() {
 				
-			}
+//			}
 			
 			
 			String sql = "insert into legal_information_heyhey (";
@@ -382,5 +388,13 @@ public class ToolDaoImpl implements ToolDao {
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
