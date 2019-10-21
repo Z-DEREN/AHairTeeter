@@ -53,7 +53,7 @@ public class CangkuController {
 			model.setViewName("/main/cangku/Changkupan");
 			return model;
 		} else {
-			return "redirect:/main/Cangku/TypeList";
+			return "redirect:/AHairTeeter/navigation";
 		}
 
 	}

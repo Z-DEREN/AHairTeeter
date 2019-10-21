@@ -1,21 +1,19 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod;
+package com.AHairTeeter.Main.Thread;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
+import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo1;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo3;
@@ -25,47 +23,22 @@ import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Moeimg;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.SssGif;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Xvideos;
-import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
-import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Tool.NetworkGraphic.imageDownload;
 
 @Service
-public class ThExeMet {
-	private static final Logger logger = LogManager.getLogger(ThExeMet.class.getName());
-	Tool Tool = new Tool();
-
-//	@Resource
-//	private  ToolDaoImpl ToolDaoImpl = new ToolDaoImpl();
+public class ThreadServiceImpl {
 	
-	@Autowired
-	private  ToolDaoImpl ToolDaoImpl;
+	private static final Logger logger = LogManager.getLogger(ThreadServiceImpl.class.getName());
 
-//	@Autowired
-//	private ToolDaoImpl ToolDaoImplservice;
-//
-//	private static ToolDaoImpl ToolDaoImpl;
-//
-//	@PostConstruct
-//	public void init() {
-//		ToolDaoImpl = ToolDaoImplservice;
-//	}
-
+	Tool Tool =new Tool();
+	
+	@Resource
+	private ToolDaoImpl ToolDaoImpl;
+	
+	
 	/**
-	 * 获取 执行 返回
-	 * 
-	 * 
+	 * 多线程执行主方法
+	 * @param num
 	 */
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		ThExeMet ThExeMet = new ThExeMet();
-		System.out.println("输入使用方法");
-		System.out.println("0.TestList");
-		System.out.println("1.SssGif");
-		System.out.println("2.Moeimg");
-		System.out.println("3.xvideos");
-		ThExeMet.middleman(input.nextInt());
-	}
-
 	public void middleman(int num) {
 		logger.info(" ThExeMet选择多线程执行方法执行:" + num + "-----------------------------------------------------------"); // info级别的信息
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
@@ -74,7 +47,7 @@ public class ThExeMet {
 		switch (num) {
 		case 0:
 			TestList TestList = new TestList();
-			listmap = TestList.Testlist(1, 200);
+			listmap = TestList.Testlist(1, 20);
 			name = "测试文件夹";
 			break;
 		case 1:
@@ -83,6 +56,8 @@ public class ThExeMet {
 			listmap = img.first_no1(21, 30, "pics");
 			name = "SssGif文件夹";
 			url = "https://www.sex.com/";
+			ToolDaoImpl.SaveCrawlersql(listmap);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 2:
 			// 特殊字段21
@@ -90,30 +65,28 @@ public class ThExeMet {
 			listmap = moeimg.moeimg_img(10000, 10020);
 			name = "Moeimg文件夹";
 			url = "http://moeimg.net/";
+			ToolDaoImpl.SaveCrawlersql(listmap);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 3:
 			// 特殊字段22
 			Xvideos xvideos = new Xvideos();
 			listmap = xvideos.videoNum(1, 10, "teen");
 			name = "xvideosUrl";
+			ToolDaoImpl.SaveCrawlersql(listmap);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 4:
 
 			break;
 
 		default:
-//			logger.info(" ThExeMet选择多线程执行类别输入参数有误------------------------------------------------------------"); // info级别的信息
-			System.out.println("ThExeMet选择多线程执行类别输入参数有误");
+			logger.info(" ThExeMet选择多线程执行类别输入参数有误------------------------------------------------------------"); // info级别的信息
 			break;
 		}
 
 		//保存本地文件方法
 		Tool.IOSaveFile(listmap);
-		
-		// 入库方法
-		ToolDaoImpl.SaveCrawlersql(listmap);
-		logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
-		
 		List<List<Map<String, Object>>> ROlist = Tool.SplitSet(listmap, 5);
 		System.out.println("每线程分" + ROlist.get(0).size() + "个数据");
 
@@ -137,37 +110,6 @@ public class ThExeMet {
 		queueno5.add(ROlist.get(4).size());
 		new threadNNo5(queueno5, ROlist.get(4).size() - 1, ROlist.get(4), name, num, url).start();
 	}
-
-	// 图片下载方法(防盗链)
-	imageDownload imageDownload = new imageDownload();
-
-	/**
-	 * 多线程执行方法
-	 * 
-	 * @param map  参数
-	 * @param type 执行对应方法
-	 * @param name 文件夹名
-	 */
-	public void method(Map<String, Object> map, int type, String name, String url) {
-
-		switch (type) {
-		case 0:
-			String testid = map.get("testid").toString();
-			System.out.println(testid);
-			break;
-		case 1:
-		case 2:
-			String urlList = map.get("urlList").toString();
-			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
-			break;
-		case 3:
-			
-			break;
-
-		default:
-			break;
-		}
-
-	}
+	
 
 }

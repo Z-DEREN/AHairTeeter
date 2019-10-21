@@ -235,12 +235,16 @@ public class Tool {
 	public void IOSaveFile(List<Map<String, Object>> listmap) {
 		IOLocalFile IOLocalFile = new IOLocalFile();
 		String text = "";
+		Boolean TF = false;
 		for (Map<String, Object> map : listmap) {
 			if (map.containsKey("specialIO") && map.get("specialIO") != null) {
+				TF = true;
 				text += map.get("specialIO").toString() + "\r\n";
 			}
 		}
-		IOLocalFile.input(text, "IOSave"+GetNewDateTime(5));
+		if(TF) {
+			IOLocalFile.input(text, "IOSave"+GetNewDateTime(5));
+		}
 	}
 
 }

@@ -17,25 +17,20 @@ public class pickpock {
 		System.out.println("请输入模式(1~5)");
 		int num = input.nextInt();
 		System.out.println("等待处理结果");
-		try {
-			String HTTPurl = spiders.spiders(url, num);
-			System.out.println(HTTPurl);
-			if (HTTPurl == null || HTTPurl.equals("")) {
-				System.out.println("爬取失败,返回为空");
-				return;
-			} else {
-				// 测试爬取程序
-				System.out.println("是否保存到本地(Y/N)");
-				String yn = input.next();
-				if (yn.equals("Y") || yn.equals("y")) {
-					System.out.println("保存的名字为:");
-					String test = input.next();
-					ioLF.input(HTTPurl, test);
-				}
+		String HTTPurl = spiders.spiders(url, num);
+		System.out.println(HTTPurl);
+		if (HTTPurl == null || HTTPurl.equals("")) {
+			System.out.println("爬取失败,返回为空");
+			return;
+		} else {
+			// 测试爬取程序
+			System.out.println("是否保存到本地(Y/N)");
+			String yn = input.next();
+			if (yn.equals("Y") || yn.equals("y")) {
+				System.out.println("保存的名字为:");
+				String test = input.next();
+				ioLF.input(HTTPurl, test);
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

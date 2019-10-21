@@ -302,23 +302,15 @@ public class ToolDaoImpl implements ToolDao {
 	 * @param listmap
 	 */
 	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
+
+		
 		for (Map<String, Object> map : listmap) {
-			
-			
-			 
 			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '"+map.get("classify")+"' AND uniqueid = '"+map.get("uniqueid")+"';";
-			
-//			if() {
-				
-//			}
-			
-			
 			String sql = "insert into legal_information_heyhey (";
 			String value = ") VALUES (";
 			// 字符串id
 			sql += "SID,";
 			value += "'" + GetSID("legal_information_heyhey") + "',";
-			
 			if (map.containsKey("ADI") && map.get("ADI") != null) {
 				// 特殊DI头
 				sql += "ADI,";
@@ -381,6 +373,7 @@ public class ToolDaoImpl implements ToolDao {
 			// 爬取时间
 			sql += "acquiredate ";
 			value += "'" + map.get("acquiredate") + "')";
+			
 			
 			
 //			入库

@@ -3,13 +3,14 @@ package com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.ThExeMet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
+
 public class threadNNo3 extends Thread {
 	private static final Logger logger = LogManager.getLogger(threadNNo3.class.getName());
-	ThExeMet ThExeMet = new ThExeMet();
+	ParaphraseMethod ThExeMet = new ParaphraseMethod();
 	private volatile boolean finished = false;
 	int missionlong;// 执行次数与集合下标存储位
 	String name;// 最后保存名存储位(暂定)
