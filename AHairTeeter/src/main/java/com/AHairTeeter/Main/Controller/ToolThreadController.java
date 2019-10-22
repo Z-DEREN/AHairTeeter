@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.AHairTeeter.Main.Thread.ThreadServiceImpl;
+import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl.ToolServiceImpl;
 import com.AHairTeeter.Tool.Tool;
@@ -31,25 +31,30 @@ public class ToolThreadController {
 	@RequestMapping(value = "/Moeimg", method = RequestMethod.GET)
 	public String Moeimg(Model model) {
 		model.addAttribute("text", "执行多线程Moeimg");
-		ThreadServiceImpl.middleman(2);
+		ThreadServiceImpl.middleman(21);
 		return "redirect:/AHairTeeter/navigation";
 	}
 	
 	@RequestMapping(value = "/SssGif", method = RequestMethod.GET)
 	public String SssGif(Model model) {
 		model.addAttribute("text", "执行多线程SssGif");
-		ThreadServiceImpl.middleman(1);
+		ThreadServiceImpl.middleman(20);
 		return "redirect:/AHairTeeter/navigation";
 	}
 	
 	@RequestMapping(value = "/Xvideos", method = RequestMethod.GET)
 	public String Xvideos(Model model) {
 		model.addAttribute("text", "执行多线程Xvideos");
-		ThreadServiceImpl.middleman(3);
+		ThreadServiceImpl.middleman(22);
 		return "redirect:/AHairTeeter/navigation";
 	}
 	
-	
+	@RequestMapping(value = "/Kr36", method = RequestMethod.GET)
+	public String Kr36(Model model) {
+		model.addAttribute("text", "执行多线程Kr36");
+		ThreadServiceImpl.middleman(24);
+		return "redirect:/AHairTeeter/navigation";
+	}
 	
 	
 	

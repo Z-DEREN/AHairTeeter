@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 import com.AHairTeeter.Main.ToolCabinet.ToolService.ToolService;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo1;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo3;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo4;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo5;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Moeimg;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.SssGif;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Xvideos;
+import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo1;
+import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo2;
+import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo3;
+import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo4;
+import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo5;
+import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Moeimg;
+import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.SssGif;
+import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.TestList;
+import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Xvideos;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 @Service
 public class ToolServiceImpl implements ToolService {
@@ -32,6 +32,7 @@ public class ToolServiceImpl implements ToolService {
 	public ToolDaoImpl ToolDaoImpl;
 	
 	Tool Tool = new Tool();
+
 
 	public Object GetintZDInum(String type, String retModel) {
 		Tool Tool = new Tool();

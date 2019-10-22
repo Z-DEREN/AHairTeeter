@@ -1,15 +1,19 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse;
+package com.AHairTeeter.Main.ThreadExecutionMethod.warehouse;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.mina.core.service.IoHandlerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 
@@ -19,12 +23,24 @@ import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
  * @author 好人
  *
  */
-public class Moeimg {
+public class Moeimg extends IoHandlerAdapter {
 
 	private final String url = "http://moeimg.net/";
 	Tool Tool = new Tool();
 	private int ADI = 21;
 
+	@Autowired
+	protected ToolDaoImpl ToolDaoImpl;
+	private static Moeimg Moeimg;
+
+	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
+	public void init() {
+		Moeimg = this;
+		Moeimg.ToolDaoImpl = this.ToolDaoImpl;
+		// 初使化时将已静态化的testService实例化
+	}
+	
+	
 	private static final Logger logger = LogManager.getLogger(Moeimg.class.getName());
 
 	/**
@@ -92,6 +108,9 @@ public class Moeimg {
 				map.put("text", null);// 大容量主体数据存储体
 				map.put("recorddate", null);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
+				// 入库操作
+				// 入单库双库判断
+				Moeimg.ToolDaoImpl.SaveOneCrawlersql(map);
 				listmap.add(map);
 			}
 		} catch (Exception e) {

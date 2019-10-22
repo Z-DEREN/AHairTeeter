@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse;
+package com.AHairTeeter.Main.ThreadExecutionMethod.warehouse;
 
 import com.AHairTeeter.Tool.Route;
 import com.AHairTeeter.Tool.Tool;
@@ -9,21 +9,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.mina.core.service.IoHandlerAdapter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Main.Vo.CangkuVo;
 
-public class ChangKu {
+@Component
+public class ChangKu extends IoHandlerAdapter {
 	private int ADI = 23; // 特殊DI头
 	Route rou = new Route();
 	Tool Tool = new Tool();
 	CangkuVo CangkuVo = new CangkuVo();
-	CangkuDaoServiceImpl CangkuDaoServiceImpl;
+
+	@Autowired
+	protected ToolDaoImpl ToolDaoImpl;
+	private static ChangKu ChangKu;
+
+	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
+	public void init() {
+		ChangKu = this;
+		ChangKu.ToolDaoImpl = this.ToolDaoImpl;
+		// 初使化时将已静态化的testService实例化
+	}
 
 	int beginIndex;
 	int endIndex;
@@ -223,24 +240,24 @@ public class ChangKu {
 				CangkuVo.setTime(time);// 数据时间
 				CangkuVo.setPan(pan);// 链接
 				// 入库
-				boolean TF = CangkuDaoServiceImpl.SaveChangku(CangkuVo);
 
-				if (TF) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("SID", null);// 字符串id
-					map.put("ADI", ADI);// 特殊DI头
-					map.put("ZDI", null);// 特殊DI码
-					map.put("type", 1);// 存储类型
-					map.put("classify", url);// 存储标识,区分数据源头
-					map.put("title", "ACG");// 存储标题
-					map.put("line", type);// 存储行数据
-					map.put("url", pan);// 链接
-					map.put("uniqueid", newid);// 存储数据自带id
-					map.put("text", null);// 大容量主体数据存储体
-					map.put("recorddate", time);// 数据内时间
-					map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
-					listmap.add(map);
-				}
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("SID", null);// 字符串id
+				map.put("ADI", ADI);// 特殊DI头
+				map.put("ZDI", null);// 特殊DI码
+				map.put("type", 1);// 存储类型
+				map.put("classify", url);// 存储标识,区分数据源头
+				map.put("title", "ACG");// 存储标题
+				map.put("line", type);// 存储行数据
+				map.put("url", pan);// 链接
+				map.put("uniqueid", newid);// 存储数据自带id
+				map.put("text", null);// 大容量主体数据存储体
+				map.put("recorddate", time);// 数据内时间
+				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
+				// 入库操作
+				// 入单库双库判断
+				ChangKu.ToolDaoImpl.SaveOneCrawlersql(map);
+				listmap.add(map);
 			}
 
 		} catch (Exception e) {

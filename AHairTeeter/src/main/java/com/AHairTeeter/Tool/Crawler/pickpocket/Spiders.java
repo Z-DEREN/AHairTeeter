@@ -51,6 +51,7 @@ public class Spiders {
 				conn.ignoreContentType(true);
 				conn.method(Method.GET);
 				Sdoc = conn.execute().body();
+				logger.info(" 爬取:"+url+":结束:"+num+"------------------------------"); // info级别的信息
 				break;
 			default:
 				TF = false;

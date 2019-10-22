@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater;
+package com.AHairTeeter.Main.ThreadExecutionMethod.Threadlater;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.AHairTeeter.Main.Thread.ThreadServiceImpl;
+import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.IMGNetworkGraphic.imageDownload;
 

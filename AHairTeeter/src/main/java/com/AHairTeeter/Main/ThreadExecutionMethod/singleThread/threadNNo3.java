@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread;
+package com.AHairTeeter.Main.ThreadExecutionMethod.singleThread;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Queue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
+import com.AHairTeeter.Main.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
 
 public class threadNNo3 extends Thread {
 	private static final Logger logger = LogManager.getLogger(threadNNo3.class.getName());

@@ -1,14 +1,18 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse;
+package com.AHairTeeter.Main.ThreadExecutionMethod.warehouse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.mina.core.service.IoHandlerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.AHairTeeter.Main.Thread.ThreadServiceImpl;
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 
@@ -19,11 +23,22 @@ import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
  * @author 好人
  * 
  */
-public class SssGif {
+public class SssGif extends IoHandlerAdapter {
 	private int ADI = 20; // 特殊DI头
 	Tool Tool = new Tool();
 	String url = "https://www.sex.com/";
 
+	@Autowired
+	protected ToolDaoImpl ToolDaoImpl;
+	private static SssGif SssGif;
+
+	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
+	public void init() {
+		SssGif = this;
+		SssGif.ToolDaoImpl = this.ToolDaoImpl;
+		// 初使化时将已静态化的testService实例化
+	}
+	
 	private static final Logger logger = LogManager.getLogger(SssGif.class.getName());
 
 	/**
@@ -98,6 +113,7 @@ public class SssGif {
 
 					// 入库操作
 					// 入单库双库判断
+					SssGif.ToolDaoImpl.SaveOneCrawlersql(map);
 
 					listmap.add(map);
 				}

@@ -158,9 +158,6 @@ public class Tool {
 			list.add("1");
 			list.add("1");
 			break;
-			
-			
-			
 		case "20":
 			logger.info(" 获取SssGif:20段DI码------------------------------------------------------------"); // info级别的信息
 			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '20%' ");
@@ -182,11 +179,17 @@ public class Tool {
 			list.add("1");
 			list.add("1");
 			break;
-			
 		case "23":
-			logger.info(" 获取仓库数据:22段DI码------------------------------------------------------------"); // info级别的信息
+			logger.info(" 获取仓库数据:23段DI码------------------------------------------------------------"); // info级别的信息
 			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '23%' ");
 			list.add("仓库AGC");
+			list.add("1");
+			list.add("1");
+			break;
+		case "24":
+			logger.info(" 获取36Kr:24段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '24%' ");
+			list.add("36Kr");
 			list.add("1");
 			list.add("1");
 			break;

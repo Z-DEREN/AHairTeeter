@@ -47,12 +47,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		 registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

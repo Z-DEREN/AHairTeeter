@@ -31,7 +31,7 @@ public class ToolDaoImpl implements ToolDao {
 	private static final Logger logger = LogManager.getLogger(ToolDaoImpl.class.getName());
 
 	Tool Tool = new Tool();
-	
+
 	IPpool IPpool = new IPpool();
 
 	/**
@@ -68,29 +68,31 @@ public class ToolDaoImpl implements ToolDao {
 	@Override
 	public Boolean SingleSaveUpdeteSql(String sql, Object[] value) {
 		String text = sql + ":";
-		if(value != null) {
+		int retnum = -1;
+		if (value != null) {
 			for (Object sss : value) {
 				text += sss + ",";
 			}
 		}
-		System.out.println("执行的sql为:"+text);
-		int retnum = jdbcTemplate.update(sql, value);
-		if (retnum > 0) {
-			logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
-			return true;
-		} else {
-			logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
-			return false;
+		System.out.println("执行的sql为:" + text);
+
+		try {
+			retnum = jdbcTemplate.update(sql, value);
+		} finally {
+			if (retnum > 0) {
+				logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
+				return true;
+			} else {
+				logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
+				return false;
+			}
 		}
+
 	}
 
 	/**
-	 * 测试数据库数据获取方法 String sql 
-	 * 查询sql Object[] Value 参数,可为null 
-	 * String type 返回值类型
-	 * ListMap : List<Map<String, Object>> 
-	 * ArrayObject : List<Object> 
-	 * HashMap :
+	 * 测试数据库数据获取方法 String sql 查询sql Object[] Value 参数,可为null String type 返回值类型
+	 * ListMap : List<Map<String, Object>> ArrayObject : List<Object> HashMap :
 	 * Map<String, Object> ArrayList : Object[] String : 第一个值
 	 */
 	@Override
@@ -194,26 +196,28 @@ public class ToolDaoImpl implements ToolDao {
 	 */
 	public Object GetintZDInum(String type) {
 		Tool Tool = new Tool();
-		MD5 md5 = new MD5();
-		Object[] array = new Object[7];
-		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";
 		List<String> list = Tool.GetIPtypeDI(type);
-		array[1] = list.get(1);
-		array[5] = list.get(2);
-		array[6] = list.get(3);
 		String ZDI = GetSelObjsql(list.get(0), null, "String").toString();
 		// 获取对应类型的DI码
 		int NewZDI = Integer.parseInt(ZDI) + 1;
-		// 将下标0替换为新DI码
-		array[0] = NewZDI;
-		array[2] = Tool.GetNewDateTime(2);
-		array[3] = array[2];
-		array[4] = md5.saltMD5(
-				NewZDI + array[2].toString() + array[1].toString() + array[5].toString() + array[6].toString());
+		return NewZDI + "";
+	}
 
+	/**
+	 * 根据ZDI码删除数据
+	 * 
+	 * @param type
+	 * @param retModel
+	 * @return
+	 */
+	public boolean DelZDInum(String type) {
+		Object[] array = new Object[1];
+		String savesql = "DELETE FROM tonuminvi WHERE ZDI = ? ;";
+		List<String> list = Tool.GetIPtypeDI(type);
+		array[0] = type;
 		// 向总ZDI中插入新DI值
 		Boolean retnum = SingleSaveUpdeteSql(savesql, array);
-		return NewZDI + "";
+		return retnum;
 	}
 
 	/**
@@ -231,7 +235,7 @@ public class ToolDaoImpl implements ToolDao {
 				sql += "(" + GetintZDInum(typenum) + ",'" + ip.get(i).get("ip") + "'," + ip.get(i).get("port") + ",'"
 						+ ip.get(i).get("area") + "'," + ip.get(i).get("msec") + ",'" + Tool.GetNewDateTime(2) + "','"
 						+ 1 + "')";
-				Boolean retnum =  SingleSaveUpdeteSql(sql, null);
+				Boolean retnum = SingleSaveUpdeteSql(sql, null);
 			}
 		}
 		return 0;
@@ -296,21 +300,25 @@ public class ToolDaoImpl implements ToolDao {
 		return SID;
 	}
 
-	/**
-	 * 对数据进行入库操作
-	 * 
-	 * @param listmap
-	 */
-	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
+	// 对单条数据进行入库操作
 
-		
-		for (Map<String, Object> map : listmap) {
-			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '"+map.get("classify")+"' AND uniqueid = '"+map.get("uniqueid")+"';";
+	public boolean SaveOneCrawlersql(Map<String, Object> map) {
+		boolean TF = false;
+		String ZDI = "";
+		String SID = "";
+
+		SID = GetSID("legal_information_heyhey");
+		ZDI = GetintZDInum(map.get("ADI").toString()).toString();
+
+		if (SID != null && !SID.equals("") && ZDI != null && !ZDI.equals("")) {
+			logger.info(" 爬取数据准备入库------------------------------------------------------------"); // info级别的信息
+			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '" + map.get("classify")
+					+ "' AND uniqueid = '" + map.get("uniqueid") + "';";
 			String sql = "insert into legal_information_heyhey (";
 			String value = ") VALUES (";
 			// 字符串id
 			sql += "SID,";
-			value += "'" + GetSID("legal_information_heyhey") + "',";
+			value += "'" + SID + "',";
 			if (map.containsKey("ADI") && map.get("ADI") != null) {
 				// 特殊DI头
 				sql += "ADI,";
@@ -369,25 +377,115 @@ public class ToolDaoImpl implements ToolDao {
 			}
 
 			// 备用SPARE1~SPARE6
-			
+
 			// 爬取时间
 			sql += "acquiredate ";
 			value += "'" + map.get("acquiredate") + "')";
-			
-			
-			
-//			入库
-			SingleSaveUpdeteSql(sql+value, null);
+
+			//入库
+			TF = SingleSaveUpdeteSql(sql + value, null);
+			if (!TF) {
+				logger.info(" 数据入库失败------------------------------------------------------------"); // info级别的信息
+				DelZDInum(ZDI);
+			}
+		}
+		return TF;
+	}
+
+	/**
+	 * 对数据进行入库操作
+	 * 
+	 * @param listmap
+	 */
+	public void SaveCrawlersql(List<Map<String, Object>> listmap) {
+		String ZDI = "";
+		String SID = "";
+		for (Map<String, Object> map : listmap) {
+
+			SID = GetSID("legal_information_heyhey");
+			ZDI = GetintZDInum(map.get("ADI").toString()).toString();
+			if (SID != null && !SID.equals("") && ZDI != null && !ZDI.equals("")) {
+				logger.info(" 爬取数据准备入库------------------------------------------------------------"); // info级别的信息
+				String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '" + map.get("classify")
+						+ "' AND uniqueid = '" + map.get("uniqueid") + "';";
+				String sql = "insert into legal_information_heyhey (";
+				String value = ") VALUES (";
+				// 字符串id
+				sql += "SID,";
+				value += "'" + SID + "',";
+				if (map.containsKey("ADI") && map.get("ADI") != null) {
+					// 特殊DI头
+					sql += "ADI,";
+					value += "'" + map.get("ADI") + "',";
+					// 特殊DI码
+					sql += "ZDI,";
+					value += "'" + GetintZDInum(map.get("ADI").toString()) + "',";
+				}
+
+				if (map.containsKey("type") && map.get("type") != null) {
+					// 存储类型
+					sql += "type,";
+					value += "" + map.get("type") + ",";
+				}
+
+				if (map.containsKey("classify") && map.get("classify") != null) {
+					// 存储标识,区分数据源头
+					sql += "classify,";
+					value += "'" + map.get("classify") + "',";
+				}
+
+				if (map.containsKey("title") && map.get("title") != null) {
+					// 存储标题
+					sql += "title,";
+					value += "'" + map.get("title") + "',";
+				}
+
+				if (map.containsKey("line") && map.get("line") != null) {
+					// 存储行数据
+					sql += "line,";
+					value += "'" + map.get("line") + "',";
+				}
+
+				if (map.containsKey("url") && map.get("url") != null) {
+					// 链接
+					sql += "url,";
+					value += "'" + map.get("url") + "',";
+				}
+
+				if (map.containsKey("uniqueid") && map.get("uniqueid") != null) {
+					// 存储数据自带id
+					sql += "uniqueid,";
+					value += "'" + map.get("uniqueid") + "',";
+				}
+
+				if (map.containsKey("text") && map.get("text") != null) {
+					// 大容量主体数据存储体
+					sql += "text,";
+					value += "'" + map.get("text") + "',";
+				}
+
+				if (map.containsKey("recorddate") && map.get("recorddate") != null) {
+					// 数据内时间
+					sql += "recorddate,";
+					value += "'" + map.get("recorddate") + "',";
+				}
+
+				// 备用SPARE1~SPARE6
+
+				// 爬取时间
+				sql += "acquiredate ";
+				value += "'" + map.get("acquiredate") + "')";
+
+//				入库
+				boolean TF = SingleSaveUpdeteSql(sql + value, null);
+
+				if (!TF) {
+					logger.info(" 数据入库失败------------------------------------------------------------"); // info级别的信息
+					DelZDInum(ZDI);
+				}
+			}
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

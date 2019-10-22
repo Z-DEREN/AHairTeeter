@@ -1,15 +1,17 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread;
+package com.AHairTeeter.Main.ThreadExecutionMethod.singleThread;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class threadNNo2 extends Thread {
-	private static final Logger logger = LogManager.getLogger(threadNNo2.class.getName());
+import com.AHairTeeter.Main.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
+
+public class threadNNo1 extends Thread {
+	private static final Logger logger = LogManager.getLogger(threadNNo1.class.getName());
 	ParaphraseMethod ThExeMet = new ParaphraseMethod();
 	private volatile boolean finished = false;
 	int missionlong;// 执行次数与集合下标存储位
@@ -23,9 +25,9 @@ public class threadNNo2 extends Thread {
 		finished = true;
 	}
 
-	public threadNNo2(Queue<Integer> queue, int missionlong, 
-			List<Map<String, Object>> mission, String name, int type, String url) {
-		logger.info(" threadNNo2线程启动------------------------------------------------------------"); // info级别的信息
+	public threadNNo1(Queue<Integer> queue, int missionlong, List<Map<String, Object>> mission, 
+			String name, int type , String url) {
+		logger.info(" threadNNo1线程启动------------------------------------------------------------"); // info级别的信息
 		this.queue = queue;
 		this.missionlong = missionlong;
 		this.mission = mission;
@@ -46,13 +48,13 @@ public class threadNNo2 extends Thread {
 				}
 				if (missionlong == 0) {
 					long endTime = System.currentTimeMillis();
-					logger.info("threadNNo2线程执行结束,共耗时" + (endTime - startTime) + "毫秒"); // info级别的信息
+					logger.info("threadNNo1线程执行结束,共耗时" + (endTime - startTime) + "毫秒"); // info级别的信息
 					stopMe();
 				}
 				/////////////////////////////////////////
 				ThExeMet.method(mission.get(missionlong), type, name ,url );
 				/////////////////////////////////////////
-				logger.info("threadNNo2线程执行任务:还有" + missionlong + "次执行"); // info级别的信息
+				logger.info("threadNNo1线程执行任务:还有" + missionlong + "次执行"); // info级别的信息
 				missionlong--;
 			}
 		}

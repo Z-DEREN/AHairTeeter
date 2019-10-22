@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse;
+package com.AHairTeeter.Main.ThreadExecutionMethod.warehouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,18 +6,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.mina.core.service.IoHandlerAdapter;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
-public class Xvideos {
+public class Xvideos extends IoHandlerAdapter {
 
 	private int ADI = 22; // 特殊DI头
 	Tool Tool = new Tool();
@@ -26,6 +31,17 @@ public class Xvideos {
 	String GetVideoUrl = "https://www.xvideos.com/video-download/";
 	String url = "";
 
+	@Autowired
+	protected ToolDaoImpl ToolDaoImpl;
+	private static Xvideos Xvideos;
+
+	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
+	public void init() {
+		Xvideos = this;
+		Xvideos.ToolDaoImpl = this.ToolDaoImpl;
+		// 初使化时将已静态化的testService实例化
+	}
+	
 	private static final Logger logger = LogManager.getLogger(Xvideos.class.getName());
 
 	/**
@@ -101,6 +117,11 @@ public class Xvideos {
 				map.put("recorddate", null);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
 				map.put("specialIO", GetVideoUrl(videoNum));// 特殊位,产生文件用
+				
+				// 入库操作
+				// 入单库双库判断
+				Xvideos.ToolDaoImpl.SaveOneCrawlersql(map);
+				
 				listmap.add(map);
 			}
 		} catch (Exception e) {

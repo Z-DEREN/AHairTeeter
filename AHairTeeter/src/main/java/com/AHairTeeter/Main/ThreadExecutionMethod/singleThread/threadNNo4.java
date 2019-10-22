@@ -1,20 +1,21 @@
-package com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread;
+package com.AHairTeeter.Main.ThreadExecutionMethod.singleThread;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.AHairTeeter.Tool.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
+import com.AHairTeeter.Main.ThreadExecutionMethod.Threadlater.ParaphraseMethod;
 
-public class threadNNo5 extends Thread {
-	private static final Logger logger = LogManager.getLogger(threadNNo5.class.getName());
+public class threadNNo4 extends Thread {
+	private static final Logger logger = LogManager.getLogger(threadNNo4.class.getName());
 	ParaphraseMethod ThExeMet = new ParaphraseMethod();
 	private volatile boolean finished = false;
 	int missionlong;// 执行次数与集合下标存储位
-	String name;// 最后保存名存储位(暂定)
+	String name = "";// 最后保存名存储位(暂定)
 	Queue<Integer> queue;
 	List<Map<String, Object>> mission;// 执行数据存储位
 	int type;// 类别
@@ -24,14 +25,14 @@ public class threadNNo5 extends Thread {
 		finished = true;
 	}
 
-	public threadNNo5(Queue<Integer> queue, int missionlong, List<Map<String, Object>> mission,
-			String name, int type , String url) {
-		logger.info(" threadNNo5线程启动------------------------------------------------------------"); // info级别的信息
+	public threadNNo4(Queue<Integer> queue, int missionlong, List<Map<String, Object>> mission,
+			String name, int type, String url) {
+		logger.info(" threadNNo4线程启动------------------------------------------------------------"); // info级别的信息
 		this.queue = queue;
 		this.missionlong = missionlong;
 		this.mission = mission;
-		this.name = name;
 		this.type = type;
+		this.name = name;
 		this.url = url;
 	}
 
@@ -45,16 +46,15 @@ public class threadNNo5 extends Thread {
 					Thread.sleep(200);
 				} catch (Exception e) {
 				}
-
 				if (missionlong == 0) {
 					long endTime = System.currentTimeMillis();
-					logger.info("threadNNo5线程执行结束,共耗时" + (endTime - startTime) + "毫秒"); // info级别的信息
+					logger.info("threadNNo4线程执行结束,共耗时" + (endTime - startTime) + "毫秒"); // info级别的信息
 					stopMe();
 				}
 				/////////////////////////////////////////
 				ThExeMet.method(mission.get(missionlong), type, name ,url );
 				/////////////////////////////////////////
-				logger.info("threadNNo5线程执行任务:还有" + missionlong + "次执行"); // info级别的信息
+				logger.info("threadNNo4线程执行任务:还有" + missionlong + "次执行"); // info级别的信息
 				missionlong--;
 			}
 		}
