@@ -183,6 +183,14 @@ public class Tool {
 			list.add("1");
 			break;
 			
+		case "23":
+			logger.info(" 获取仓库数据:22段DI码------------------------------------------------------------"); // info级别的信息
+			list.add(" SELECT MAX(ZDI) AS ZDI FROM legal_information_heyhey WHERE ZDI LIKE '23%' ");
+			list.add("仓库AGC");
+			list.add("1");
+			list.add("1");
+			break;
+			
 			
 		default:
 			logger.info("对应参数有误:"+ADI); // info级别的信息

@@ -19,6 +19,7 @@ import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo2;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo3;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo4;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.singleThread.threadNNo5;
+import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.ChangKu;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.Moeimg;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.SssGif;
 import com.AHairTeeter.Tool.ThreadExecutionMethod.warehouse.TestList;
@@ -77,6 +78,8 @@ public class ThreadServiceImpl {
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 4:
+			ChangKu cangku = new ChangKu();
+			cangku.first_no1(1, 5);
 
 			break;
 

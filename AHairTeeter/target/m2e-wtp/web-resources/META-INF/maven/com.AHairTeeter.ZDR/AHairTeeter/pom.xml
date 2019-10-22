@@ -143,13 +143,25 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<version>${commons-lang}</version>
 		</dependency>
 
-
-
-
 		<!-- 数据库连接相关 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		
+		<!-- 动态爬虫方法 -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+
+		<dependency>
+			<groupId>pl.oakfusion</groupId>
+			<artifactId>chromedriver</artifactId>
+			<version>2.9</version>
+			<type>pom</type>
 		</dependency>
 
 

@@ -122,5 +122,38 @@ public class CangkuDaoServiceImpl implements CangkuDaoService {
 				"ListMap");
 		return reutrnlist;
 	}
+	
+	
+	
+	/**
+	 * 增加
+	 * @param cangku
+	 * @return
+	 */
+	@Override
+	public boolean SaveChangku(CangkuVo cangku) {
+		String sql = "insert into Cangku_pan(" + "pan," + "newid," + "type," + "panName," + "tiqu," + "mima,"
+				+ "time) values(?,?,?,?,?,?,?)";
+		Object[] param = {
+				cangku.getPan(), cangku.getNewid(), cangku.getType(), cangku.getPanName(), cangku.getTiqu(),
+				cangku.getMima(), cangku.getTime()
+		};
+		boolean TF = ToolDaoImpl.SingleSaveUpdeteSql(sql, param);
+		return TF;
+	}
+	
+	
+	/**
+	 * 查询主键pan是否存在
+	 * @param pan
+	 * @return
+	 */
+	@Override
+	public boolean SelChangkuPan(String pan) {
+		String sql = "select newid from cangku_pan where pan = ?";
+		Object[] param = { pan };
+		boolean TF = ToolDaoImpl.SingleSaveUpdeteSql(sql, param);
+		return TF;
+	}
 
 }

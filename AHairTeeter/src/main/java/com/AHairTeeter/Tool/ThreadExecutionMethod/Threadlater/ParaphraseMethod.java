@@ -27,6 +27,7 @@ public class ParaphraseMethod {
 		System.out.println("1.SssGif");
 		System.out.println("2.Moeimg");
 		System.out.println("3.xvideos");
+		System.out.println("4.ÎÒµÄ²Ö¿â");
 		ThExeMet.middleman(input.nextInt());
 	}
 

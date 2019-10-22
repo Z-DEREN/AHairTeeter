@@ -3,6 +3,8 @@ package com.AHairTeeter.Main.GentlemanCangku;
 import java.util.List;
 import java.util.Map;
 
+import com.AHairTeeter.Main.Vo.CangkuVo;
+
 
 public interface CangkuDaoService {
     /**
@@ -31,6 +33,21 @@ public interface CangkuDaoService {
 	 * @throws Exception
 	 */
 	public boolean updateminid(String newid);
+	
+	
+	/**
+	 * 增加
+	 * @param cangku
+	 * @return
+	 */
+	public boolean SaveChangku(CangkuVo cangku);
+
+	/**
+	 * 查询主键pan是否存在
+	 * @param pan
+	 * @return
+	 */
+	public boolean SelChangkuPan(String pan);
 
 
 }
