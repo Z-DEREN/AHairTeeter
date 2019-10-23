@@ -51,7 +51,7 @@ public class Kr36 extends IoHandlerAdapter {
 		int ID = 0;
 		int NEWID = 0;
 		try {
-			StrID = Kr36.ToolDaoImpl.GetSelObjsql("SELECT MAX(ID) FROM 24thnews", null, "String").toString();
+			StrID = Kr36.ToolDaoImpl.GetSelObjsql(" SELECT uniqueid FROM  legal_information_heyhey  WHERE  ZDI = ( SELECT MAX(ZDI) FROM legal_information_heyhey WHERE ZDI LIKE '24%' ) ", null, "String").toString();
 			ID = Integer.parseInt(StrID);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -61,8 +61,8 @@ public class Kr36 extends IoHandlerAdapter {
 
 		String url = newurl(ID, NEWID); // 处理并返回新网址
 //		String url = newurl(0, NEWID); // 处理并返回新网址
-//		String Text = spiders.spiders((url), 99999);
-		String Text = spiders.spiders(("https://36kr.com/api/newsflash?b_id=187575&per_page=25"), 99999);
+		String Text = spiders.spiders((url), 99999);
+//		String Text = spiders.spiders(("https://36kr.com/api/newsflash?b_id=187575&per_page=25"), 99999);
 
 //		Tool.IOSaveFile(Text, "36");
 		List<String> Clist = roughsaix(Text);
@@ -128,14 +128,13 @@ public class Kr36 extends IoHandlerAdapter {
 					if (front != -1) {
 						newsurl = information.substring(front + 12, later - 3);
 					} else {
-						newsurl = "null";
+						newsurl = null;
 					}
 					// time
 					front = information.indexOf("created_at");
 					later = information.indexOf("updated_at");
 					time = information.substring(front + 13, later - 3);
 
-					// 数据判断是否存在
 					map.put("SID", null);// 字符串id
 					map.put("ADI", ADI);// 特殊DI头
 					map.put("ZDI", null);// 特殊DI码
@@ -146,11 +145,14 @@ public class Kr36 extends IoHandlerAdapter {
 					map.put("url", newsurl);// 链接
 					map.put("uniqueid", ID);// 存储数据自带id
 					map.put("text", summary);// 大容量主体数据存储体
+					map.put("recorddate", time);// 数据内时间
 					map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
-					// 入库操作
-					// 入单库双库判断
-					Kr36.ToolDaoImpl.SaveOneCrawlersql(map);
-					listmap.add(map);
+					// 数据判断是否存在
+					if(Kr36.ToolDaoImpl.SaveOneCrawlersql(map)) {}{
+						// 入库操作
+						// 入单库双库判断1
+						listmap.add(map);
+					}
 				}
 			}
 		} catch (Exception e) {

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
@@ -23,6 +24,8 @@ import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
  * @author 好人
  * 
  */
+
+@Component
 public class SssGif extends IoHandlerAdapter {
 	private int ADI = 20; // 特殊DI头
 	Tool Tool = new Tool();
@@ -38,7 +41,7 @@ public class SssGif extends IoHandlerAdapter {
 		SssGif.ToolDaoImpl = this.ToolDaoImpl;
 		// 初使化时将已静态化的testService实例化
 	}
-	
+
 	private static final Logger logger = LogManager.getLogger(SssGif.class.getName());
 
 	/**
@@ -110,12 +113,11 @@ public class SssGif extends IoHandlerAdapter {
 					map.put("text", null);// 大容量主体数据存储体
 					map.put("recorddate", setuptime);// 数据内时间
 					map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
-
-					// 入库操作
-					// 入单库双库判断
-					SssGif.ToolDaoImpl.SaveOneCrawlersql(map);
-
-					listmap.add(map);
+					if (SssGif.ToolDaoImpl.SaveOneCrawlersql(map)) {
+						// 入库操作
+						// 入单库双库判断
+						listmap.add(map);
+					}
 				}
 			}
 		} catch (Exception e) {

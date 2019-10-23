@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestList  extends IoHandlerAdapter  {
 
-	
     @Autowired
     protected ToolDaoImpl ToolDaoImpl;
     private static TestList TestList;

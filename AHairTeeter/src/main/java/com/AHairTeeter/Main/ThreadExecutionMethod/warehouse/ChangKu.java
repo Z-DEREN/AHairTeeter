@@ -254,10 +254,11 @@ public class ChangKu extends IoHandlerAdapter {
 				map.put("text", null);// 大容量主体数据存储体
 				map.put("recorddate", time);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
-				// 入库操作
-				// 入单库双库判断
-				ChangKu.ToolDaoImpl.SaveOneCrawlersql(map);
-				listmap.add(map);
+				if (ChangKu.ToolDaoImpl.SaveOneCrawlersql(map)) {
+					// 入库操作
+					// 入单库双库判断
+					listmap.add(map);
+				}
 			}
 
 		} catch (Exception e) {

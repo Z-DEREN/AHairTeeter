@@ -51,8 +51,8 @@ public class ParaphraseMethod {
 			String testid = map.get("testid").toString();
 //			System.out.println(testid);
 			break;
-		case 1:
-		case 2:
+		case 20:
+		case 21:
 			String urlList = map.get("urlList").toString();
 			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
 			break;

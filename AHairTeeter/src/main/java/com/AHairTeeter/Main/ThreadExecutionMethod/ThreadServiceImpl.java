@@ -25,17 +25,20 @@ import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Moeimg;
 import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.SssGif;
 import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.TestList;
 import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Xvideos;
+import com.AHairTeeter.Tool.EmalPop3.EmailType;
 
 @Service
 public class ThreadServiceImpl {
 
 	private static final Logger logger = LogManager.getLogger(ThreadServiceImpl.class.getName());
 
-	Tool Tool = new Tool();
-
+	private Tool Tool = new Tool();
+	private EmailType EmailType = new  EmailType();;
+	
 	@Resource
 	private ToolDaoImpl ToolDaoImpl;
 
+	
 	/**
 	 * 多线程执行主方法
 	 * 
@@ -58,6 +61,7 @@ public class ThreadServiceImpl {
 			listmap = img.first_no1(21, 30, "pics");
 			name = "SssGif文件夹";
 			url = "https://www.sex.com/";
+			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 21:
@@ -66,6 +70,7 @@ public class ThreadServiceImpl {
 			listmap = moeimg.moeimg_img(10000, 10020);
 			name = "Moeimg文件夹";
 			url = "http://moeimg.net/";
+			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 22:
@@ -73,6 +78,8 @@ public class ThreadServiceImpl {
 			Xvideos xvideos = new Xvideos();
 			listmap = xvideos.videoNum(1, 10, "teen");
 			name = "xvideosUrl";
+			Tool.IOSaveFile(listmap);
+			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 24:
@@ -80,6 +87,8 @@ public class ThreadServiceImpl {
 			Kr36 Kr36 = new Kr36();
 			listmap = Kr36.Kr36news();
 			name = "Kr36";
+			EmailType.Kr36Email(listmap);
+//			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 23:
@@ -93,8 +102,23 @@ public class ThreadServiceImpl {
 		}
 
 		// 保存本地文件方法
-		Tool.IOSaveFile(listmap);
-
+//		Tool.IOSaveFile(listmap);
+		//线程执行方法
+//		AllocationThreadExecute(listmap,name,num,url);
+		//执行邮件插件
+		
+		
+	}
+	
+	
+	/**
+	 * 分配并执行线程
+	 * @param listmap
+	 * @param name
+	 * @param num
+	 * @param url
+	 */
+	public void AllocationThreadExecute(List<Map<String, Object>> listmap,String name ,int num , String url) {
 		if (listmap.size() > 0) {
 
 			List<List<Map<String, Object>>> ROlist = Tool.SplitSet(listmap, 5);
@@ -123,5 +147,15 @@ public class ThreadServiceImpl {
 			logger.info(" ThExeMet返回数据没有长度------------------------------------------------------------"); // info级别的信息
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

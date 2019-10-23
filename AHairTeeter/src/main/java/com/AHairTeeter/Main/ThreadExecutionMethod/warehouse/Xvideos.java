@@ -16,12 +16,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
-import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
+@Component
 public class Xvideos extends IoHandlerAdapter {
 
 	private int ADI = 22; // 特殊DI头
@@ -41,7 +42,7 @@ public class Xvideos extends IoHandlerAdapter {
 		Xvideos.ToolDaoImpl = this.ToolDaoImpl;
 		// 初使化时将已静态化的testService实例化
 	}
-	
+
 	private static final Logger logger = LogManager.getLogger(Xvideos.class.getName());
 
 	/**
@@ -103,7 +104,7 @@ public class Xvideos extends IoHandlerAdapter {
 				Map<String, Object> map = new HashMap<String, Object>();
 				endIndex = textno3[i].indexOf(")");
 				videoNum = textno3[i].substring(1, endIndex);
-//			System.out.println(videoNum);
+//				System.out.println(videoNum);
 				map.put("SID", null);// 字符串id
 				map.put("ADI", ADI);// 特殊DI头
 				map.put("ZDI", null);// 特殊DI码
@@ -117,12 +118,12 @@ public class Xvideos extends IoHandlerAdapter {
 				map.put("recorddate", null);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
 				map.put("specialIO", GetVideoUrl(videoNum));// 特殊位,产生文件用
-				
-				// 入库操作
-				// 入单库双库判断
-				Xvideos.ToolDaoImpl.SaveOneCrawlersql(map);
-				
-				listmap.add(map);
+
+				if (Xvideos.ToolDaoImpl.SaveOneCrawlersql(map)) {
+					// 入库操作
+					// 入单库双库判断
+					listmap.add(map);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
