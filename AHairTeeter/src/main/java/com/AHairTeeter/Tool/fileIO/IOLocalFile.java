@@ -14,16 +14,23 @@ import com.AHairTeeter.Tool.Route;
 
 public class IOLocalFile {
 	Route rou = new Route();
-	public String output(String diiz) {
+	
+	
+	/**
+	 * 读取本地数据
+	 * @param address 文件地址
+	 * @return
+	 */
+	public String output(String address) {
 		String txt1 = "";
 		String txt2 = "";
 		String no = "1";
-		File file = new File(diiz);
+		File file = new File(address);
 		BufferedReader br = null;
 		FileInputStream fis;
 		if (file.isFile()) {
 			try {
-				fis = new FileInputStream(diiz);
+				fis = new FileInputStream(address);
 				br = new BufferedReader(new InputStreamReader(fis, "gb2312"));
 				while ((no = br.readLine()) != null) {
 					txt1 = no;
@@ -54,21 +61,23 @@ public class IOLocalFile {
 			System.out.println("文件不存在");
 		}
 		return txt2;
-
-		
 	}
 
 	
-	
-	public void input(String text, String test) {
+	/**
+	 * IO数据保存本地 
+	 * @param H5data 将要保存本地的数据
+	 * @param filename 文件名称
+	 */
+	public void input(String H5data, String filename) {
 		FileOutputStream fos = null;
 		OutputStreamWriter osw = null;
 		try {
 
-			String 地址 = rou.本地存储地址 + test + ".txt";
-			fos = new FileOutputStream(地址);
+			String address = rou.本地存储地址 + filename + ".txt";
+			fos = new FileOutputStream(address);
 			osw = new OutputStreamWriter(fos, "gb2312");
-			osw.write(text);
+			osw.write(H5data);
 			osw.close();
 			System.out.println("保存完毕");
 		} catch (IOException e) {

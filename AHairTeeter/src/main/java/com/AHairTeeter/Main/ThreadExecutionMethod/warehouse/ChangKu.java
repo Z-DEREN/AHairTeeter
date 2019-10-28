@@ -70,6 +70,8 @@ public class ChangKu extends IoHandlerAdapter {
 				// ≈¿»°
 				text = GetWebDriver(webDriver, urltext);
 				listmap.addAll(Pagination(urltext, webDriver));
+			}  catch (Exception e) {
+				e.printStackTrace();
 			} finally {
 				continue;
 			}

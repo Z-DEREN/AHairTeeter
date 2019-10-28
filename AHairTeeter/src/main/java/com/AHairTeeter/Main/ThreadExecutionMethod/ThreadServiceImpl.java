@@ -57,17 +57,23 @@ public class ThreadServiceImpl {
 			break;
 		case 20:
 			// 特殊字段20
-			SssGif img = new SssGif();
-			listmap = img.first_no1(21, 30, "pics");
-			name = "SssGif文件夹";
-			url = "https://www.sex.com/";
-			AllocationThreadExecute(listmap,name,num,url);
-			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+			//先对网络进行检测
+			
+//			if() {
+				SssGif img = new SssGif();
+				listmap = img.first_no1(21, 30, "pics");
+				name = "SssGif文件夹";
+				url = "https://www.sex.com/";
+				AllocationThreadExecute(listmap,name,num,url);
+				logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+//			}
+			
+			
 			break;
 		case 21:
 			// 特殊字段21
 			Moeimg moeimg = new Moeimg();
-			listmap = moeimg.moeimg_img(10000, 10020);
+			listmap = moeimg.moeimg_img(13800, 13801);
 			name = "Moeimg文件夹";
 			url = "http://moeimg.net/";
 			AllocationThreadExecute(listmap,name,num,url);
@@ -76,10 +82,10 @@ public class ThreadServiceImpl {
 		case 22:
 			// 特殊字段22
 			Xvideos xvideos = new Xvideos();
-			listmap = xvideos.videoNum(1, 10, "teen");
+			listmap = xvideos.videoNum(11, 15, "teen");
 			name = "xvideosUrl";
 			Tool.IOSaveFile(listmap);
-			AllocationThreadExecute(listmap,name,num,url);
+//			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 24:

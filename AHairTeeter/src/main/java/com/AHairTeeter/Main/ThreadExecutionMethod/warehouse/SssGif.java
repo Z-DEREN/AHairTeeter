@@ -44,6 +44,29 @@ public class SssGif extends IoHandlerAdapter {
 
 	private static final Logger logger = LogManager.getLogger(SssGif.class.getName());
 
+	
+	
+	/**
+	 * 测试网络连接情况
+	 * @return
+	 */
+	public boolean TestNetworking() {
+		boolean TF = false;
+		Spiders spiders = new Spiders();
+		String text = spiders.spiders(url, 99999);
+		int beginIndex = text.indexOf("masonry_box ad-big");
+		if (beginIndex > 0) {
+			TF = true;
+			logger.info("[成功] 测试网络连接通过------------------------------------------------------------"); // info级别的信息
+		}else {
+			logger.info("[失败] 测试网络连接失败------------------------------------------------------------"); // info级别的信息
+		}
+		return TF;
+	}
+	
+	
+	
+	
 	/**
 	 * 根据页码进行爬取
 	 * 
@@ -56,6 +79,7 @@ public class SssGif extends IoHandlerAdapter {
 		 * 爬虫位 目前爬虫没有使用ip池,会被锁ip
 		 */
 		Spiders spiders = new Spiders();
+		
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String text = "";
 		for (int i = no1; i <= no2; i++) {
@@ -64,7 +88,9 @@ public class SssGif extends IoHandlerAdapter {
 				text = spiders.spiders(url + Type + "/?page=" + i, 99999);
 				listmap.addAll(first_no2(text));
 				Thread.sleep(1000 * 10);
-			} finally {
+			} catch (Exception e) {
+				e.printStackTrace();
+			}  finally {
 				continue;
 			}
 		}

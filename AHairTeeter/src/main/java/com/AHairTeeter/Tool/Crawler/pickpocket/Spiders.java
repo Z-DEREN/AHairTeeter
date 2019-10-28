@@ -49,7 +49,6 @@ public class Spiders {
 				conn.header("user-agent",
 						"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36");
 				conn.ignoreContentType(true);
-				conn.method(Method.GET);
 				Sdoc = conn.execute().body();
 				logger.info(" 爬取:"+url+":结束:"+num+"------------------------------"); // info级别的信息
 				break;

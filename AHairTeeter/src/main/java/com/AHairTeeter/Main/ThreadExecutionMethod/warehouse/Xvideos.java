@@ -30,7 +30,7 @@ public class Xvideos extends IoHandlerAdapter {
 	String fronturl = "https://www.xvideos.com/c/";
 	String laterurl = "/Teen-13";
 	String GetVideoUrl = "https://www.xvideos.com/video-download/";
-	String url = "";
+	String classify = "https://www.xvideos.com/";
 
 	@Autowired
 	protected ToolDaoImpl ToolDaoImpl;
@@ -53,12 +53,6 @@ public class Xvideos extends IoHandlerAdapter {
 	 * @return
 	 */
 	public List<Map<String, Object>> videoNum(int no1, int no2, String Type) {
-		// https://www.xvideos.com/new/1
-		// https://www.xvideos.com/
-		// https://www.xvideos.com/c/Big+Tits-23
-		// https://www.xvideos.com/c/1/Big%20Tits-23
-		// https://www.xvideos.com/c/Teen-13
-
 		/**
 		 * 爬虫位 目前爬虫没有使用ip池,会被锁ip
 		 */
@@ -66,12 +60,14 @@ public class Xvideos extends IoHandlerAdapter {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		for (int i = no1; i <= no2; i++) {
 			try {
-				url = fronturl + i + laterurl;
+				String url = fronturl + i + laterurl;
 				System.out.println("正在进行第:" + i + "页数据爬取:" + url);
 				String text = spiders.spiders(url, 99999);
 				listmap.addAll(videoWAP(text));
 				Thread.sleep(1000 * 2);
-			} finally {
+			} catch (Exception e) {
+				e.printStackTrace();
+			}  finally {
 				continue;
 			}
 		}
@@ -109,7 +105,7 @@ public class Xvideos extends IoHandlerAdapter {
 				map.put("ADI", ADI);// 特殊DI头
 				map.put("ZDI", null);// 特殊DI码
 				map.put("type", 1);// 存储类型
-				map.put("classify", url);// 链接
+				map.put("classify", classify);// 链接
 				map.put("title", "视频id");// 存储标题
 				map.put("line", null);// 存储标题
 				map.put("url", videoNum);// 链接
@@ -184,7 +180,7 @@ public class Xvideos extends IoHandlerAdapter {
 		endIndex = text.indexOf("\",\"URL_LOW\"");
 		textno1 = text.substring(beginIndex + 7, endIndex);
 		textno1 = textno1.replace("\\/", "/");
-		System.out.println(textno1);
+//		System.out.println(textno1);
 		return textno1;
 	}
 

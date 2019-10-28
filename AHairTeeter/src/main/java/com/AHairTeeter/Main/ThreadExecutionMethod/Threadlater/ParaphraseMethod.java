@@ -53,7 +53,7 @@ public class ParaphraseMethod {
 			break;
 		case 20:
 		case 21:
-			String urlList = map.get("urlList").toString();
+			String urlList = map.get("url").toString();
 			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
 			break;
 		case 3:

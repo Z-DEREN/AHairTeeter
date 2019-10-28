@@ -59,7 +59,7 @@ public class Kr36 extends IoHandlerAdapter {
 		} // 获数据库最新的ID
 		NEWID = newID(); // 当前网址的最新ID
 
-		String url = newurl(ID, NEWID); // 处理并返回新网址
+		String url = newurl(ID+1, NEWID); // 处理并返回新网址
 //		String url = newurl(0, NEWID); // 处理并返回新网址
 		String Text = spiders.spiders((url), 99999);
 //		String Text = spiders.spiders(("https://36kr.com/api/newsflash?b_id=187575&per_page=25"), 99999);
@@ -72,6 +72,11 @@ public class Kr36 extends IoHandlerAdapter {
 		return listmap;
 	}
 
+	/**
+	 * 数据分割方法
+	 * @param information 源码
+	 * @return 分割后的集合
+	 */
 	public List roughsaix(String information) {
 		List<String> list = new ArrayList<String>();
 		try {
@@ -86,22 +91,21 @@ public class Kr36 extends IoHandlerAdapter {
 		}
 	}
 
-	// 获取数据
+	/**
+	 * 数据筛选方法
+	 * @param Clist
+	 * @return
+	 */
 	public List<Map<String, Object>> ScreenText(List<String> Clist) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-
 		int front;
 		int later;
-		String newsurl;
-		String textno1;
 		// 所提取的值
 		String time;// created_at
 		String ID;// id
 		String title;// title
 		String summary;// summary
-		String[] zhi;
-		int NewsCount = 0;
-		List<String> Xlist = new ArrayList<>();
+		String newsurl;
 		// 记录当前爬取详情
 		try {
 			for (String information : Clist) {
@@ -111,15 +115,16 @@ public class Kr36 extends IoHandlerAdapter {
 				if (front != -1 && later != -1) { // 判断是否为要爬取的目标
 					// title
 					title = information.substring(front + 8, later - 3);
-
-					// ID
+					
 					front = information.indexOf("id\":");
 					later = information.indexOf("project_id");
+					// ID
 					ID = information.substring(front + 4, later - 2);
 
-					// summary
+					
 					front = information.indexOf("description");
 					later = information.indexOf("cover");
+					// summary
 					summary = information.substring(front + 14, later - 3);
 
 					// url
@@ -130,9 +135,10 @@ public class Kr36 extends IoHandlerAdapter {
 					} else {
 						newsurl = null;
 					}
-					// time
+					
 					front = information.indexOf("created_at");
 					later = information.indexOf("updated_at");
+					// time
 					time = information.substring(front + 13, later - 3);
 
 					map.put("SID", null);// 字符串id
@@ -162,7 +168,10 @@ public class Kr36 extends IoHandlerAdapter {
 		}
 	}
 
-	// 当前网址的最新ID
+	/**
+	 * 当前网址的最新ID 
+	 * @return
+	 */
 	public int newID() {
 		int front = 0;
 		int later = 0;
@@ -185,14 +194,19 @@ public class Kr36 extends IoHandlerAdapter {
 
 	}
 
-	// 处理并返回新网址
-	public String newurl(int ID, int NEWID) {
+	/**
+	 * 处理并返回新网址
+	 * @param ID 页面最新ID
+	 * @param NEWID 数据库最新ID
+	 * @return
+	 */
+	public String newurl(int SQLID, int NEWID) {
 		String http = "https://36kr.com/api/newsflash?b_id=AAAA&per_page=BBBB";
 		String BBBB = "";
-		if (ID == 0) {
+		if (SQLID == 0) {
 			BBBB = "100";
 		} else {
-			BBBB = String.valueOf(NEWID - ID);
+			BBBB = String.valueOf(NEWID - SQLID);
 		}
 
 		http = http.replace("AAAA", String.valueOf(NEWID));

@@ -62,10 +62,14 @@ public class Moeimg extends IoHandlerAdapter {
 		for (int i = no1; i <= no2; i++) {
 			try {
 				System.out.println("正在进行第:" + i + "页数据爬取:" + url + i);
-				String text = spiders.spiders((url + i + ".html"), 1);
+				String text = spiders.spiders((url + i + ".html"), 99999);
+//				Tool.IOSaveFile(text,"");
 				listmap.addAll(moeimgSub(text, i, url + i));
 				Thread.sleep(1000 * 10);
-			} finally {
+			} catch (Exception e) {
+				e.printStackTrace();
+			}  finally {
+				System.out.println("结束");
 				continue;
 			}
 		}
@@ -79,22 +83,31 @@ public class Moeimg extends IoHandlerAdapter {
 		int endIndex = 0;
 		String textno1 = "";
 		String urlList = "";
-		beginIndex = text.indexOf("contents");
+		beginIndex = text.indexOf("<div class=box>");
 		if (beginIndex < 0) {
 			logger.info(" 当前页数据未获取到------------------------------------------------------------"); // info级别的信息
 			return listmap;
 		}
 		try {
 			textno1 = text.substring(beginIndex);
-			beginIndex = textno1.indexOf("<div class=\"pc_ad\">");
-			textno1 = textno1.substring(beginIndex);
-			beginIndex = textno1.lastIndexOf("<div class=\"pc_ad\">");
-			textno1 = textno1.substring(0, beginIndex);
-			String[] textno3 = textno1.split("<div class=\"box\">");
+			
+			
+			beginIndex = textno1.indexOf("<div class=pc_ad_field>");
+			textno1 = textno1.substring(beginIndex+10);
+			
+			beginIndex = textno1.indexOf("<div class=pc_ad_field>");
+			textno1 = textno1.substring(beginIndex+10);
+			
+			
+			beginIndex = textno1.indexOf("<div class=pc_ad_field>");
+			textno1 = textno1.substring(0,beginIndex);
+			
+			String[] textno3 = textno1.split("<div class=box>");
+			System.out.println(textno3.length);
 			for (int i = 1; i < textno3.length - 1; i++) {
-				beginIndex = textno3[i].indexOf("<a href=\"");
-				urlList = textno3[i].substring(beginIndex + 9);
-				endIndex = urlList.indexOf("\" target=\"_blank\"");
+				beginIndex = textno3[i].indexOf("<a href=");
+				urlList = textno3[i].substring(beginIndex + 8);
+				endIndex = urlList.indexOf(" target=_blank");
 				urlList = urlList.substring(0, endIndex);
 				Map<String, Object> map = new HashMap<String, Object>();
 
@@ -106,10 +119,11 @@ public class Moeimg extends IoHandlerAdapter {
 				map.put("title", "图片");// 存储标题
 				map.put("line", null);// 存储行数据
 				map.put("url", urlList);// 链接
-				map.put("uniqueid", null);// 存储数据自带id
+				map.put("uniqueid", urlList);// 存储数据自带id
 				map.put("text", null);// 大容量主体数据存储体
 				map.put("recorddate", null);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
+				System.out.println("入库");
 				if(Moeimg.ToolDaoImpl.SaveOneCrawlersql(map)) {
 					// 入库操作
 					// 入单库双库判断

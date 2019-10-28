@@ -76,16 +76,14 @@ public class ToolDaoImpl implements ToolDao {
 		}
 		System.out.println("执行的sql为:" + text);
 
-		try {
-			retnum = jdbcTemplate.update(sql, value);
-		} finally {
-			if (retnum > 0) {
-				logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
-				return true;
-			} else {
-				logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
-				return false;
-			}
+		retnum = jdbcTemplate.update(sql, value);
+		if (retnum > 0) {
+			logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
+			return true;
+		} else {
+			System.out.println(retnum);
+			logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
+			return false;
 		}
 
 	}
@@ -253,8 +251,8 @@ public class ToolDaoImpl implements ToolDao {
 		String sql = "select COUNT(SID) FROM " + table + " where SID = '" + SID + "'";
 		boolean TF = true;
 		String TFnum = GetSelObjsql(sql, null, "String").toString();
-		System.out.println(TFnum);
-		if (!TFnum.equals("1")) {
+		int num = Integer.parseInt(TFnum);
+		if (num == 0) {
 			TF = false;
 		}
 		return TF;
@@ -382,7 +380,7 @@ public class ToolDaoImpl implements ToolDao {
 			sql += "acquiredate ";
 			value += "'" + map.get("acquiredate") + "')";
 
-			//入库
+			// 入库
 			TF = SingleSaveUpdeteSql(sql + value, null);
 			if (!TF) {
 				logger.info(" 数据入库失败------------------------------------------------------------"); // info级别的信息
