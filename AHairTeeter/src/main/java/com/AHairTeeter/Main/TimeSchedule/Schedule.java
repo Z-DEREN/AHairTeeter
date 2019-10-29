@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Main.ToolCabinet.DaoServiceImpl.InternetProtocolDaoServiceImpl;
+import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 
 @Component
 public class Schedule {

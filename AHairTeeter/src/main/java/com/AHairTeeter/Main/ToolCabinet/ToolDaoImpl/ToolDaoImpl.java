@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import com.AHairTeeter.Main.ToolCabinet.ToolDao.ToolDao;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Tool.IPpool.IPpool;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
 @Service
@@ -31,8 +30,6 @@ public class ToolDaoImpl implements ToolDao {
 	private static final Logger logger = LogManager.getLogger(ToolDaoImpl.class.getName());
 
 	Tool Tool = new Tool();
-
-	IPpool IPpool = new IPpool();
 
 	/**
 	 * 批量执行sql语句
@@ -76,16 +73,20 @@ public class ToolDaoImpl implements ToolDao {
 		}
 		System.out.println("执行的sql为:" + text);
 
-		retnum = jdbcTemplate.update(sql, value);
-		if (retnum > 0) {
-			logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
-			return true;
-		} else {
-			System.out.println(retnum);
-			logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
-			return false;
+		try {
+			retnum = jdbcTemplate.update(sql, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (retnum > 0) {
+				logger.info("成功  执行单条sql新增更新操作,执行成功:" + text); // info级别的信息
+				return true;
+			} else {
+				System.out.println(retnum);
+				logger.info("失败  执行单条sql新增更新操作,执行失败:" + text); // info级别的信息
+				return false;
+			}
 		}
-
 	}
 
 	/**
@@ -152,8 +153,6 @@ public class ToolDaoImpl implements ToolDao {
 		}
 	}
 
-	
-
 	/**
 	 * 获取ZDI码
 	 * 
@@ -187,7 +186,6 @@ public class ToolDaoImpl implements ToolDao {
 		return retnum;
 	}
 
-
 	/**
 	 * 验证待测试表 SID唯一
 	 * 
@@ -206,8 +204,6 @@ public class ToolDaoImpl implements ToolDao {
 		}
 		return TF;
 	}
-
-	
 
 	/**
 	 * 获取唯一ADI 字符串id
@@ -228,6 +224,7 @@ public class ToolDaoImpl implements ToolDao {
 
 	/**
 	 * 对单条数据进行入库操作
+	 * 
 	 * @param map
 	 * @return
 	 */

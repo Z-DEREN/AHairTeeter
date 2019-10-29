@@ -1,4 +1,4 @@
-package com.AHairTeeter.Tool.IPpool;
+package com.AHairTeeter.Main.IPpool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,14 +7,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.mina.core.service.IoHandlerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
-import com.AHairTeeter.Main.ToolCabinet.DaoServiceImpl.InternetProtocolDaoServiceImpl;
+import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 
 /**
  * ip代理池
@@ -22,18 +26,33 @@ import com.AHairTeeter.Main.ToolCabinet.DaoServiceImpl.InternetProtocolDaoServic
  * @author 好人
  *
  */
-public class IPpool {
-	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
-
-	public Spiders Spiders = new Spiders();
-
-	public ToolDaoImpl ToolDaoImpl;
-
-	public InternetProtocolDaoServiceImpl InternetProtocolDaoServiceImpl;
+@Component
+public class IPpool extends IoHandlerAdapter {
 	Tool Tool = new Tool();
+	
+
+	@Autowired
+	protected InternetProtocolDaoServiceImpl InternetProtocolDaoServiceImpl;
+	private static IPpool IPpool;
+
+	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
+	public void init() {
+		IPpool = this;
+		IPpool.InternetProtocolDaoServiceImpl = this.InternetProtocolDaoServiceImpl;
+		// 初使化时将已静态化的testService实例化
+	}
+	
+	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
+	
+	
 
 	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";// ip测试页
 
+	
+	
+	
+	
+	
 /////////////////////////// 爬取//////////////////////
 
 	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";// 国内高匿ip
@@ -44,28 +63,28 @@ public class IPpool {
 	 * @throws InterruptedException
 	 */
 	public List<Map<String, Object>> Get61ChinaIPCryp(int pagination) {
-
+		Spiders Spiders = new Spiders();
 		IOLocalFile IOLocalFile = new IOLocalFile();
 		List<Map<String, Object>> ListIP = new ArrayList<Map<String, Object>>();
-//		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
-//		return ListIP;
-
-		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
-		String url = "";// 存储当前页url
-		String text = "";// 存储爬取到的页面源码
-		// 爬取前20页ip数据
-		for (int i = 1; i <= pagination; i++) {
-			url = ChinaIPCryp + i;
-			text = Spiders.spiders(url, 99999);
-			ListIP.addAll(Getiplist(text));
-			try {
-				Thread.sleep(1000 * 60);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
 		return ListIP;
+
+//		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
+//		String url = "";// 存储当前页url
+//		String text = "";// 存储爬取到的页面源码
+//		// 爬取前20页ip数据
+//		for (int i = 1; i <= pagination; i++) {
+//			url = ChinaIPCryp + i;
+//			text = Spiders.spiders(url, 99999);
+//			ListIP.addAll(Getiplist(text));
+//			try {
+//				Thread.sleep(1000 * 60);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return ListIP;
 	}
 
 	public int num = 1;
@@ -110,8 +129,11 @@ public class IPpool {
 				map.put("area", area);
 				map.put("SAVETIME", Tool.GetNewDateTime(2));
 				map.put("TYPE", "1");
-
-				InternetProtocolDaoServiceImpl.SaveIPList(map);
+				
+				
+				IPpool.InternetProtocolDaoServiceImpl.SaveIPList(map);
+				
+				
 				num++;
 			}
 		}
@@ -127,7 +149,8 @@ public class IPpool {
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public Map<String, String> GetPerfectCHIP(Map<String, Object> ChinaIPList, String present) {
+	public void GetPerfectCHIP(Map<String, Object> ChinaIPList, String present) {
+		Spiders Spiders = new Spiders();
 		List<String> list = new ArrayList<String>();
 		String Iptext = "";
 		logger.info("正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT"));
@@ -140,19 +163,12 @@ public class IPpool {
 		Long time = endTime - startTime;
 		// 是否为本机ip
 		if (!Iptext.contains(present)) {
-			logger.info("true	测试通过==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":"
-					+ ChinaIPList.get("area") + ":" + time + "毫秒");
-
-			InternetProtocolDaoServiceImpl.SaveIPlistnum(time.toString(),ChinaIPList);
-
+			logger.info("true	测试通过==IP-----" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"+ChinaIPList.get("AREA")+ ":" + time + "毫秒");
+			IPpool.InternetProtocolDaoServiceImpl.SaveIPlistnum(time.toString(), ChinaIPList);
 		} else {
-			logger.info("false	测试失败==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":"
-					+ ChinaIPList.get("area") + ":" + time / 1000 + "秒");
-			
-			InternetProtocolDaoServiceImpl.
-			return null;
+			logger.info("false	测试失败==IP-----" +ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"+ ChinaIPList.get("AREA") + ":" + time / 1000 + "秒");
 		}
-
+		IPpool.InternetProtocolDaoServiceImpl.DelTestIP(ChinaIPList);
 	}
 
 	/**
@@ -160,6 +176,7 @@ public class IPpool {
 	 * 
 	 */
 	public String Localip() {
+		Spiders Spiders = new Spiders();
 		String text = Spiders.spiders("http://pv.sohu.com/cityjson?ie=utf-8", 99999);// 测试接口
 		int beginIndex;
 		int endIndex;

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection.Method;
-
+import org.jsoup.nodes.Document;
 
 /**
  * 多样爬虫工具
@@ -17,10 +17,8 @@ import org.jsoup.Connection.Method;
  */
 public class Spiders {
 
-	
 	private static final Logger logger = LogManager.getLogger(Spiders.class.getName());
-	
-	
+
 	/**
 	 * 
 	 * 
@@ -39,36 +37,38 @@ public class Spiders {
 	 * @throws InterruptedException
 	 */
 	public String spiders(String url, int num) {
-		Connection conn = null;
 		String Sdoc = "";
+		Document doc = null;
 		boolean TF = true;
 		try {
 			switch (num) {
 			case 99999:
-				conn = Jsoup.connect(url);
-				conn.header("user-agent",
-						"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36");
-				conn.ignoreContentType(true);
-				Sdoc = conn.execute().body();
-				logger.info(" 爬取:"+url+":结束:"+num+"------------------------------"); // info级别的信息
+				doc = Jsoup.connect(url)
+						.header("user-agent",
+								"Mozilla/5.0 (Windows NT 10.0; WOW64) " + "AppleWebKit/537.36 (KHTML, like Gecko) "
+										+ "Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36")
+						.ignoreContentType(true).get();
+				Sdoc = doc.html();
+				logger.info(" 爬取:" + url + ":结束:" + num + "------------------------------"); // info级别的信息
 				break;
 			default:
 				TF = false;
-				logger.info(" 爬取方法spiders参数有误:"+num+"------------------------------"); // info级别的信息
+				logger.info(" 爬取方法spiders参数有误:" + num + "------------------------------"); // info级别的信息
 				break;
-				
+
+			}
+			if (TF) {
+				Sdoc = unicode(Sdoc);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			return Sdoc;
 		}
-		if(TF) {
-			Sdoc = unicode(Sdoc);
-		}
-		return Sdoc;
 	}
-	
-	public  String unicode(String asciicode) {
+
+	public String unicode(String asciicode) {
 		String[] asciis = asciicode.split("\\\\u");
 		String nativeValue = asciis[0];
 		try {
