@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 import com.AHairTeeter.Tool.Tool;
+import com.AHairTeeter.Main.ToolCabinet.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 
 @Component
 public class Schedule {
@@ -17,6 +18,9 @@ public class Schedule {
 	
 	@Autowired	
 	public ThreadServiceImpl ThreadServiceImpl;
+	
+	@Autowired	
+	public InternetProtocolDaoServiceImpl InternetProtocolDaoServiceImpl;
 
 //	@Scheduled(fixedDelay = 1000) // 每一秒运行一次
 //	public void Date1() {
@@ -33,7 +37,17 @@ public class Schedule {
 	public void Date2() {
 		try {
 			ThreadServiceImpl.middleman(24);
-			logger.info("Date2:两秒执行一次,当前线程为" + Thread.currentThread().getName());
+			logger.info("Date2:每天9-20点执行执行一次,当前线程为" + Thread.currentThread().getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	@Scheduled(cron = "0 0 8-22/2 * * ? ") // 每一秒运行一次
+	public void Date3() {
+		try {
+			InternetProtocolDaoServiceImpl.ToolIPSave("61");
+			logger.info("Date3:每天8-22点,两小时执行一次,当前线程为" + Thread.currentThread().getName());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

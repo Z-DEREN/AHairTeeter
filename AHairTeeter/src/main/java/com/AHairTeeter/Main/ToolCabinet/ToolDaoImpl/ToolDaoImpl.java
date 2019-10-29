@@ -152,38 +152,7 @@ public class ToolDaoImpl implements ToolDao {
 		}
 	}
 
-	/**
-	 * 获取国内未测试高匿ip
-	 * 
-	 * @return
-	 */
-	@Override
-	public List<Map<String, String>> Get61ChinaIP() {
-		List<Map<String, String>> ChinaIPList = IPpool.Get61ChinaIPCryp(5);
-		return ChinaIPList;
-	}
-
-	/**
-	 * 测试ip可用性
-	 * 
-	 * @return
-	 */
-	@Override
-	public void UseTestIP(List<Map<String, String>> ip, String typenum) {
-		List<Map<String, String>> ChinaIPList = new ArrayList<Map<String, String>>();
-		int frequency = (ip.size() / 5) + 1;
-		String present = IPpool.Localip();// 获取本机ip
-		int num = frequency;
-		for (int i = 0; i < ip.size(); i++) {
-			ChinaIPList.add(IPpool.GetPerfectCHIP(ip.get(i), present));
-			if (i == num) {
-				// 入库
-				SaveIPlistnum(present, ChinaIPList);
-				num += frequency;
-				ChinaIPList.clear();
-			}
-		}
-	}
+	
 
 	/**
 	 * 获取ZDI码
@@ -218,29 +187,9 @@ public class ToolDaoImpl implements ToolDao {
 		return retnum;
 	}
 
-	/**
-	 * 批量ip入库方法
-	 * 
-	 * @param typenum 对应DI段
-	 * @param ip      ip集合
-	 * @return
-	 */
-	@Override
-	public int SaveIPlistnum(String typenum, List<Map<String, String>> ip) {
-		for (int i = 0; i < ip.size(); i++) {
-			if (ip.get(i) != null) {
-				String sql = "INSERT INTO ippool (ZDI,IP,PORT,AREA,MSEC,UPDATETIME,TYPE) VALUES";
-				sql += "(" + GetintZDInum(typenum) + ",'" + ip.get(i).get("ip") + "'," + ip.get(i).get("port") + ",'"
-						+ ip.get(i).get("area") + "'," + ip.get(i).get("msec") + ",'" + Tool.GetNewDateTime(2) + "','"
-						+ 1 + "')";
-				Boolean retnum = SingleSaveUpdeteSql(sql, null);
-			}
-		}
-		return 0;
-	}
 
 	/**
-	 * 验证待测试ip表 SID唯一
+	 * 验证待测试表 SID唯一
 	 * 
 	 * @param table 表名
 	 * @param ADI   字符串id
@@ -258,28 +207,7 @@ public class ToolDaoImpl implements ToolDao {
 		return TF;
 	}
 
-	/**
-	 * List<Map<String,String>>转为List<String> 入库sql
-	 * 
-	 * @param list
-	 */
-	@Override
-	public List<String> SaveIPList(List<Map<String, String>> list) {
-		List<String> sqllist = new ArrayList<String>();
-		for (Map<String, String> map : list) {
-			String sql = "INSERT INTO `lonewolfedgelaw`.`ippoolinspect` "
-					+ "( `SID`, `ADI`, `IP`, `PORT`, `AREA`, `SAVETIME`, `TYPE` ) VALUES ( ";
-			sql += "'" + GetSID("ippoolinspect") + "',";
-			sql += "" + map.get("ADI") + ",";
-			sql += "'" + map.get("ip") + "',";
-			sql += "" + map.get("port") + ",";
-			sql += "'" + map.get("area") + "',";
-			sql += "'" + map.get("SAVETIME") + "',";
-			sql += "'" + map.get("TYPE") + "')";
-			sqllist.add(sql);
-		}
-		return sqllist;
-	}
+	
 
 	/**
 	 * 获取唯一ADI 字符串id
@@ -298,8 +226,11 @@ public class ToolDaoImpl implements ToolDao {
 		return SID;
 	}
 
-	// 对单条数据进行入库操作
-
+	/**
+	 * 对单条数据进行入库操作
+	 * @param map
+	 * @return
+	 */
 	public boolean SaveOneCrawlersql(Map<String, Object> map) {
 		boolean TF = false;
 		String ZDI = "";
@@ -391,7 +322,7 @@ public class ToolDaoImpl implements ToolDao {
 	}
 
 	/**
-	 * 对数据进行入库操作
+	 * 对批量数据进行入库操作
 	 * 
 	 * @param listmap
 	 */

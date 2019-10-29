@@ -1,5 +1,6 @@
 package com.AHairTeeter.Tool;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,15 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.jsoup.Jsoup;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -33,8 +37,7 @@ public class Tool {
 	MD5 md5 = new MD5();
 	IOLocalFile IOLocalFile = new IOLocalFile();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
-	
-	
+
 	/**
 	 * 静态代码块 (存入缓存当中)
 	 */
@@ -46,13 +49,9 @@ public class Tool {
 		DTMap.put("DT3", DT3);
 		DTMap.put("DT4", DT4);
 		DTMap.put("DT5", DT5);
-		
+
 	}
 
-
-	
-	
-	
 	/**
 	 * 新建时间格式化方法
 	 * 
@@ -112,37 +111,17 @@ public class Tool {
 	private static Document doc = null;
 	private static String Sdoc = null;
 
-	/**
-	 * 简单爬取方法(只能用于简单爬取)
-	 * 
-	 * @param url
-	 * @return 对应网址源码
-	 */
-	public String BriefnessAcquire(String url) {
-
-		try {
-			doc = Jsoup.connect(url)
-					.header("user-agent",
-							"Mozilla/5.0 (Windows NT 10.0; WOW64) " + "AppleWebKit/537.36 (KHTML, like Gecko) "
-									+ "Chrome/47.0.2526.106 BIDUBrowser/8.7 Safari/537.36")
-					.ignoreContentType(true).get();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Sdoc = doc.html();
-		return Sdoc;
-	}
 
 	/**
 	 * 获取对应ipDI码以及相关参数
+	 * 
 	 * @param typenum 特殊DI头(ADI)
 	 * @return
 	 */
 	public List<String> GetIPtypeDI(String ADI) {
 		List<String> list = new ArrayList<String>();
 		String sql = "";
-		
+
 		switch (ADI) {
 		case "61":
 			logger.info(" 获取高匿待测试ip段DI码------------------------------------------------------------"); // info级别的信息
@@ -193,55 +172,53 @@ public class Tool {
 			list.add("1");
 			list.add("1");
 			break;
-			
-			
+
 		default:
-			logger.info("对应参数有误:"+ADI); // info级别的信息
+			logger.info("对应参数有误:" + ADI); // info级别的信息
 			break;
 		}
 
 		return list;
 	}
-	
-	
+
 	/**
-	 * 按照所给分数several 对 Olist 集合进行分割 份数
-	 * 用于多线程分配数据
+	 * 按照所给分数several 对 Olist 集合进行分割 份数 用于多线程分配数据
+	 * 
 	 * @param Olist
 	 * @param several
 	 * @return
 	 */
-	public List<List<Map<String,Object>>> SplitSet(List<Map<String,Object>> Olist, int several) {
-		List<List<Map<String,Object>>> ROlist = new ArrayList<List<Map<String,Object>>>();
+	public List<List<Map<String, Object>>> SplitSet(List<Map<String, Object>> Olist, int several) {
+		List<List<Map<String, Object>>> ROlist = new ArrayList<List<Map<String, Object>>>();
 		///////////////
 		System.out.println(Olist.size());
 		System.out.println(several);
 		//////////////////
-		if (Olist.size() > 0 &&  Olist.size() > several) {
+		if (Olist.size() > 0 && Olist.size() > several) {
 			int nums = Olist.size() / several;
 			int start = 0;
 			int terminus = nums;
-			for(int i = 0 ; i < several ;i++) {
-				if(i == 0 ) {
-					ROlist.add(Olist.subList(start ,terminus));
-				}else {
-					if(i == (several-1)) {
-						ROlist.add(Olist.subList(start,Olist.size()));
-					}else {
-						ROlist.add(Olist.subList(start ,terminus));
+			for (int i = 0; i < several; i++) {
+				if (i == 0) {
+					ROlist.add(Olist.subList(start, terminus));
+				} else {
+					if (i == (several - 1)) {
+						ROlist.add(Olist.subList(start, Olist.size()));
+					} else {
+						ROlist.add(Olist.subList(start, terminus));
 					}
 				}
-				start+=nums;
-				terminus +=nums;
+				start += nums;
+				terminus += nums;
 			}
 			return ROlist;
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * 将数据特殊位数据保存至本地
+	 * 
 	 * @param listmap
 	 */
 	public void IOSaveFile(List<Map<String, Object>> listmap) {
@@ -253,24 +230,94 @@ public class Tool {
 				text += map.get("specialIO").toString() + "\r\n";
 			}
 		}
-		if(TF) {
-			IOSaveFile(text,"");
+		if (TF) {
+			IOSaveFile(text, "");
+		}
+	}
+
+	/**
+	 * 将数据保存到本地
+	 * 
+	 * @param text
+	 * @param name
+	 */
+	public void IOSaveFile(String text, String name) {
+		IOLocalFile.input(text, "IOSave_" + name + "_" + GetNewDateTime(5));
+	}
+
+	/**
+	 * 查询指定表号需要显示的字段
+	 * 
+	 * @param tableId
+	 * @return
+	 */
+	protected List<String> getDisplayColumns(String tableId) {
+		List<Element> element = loadXml();
+		List<String> list = new ArrayList<String>();
+		for (Element elem : element) {
+			String thisTableId = elem.attributeValue("id");
+			if (thisTableId.equals(tableId)) {
+				list = readNode(elem, list);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * 读取配置的通道的信息
+	 * 
+	 * @return
+	 * @date 2017-5-2 上午11:38:27
+	 * @author zhangmin
+	 */
+	protected List<Element> loadXml() {
+		SAXReader reader = new SAXReader();
+		String osp_home = System.getenv("OSP_HOME") + "/conf/TableColumsDisplayConfig.xml";
+		// System.out.println(osp_home);
+		File file = new File(osp_home);
+		try {
+			Document document = reader.read(file);
+			Element root = document.getRootElement();
+			List<Element> elements = root.elements();
+
+			// 查看配置了的每张表的显示列
+			List<String> list = new ArrayList<String>();
+
+			return elements;
+		} catch (DocumentException e) {
+			System.out.println("读取通道配置文件异常，请检查是否正确配置" + e);
+			return new ArrayList<Element>();
 		}
 	}
 	
 	/**
-	 * 将数据保存到本地
-	 * @param text
-	 * @param name
+	 * 循环出配置文件中的设备表要显示的列
+	 * 
+	 * @param element
+	 * @param map
+	 * @return
+	 * @date 2017-5-2 下午5:05:25
+	 * @author zhangmin
 	 */
-	public void IOSaveFile(String text,String name) {
-		IOLocalFile.input(text, "IOSave_"+name+"_"+GetNewDateTime(5));
+	protected List<String> readNode(Element element, List<String> list) {
+		// System.out.println("---：：：：" + element.getName());
+
+		if (!(element.getTextTrim().equals(""))) {
+			// System.out.println("文本内容：：：：" + element.getText());
+			if ("column".equals(element.getName())) {
+				list.add(element.getText().trim());
+			}
+		}
+
+		List<Element> childElems = element.elements();
+		if (childElems != null && childElems.size() != 0) {
+			List<List<String>> tableNode = new ArrayList<List<String>>();
+			for (Element elem : childElems) {
+				// System.out.println("aaaa文本内容：：：：========"+element.getText());
+				tableNode.add(readNode(elem, list));
+			}
+		}
+		return list;
 	}
-	
-	
-	
-	
-	
-	
 
 }

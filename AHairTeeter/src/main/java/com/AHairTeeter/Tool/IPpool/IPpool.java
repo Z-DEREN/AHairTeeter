@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
+import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
+import com.AHairTeeter.Main.ToolCabinet.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 
 /**
  * ip代理池
@@ -24,105 +25,54 @@ import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 public class IPpool {
 	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
 
+	public Spiders Spiders = new Spiders();
+
 	public ToolDaoImpl ToolDaoImpl;
+
+	public InternetProtocolDaoServiceImpl InternetProtocolDaoServiceImpl;
 	Tool Tool = new Tool();
-	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";//国内高匿ip
-	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";//ip测试页
+
+	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";// ip测试页
+
+/////////////////////////// 爬取//////////////////////
+
+	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";// 国内高匿ip
+
 	/**
 	 * 获取国内高匿ip
 	 * 
 	 * @throws InterruptedException
 	 */
-	public List<Map<String,String>> Get61ChinaIPCryp(int pagination) {
-		
+	public List<Map<String, Object>> Get61ChinaIPCryp(int pagination) {
+
 		IOLocalFile IOLocalFile = new IOLocalFile();
-		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
-		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
-		return ListIP;
-		
-//		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
-//		String url = "";// 存储当前页url
-//		String text = "";// 存储爬取到的页面源码
-//		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
-//		// 爬取前20页ip数据
-//		for (int i = 1; i <= pagination; i++) {
-//			url = ChinaIPCryp + i;
-//			text = Tool.BriefnessAcquire(url);
-//			ListIP.addAll(Getiplist(text));
-//			try {
-//				Thread.sleep(1000 * 60);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		List<Map<String, Object>> ListIP = new ArrayList<Map<String, Object>>();
+//		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
 //		return ListIP;
-	}
 
-	/**
-	 * 测试ip方法(不推荐手动调用,方法执行时间较长)
-	 * 
-	 * @param ChinaIPList
-	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
-	 * 
-	 */
-	public Map<String, String> GetPerfectCHIP(Map<String, String> ChinaIPList, String present) {
-		List<String> list = new ArrayList<String>();
-		String Iptext = "";
-		logger.info("正在测试的是" + ChinaIPList.get("area") + "--" + ChinaIPList.get("ip") + "--" + ChinaIPList.get("port"));
-		long startTime = System.currentTimeMillis(); // 获取开始时间
-		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("ip"));
-		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("port"));
-		Iptext = Tool.BriefnessAcquire(IPTest);// 测试接口
-		long endTime = System.currentTimeMillis();
-		// 首先判断连接消耗的时间,再判断
-		Long time = endTime - startTime;
-		// 是否为本机ip
-		if (!Iptext.contains(present)) {
-			Map<String, String> retuenListMap = new HashMap<String, String>();
-			logger.info("true	测试通过==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":" + ChinaIPList.get("area") + ":"
-					+ time + "毫秒");
-			retuenListMap.put("ip", ChinaIPList.get("ip"));
-			retuenListMap.put("port", ChinaIPList.get("port"));
-			retuenListMap.put("area", ChinaIPList.get("area"));
-			if(time == 0) {
-				retuenListMap.put("msec", "1");
-			}else {
-				retuenListMap.put("msec", time.toString());
+		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
+		String url = "";// 存储当前页url
+		String text = "";// 存储爬取到的页面源码
+		// 爬取前20页ip数据
+		for (int i = 1; i <= pagination; i++) {
+			url = ChinaIPCryp + i;
+			text = Spiders.spiders(url, 99999);
+			ListIP.addAll(Getiplist(text));
+			try {
+				Thread.sleep(1000 * 60);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			
-			
-			return retuenListMap;
-		} else {
-			logger.info("false	测试失败==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":" + ChinaIPList.get("area") + ":"
-					+ time / 1000 + "秒");
-			return null;
 		}
-		
+		return ListIP;
 	}
-
-	/**
-	 * 获取本机ip端口地区
-	 * 
-	 */
-	public String Localip() {
-		String text = Tool.BriefnessAcquire("http://pv.sohu.com/cityjson?ie=utf-8");// 测试接口
-		int beginIndex;
-		int endIndex;
-		beginIndex = text.indexOf("cip");
-		endIndex = text.indexOf("\",");
-		logger.info("本地ip省市IP为:" + text.substring(beginIndex + 7, endIndex));
-		return text;
-	}
-
-/////////////////////////// 爬取//////////////////////
 
 	public int num = 1;
 	Set<String> setlist = new HashSet<String>();
 
-	public List<Map<String,String>> Getiplist(String text) {
-		List<Map<String,String>> ListIP = new ArrayList<Map<String,String>>();
+	public List<Map<String, Object>> Getiplist(String text) {
+		List<Map<String, Object>> ListIP = new ArrayList<Map<String, Object>>();
 		String area = "";// 地区
 		String textno1 = "";
 		int beginIndex = 0;// 筛选用存储下标位
@@ -133,7 +83,7 @@ public class IPpool {
 //		System.out.println("源码" + text);
 		String[] textno3 = text.split("</tr>");
 		for (int i = 1; i < textno3.length; i++) {
-			Map<String, String> map = new HashMap<String, String>();
+			Map<String, Object> map = new HashMap<String, Object>();
 			String textarray = textno3[i];
 			// 去除干扰项
 			textarray = textarray.replace("<td>", "");
@@ -160,23 +110,64 @@ public class IPpool {
 				map.put("area", area);
 				map.put("SAVETIME", Tool.GetNewDateTime(2));
 				map.put("TYPE", "1");
-				
-				if (!setlist.contains(textno4[1] + ":" + textno4[2] + ":" + area)) {
-					setlist.add(textno4[1] + ":" + textno4[2] + ":" + area);
-					ListIP.add(map);
-					num++;
-				}
+
+				InternetProtocolDaoServiceImpl.SaveIPList(map);
+				num++;
 			}
 		}
 		return ListIP;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	///////////////////////////////////////// {测试ip用}/////////////////////////////////////////////////////////////
+
+	/**
+	 * 测试ip方法(不推荐手动调用,方法执行时间较长)
+	 * 
+	 * @param ChinaIPList
+	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
+	 * 
+	 */
+	public Map<String, String> GetPerfectCHIP(Map<String, Object> ChinaIPList, String present) {
+		List<String> list = new ArrayList<String>();
+		String Iptext = "";
+		logger.info("正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT"));
+		long startTime = System.currentTimeMillis(); // 获取开始时间
+		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("IP").toString());
+		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("PORT").toString());
+		Iptext = Spiders.spiders(IPTest, 99999);// 测试接口
+		long endTime = System.currentTimeMillis();
+		// 首先判断连接消耗的时间,再判断
+		Long time = endTime - startTime;
+		// 是否为本机ip
+		if (!Iptext.contains(present)) {
+			logger.info("true	测试通过==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":"
+					+ ChinaIPList.get("area") + ":" + time + "毫秒");
+
+			InternetProtocolDaoServiceImpl.SaveIPlistnum(time.toString(),ChinaIPList);
+
+		} else {
+			logger.info("false	测试失败==IP-----" + ChinaIPList.get("ip") + ":" + ChinaIPList.get("port") + ":"
+					+ ChinaIPList.get("area") + ":" + time / 1000 + "秒");
+			
+			InternetProtocolDaoServiceImpl.
+			return null;
+		}
+
+	}
+
+	/**
+	 * 获取本机ip端口地区
+	 * 
+	 */
+	public String Localip() {
+		String text = Spiders.spiders("http://pv.sohu.com/cityjson?ie=utf-8", 99999);// 测试接口
+		int beginIndex;
+		int endIndex;
+		beginIndex = text.indexOf("cip");
+		endIndex = text.indexOf("\",");
+		logger.info("本地ip省市IP为:" + text.substring(beginIndex + 7, endIndex));
+		return text;
+	}
+	///////////////////////////////////////// {测试ip用}/////////////////////////////////////////////////////////////
 
 }

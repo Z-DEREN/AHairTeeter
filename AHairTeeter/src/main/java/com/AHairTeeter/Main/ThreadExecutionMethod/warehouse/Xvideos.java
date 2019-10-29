@@ -67,7 +67,7 @@ public class Xvideos extends IoHandlerAdapter {
 				Thread.sleep(1000 * 2);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}  finally {
+			} finally {
 				continue;
 			}
 		}
@@ -128,6 +128,9 @@ public class Xvideos extends IoHandlerAdapter {
 		}
 	}
 
+	/**
+	 * 获取视频链接
+	 */
 	public String GetVideoUrl(String ID) {
 		try {
 			Thread.sleep(1000 * 1);
