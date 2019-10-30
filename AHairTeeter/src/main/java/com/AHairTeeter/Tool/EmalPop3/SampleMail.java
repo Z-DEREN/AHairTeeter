@@ -9,14 +9,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import com.AHairTeeter.Tool.Route;
 
 import javax.mail.*;
 
 public class SampleMail {
 	private static final String ALIDM_SMTP_HOST = "SMTP.163.com";
 	private static final String ALIDM_SMTP_PORT = "80";// 或"80"
-
-	public static void SendEmail(String toMailAddress, String title, String text) throws UnsupportedEncodingException {
+	Route Route = new Route();
+	public  void SendEmail(String toMailAddress, String title, String text) throws UnsupportedEncodingException {
 		// 配置发送邮件的环境属性
 		final Properties props = new Properties();
 		// 表示SMTP发送邮件，需要进行身份验证
@@ -28,9 +29,9 @@ public class SampleMail {
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.port", "465");
 		// 发件人的账号，填写控制台配置的发信地址,比如xxx@xxx.com
-		props.put("mail.user", "tt_sunjiaming@163.com");
+		props.put("mail.user", Route.getMailUser());
 		// 访问SMTP服务时需要提供的密码(在控制台选择发信地址进行设置)
-		props.put("mail.password", "6101f7e5babfcdb");
+		props.put("mail.password", Route.getMailPassword());
 		props.put("mail.smtp.socketFactory.fallback", "false"); // 只处理SSL的连接,对于非SSL的连接不做处理
 		props.put("mail.smtp.ssl.enable", true);
 		// 构建授权信息，用于进行SMTP进行身份验证
@@ -58,7 +59,7 @@ public class SampleMail {
 		};
 		try {
 			// 设置发件人邮件地址和名称。填写控制台配置的发信地址,比如xxx@xxx.com。和上面的mail.user保持一致。名称用户可以自定义填写。
-			InternetAddress from = new InternetAddress("tt_sunjiaming@163.com", "服务器");
+			InternetAddress from = new InternetAddress(Route.getMailUser(), "服务器");
 			message.setFrom(from);
 			// 可选。设置回信地址
 			Address[] a = new Address[1];

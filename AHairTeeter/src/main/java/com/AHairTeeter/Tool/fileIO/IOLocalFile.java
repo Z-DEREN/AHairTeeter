@@ -13,7 +13,7 @@ import com.AHairTeeter.Tool.Route;
 
 
 public class IOLocalFile {
-	Route rou = new Route();
+	Route rou= new Route();
 	
 	
 	/**
@@ -74,7 +74,7 @@ public class IOLocalFile {
 		OutputStreamWriter osw = null;
 		try {
 
-			String address = rou.±æµÿ¥Ê¥¢µÿ÷∑ + filename + ".txt";
+			String address = rou.getLocalStorageAddress() + filename + ".txt";
 			fos = new FileOutputStream(address);
 			osw = new OutputStreamWriter(fos, "gb2312");
 			osw.write(H5data);

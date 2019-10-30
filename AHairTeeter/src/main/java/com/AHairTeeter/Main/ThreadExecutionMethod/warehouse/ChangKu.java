@@ -52,11 +52,11 @@ public class ChangKu extends IoHandlerAdapter {
 
 	public List<Map<String, Object>> first_no1(int begin, int end) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		System.setProperty("webdriver.chrome.driver", rou.¶¯Ì¬ÅÀ³æÄ£¿éµØÖ·);
+		System.setProperty("webdriver.chrome.driver", rou.getWarehouseCookieName());
 		WebDriver webDriver = new ChromeDriver();
 		WebElement webElement = null;
-		String cookiename = rou.²Ö¿âcookiename;
-		String cookievalue = rou.²Ö¿âookievalue;
+		String cookiename = rou.getWarehouseCookieName();
+		String cookievalue = rou.getWarehouseCookieValue();
 		Cookie Cookies = new Cookie(cookiename, cookievalue);
 		webDriver.manage().addCookie(Cookies);
 		webDriver.get(url);

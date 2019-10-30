@@ -1,20 +1,78 @@
 package com.AHairTeeter.Tool;
 
+import java.util.List;
 
 /**
  * ±æµÿ¡¥Ω”
+ * 
  * @author ∫√»À
  *
  */
 public class Route {
 
-	public final static String ∂ØÃ¨≈¿≥Êƒ£øÈµÿ÷∑ = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe";
-	public final static String ≤÷ø‚cookiename = "wordpress_logged_in_7e6953add78de60e74214b9a0cbfbe27";
-	public final static String ≤÷ø‚ookievalue = "haoren2333%7C1563093088%7CnBb2QzU6ddR0lnVh6M8VPcloUWYbhZZJHAw581li7Xu%7C6ae9bc1bb054c47eebb50458be1e0e1bf526ddfb58d8e852a03f2bd2df0e0c2f";
-	public final static String ±æµÿ¥Ê¥¢µÿ÷∑ = "F:\\rdzgsq\\Laboratory\\≈¿≥Ê\\";
-	public final static String “ª¥Œ–‘Õº∆¨≈¿≥Ê = "F:\\rdzgsq\\Laboratory\\img\\";
+	// ∂ØÃ¨≈¿≥Êƒ£øÈµÿ÷∑
+	private static final String Address_dynamic_crawler_module;
+	// ≤÷ø‚name
+	private static final String warehouse_cookie_name;
+	// ≤÷ø‚cookie
+	private static final String warehouse_cookie_value;
+	// ±æµÿ±£¥Êµÿ÷∑
+	private static final String Local_storage_address;
+	// Õº∆¨±£¥Êµÿ÷∑
+	private static final String Picture_crawler;
+	//” œ‰’À∫≈
+	private static final String mail_user;
+	//” œ‰√‹¬Î
+	private static final String mail_password;
+	
+	/**
+	 * æ≤Ã¨¥˙¬ÎøÈ (¥Ê»Îª∫¥Êµ±÷–)
+	 */
+	static {
+		Tool Tool = new Tool();
+		List<String> Element = Tool.getDisplayColumns("route");
+		Address_dynamic_crawler_module = Element.get(0);
+		warehouse_cookie_name = Element.get(1);
+		warehouse_cookie_value = Element.get(2);
+		Local_storage_address = Element.get(3);
+		Picture_crawler = Element.get(4);
+		mail_user = Element.get(5);
+		mail_password = Element.get(6);
+		
+		for (String ss : Element) {
+			System.out.println(ss);
+		}
+	}
 	
 	
 	
-	
+
+	public  String getAddressDynamicCrawlerModule() {
+		return Address_dynamic_crawler_module;
+	}
+
+	public  String getWarehouseCookieName() {
+		return warehouse_cookie_name;
+	}
+
+	public  String getWarehouseCookieValue() {
+		return warehouse_cookie_value;
+	}
+
+	public  String getLocalStorageAddress() {
+		return Local_storage_address;
+	}
+
+	public  String getPictureCrawler() {
+		return Picture_crawler;
+	}
+
+	public  String getMailUser() {
+		return mail_user;
+	}
+
+	public  String getMailPassword() {
+		return mail_password;
+	}
+
 }

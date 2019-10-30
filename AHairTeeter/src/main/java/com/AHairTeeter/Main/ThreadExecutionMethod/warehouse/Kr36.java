@@ -62,9 +62,7 @@ public class Kr36 extends IoHandlerAdapter {
 		String url = newurl(ID+1, NEWID); // 处理并返回新网址
 //		String url = newurl(0, NEWID); // 处理并返回新网址
 		String Text = spiders.spiders((url), 99999);
-//		String Text = spiders.spiders(("https://36kr.com/api/newsflash?b_id=187575&per_page=25"), 99999);
-
-//		Tool.IOSaveFile(Text, "36");
+		Tool.IOSaveFile(Text, "36");
 		List<String> Clist = roughsaix(Text);
 		listmap.addAll(ScreenText(Clist));// 保存数据库方法
 

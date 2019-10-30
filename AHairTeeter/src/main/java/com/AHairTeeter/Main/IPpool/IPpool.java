@@ -66,25 +66,25 @@ public class IPpool extends IoHandlerAdapter {
 		Spiders Spiders = new Spiders();
 		IOLocalFile IOLocalFile = new IOLocalFile();
 		List<Map<String, Object>> ListIP = new ArrayList<Map<String, Object>>();
-		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
-		return ListIP;
-
-//		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
-//		String url = "";// 存储当前页url
-//		String text = "";// 存储爬取到的页面源码
-//		// 爬取前20页ip数据
-//		for (int i = 1; i <= pagination; i++) {
-//			url = ChinaIPCryp + i;
-//			text = Spiders.spiders(url, 99999);
-//			ListIP.addAll(Getiplist(text));
-//			try {
-//				Thread.sleep(1000 * 60);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+//		ListIP.addAll(Getiplist(IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\iptest1.txt")));
 //		return ListIP;
+
+		// 爬取国内免费高匿ip:https://www.xicidaili.com/nn/
+		String url = "";// 存储当前页url
+		String text = "";// 存储爬取到的页面源码
+		// 爬取前20页ip数据
+		for (int i = 1; i <= pagination; i++) {
+			url = ChinaIPCryp + i;
+			text = Spiders.spiders(url, 99999);
+			ListIP.addAll(Getiplist(text));
+			try {
+				Thread.sleep(1000 * 60);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return ListIP;
 	}
 
 	public int num = 1;

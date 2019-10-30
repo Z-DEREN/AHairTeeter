@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.IMGNetworkGraphic.imageDownload;
+import com.AHairTeeter.Tool.Route;
 
 @Service
 public class ParaphraseMethod {
 	private static final Logger logger = LogManager.getLogger(ParaphraseMethod.class.getName());
 	Tool Tool = new Tool();
+
+	Route Route = new Route();
 
 	/**
 	 * 获取 执行 返回
@@ -31,9 +34,8 @@ public class ParaphraseMethod {
 		ThExeMet.middleman(input.nextInt());
 	}
 
-	
 	/**
-	 *  图片下载方法(防盗链)
+	 * 图片下载方法(防盗链)
 	 */
 	imageDownload imageDownload = new imageDownload();
 
@@ -54,10 +56,10 @@ public class ParaphraseMethod {
 		case 20:
 		case 21:
 			String urlList = map.get("url").toString();
-			imageDownload.downloadPicture(urlList, "E:\\image\\" + name + "\\", url);
+			imageDownload.downloadPicture(urlList, Route.getPictureCrawler()+name+"\\", url);
 			break;
 		case 3:
-			
+
 			break;
 
 		default:

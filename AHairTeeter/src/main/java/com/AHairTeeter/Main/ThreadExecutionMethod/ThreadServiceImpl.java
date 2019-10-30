@@ -82,7 +82,7 @@ public class ThreadServiceImpl {
 		case 22:
 			// ÌØÊâ×Ö¶Î22
 			Xvideos xvideos = new Xvideos();
-			listmap = xvideos.videoNum(11, 15, "teen");
+			listmap = xvideos.videoNum(1, 5, "teen");
 			name = "xvideosUrl";
 			Tool.IOSaveFile(listmap);
 //			AllocationThreadExecute(listmap,name,num,url);

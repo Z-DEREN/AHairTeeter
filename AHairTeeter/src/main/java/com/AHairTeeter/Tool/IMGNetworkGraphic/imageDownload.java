@@ -30,7 +30,7 @@ public class imageDownload {
 			String name = urlList.substring(urlList.lastIndexOf("/"), urlList.lastIndexOf("."));
 			String image = "";
 			if (imagerName == null || imagerName.equals("")) {
-				image = rou.“ª¥Œ–‘Õº∆¨≈¿≥Ê + name + houzui;
+				image =rou.getAddressDynamicCrawlerModule() + name + houzui;
 			} else {
 				image = imagerName + name + houzui;
 			}

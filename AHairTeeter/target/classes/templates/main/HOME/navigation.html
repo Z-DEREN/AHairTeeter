@@ -1,52 +1,159 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
 <head>
-
-
 <meta charset="UTF-8" />
-<!-- 或者  <meta charset="UTF-8" ></meta> -->
-<title>Thymeleaf Demo</title>
-<!-- <script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/jquery-2.1.1.min.js"></script> -->
+<title>Home</title>
+
+<link rel="stylesheet" th:href="@{/static/css/navigation/navigation.css}" />
+
 </head>
 <body>
 	<h2 th:text="${Time}"></h2>
-	<text th:text="${test}"></text><br/><br/>
+	<text th:text="${test}"></text>
+	<br />
+	<br />
 	<!-- 标签按钮中访问 -->
-<!-- 	<button type="button" th:οnclick="'javascript:check('+${corp.id}+',2)'">审核</button> -->
+	<!-- 	<button type="button" th:οnclick="'javascript:check('+${corp.id}+',2)'">审核</button> -->
 
 
-
-<div>
-	<h3>多线程方法</h3>
-	<ul>
-		<li><a th:href="@{/Thread/Testlist}">测试1号</a></li>
-		<li><a th:href="@{/Thread/Moeimg}">Moeimg</a></li>
-		<li><a th:href="@{/Thread/SssGif}">SssGif</a></li>
-		<li><a th:href="@{/Thread/Xvideos}">Xvideos:11</a></li>
-		<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
-		<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
-	</ul>
-</div>
-<div>
-	<h3>获取高匿IP</h3>
-	<ul>
-		<li><a th:href="@{/Tooltest/toolIP61}">获取国内高匿IP</a></li>
-		<li><a th:href="@{/}">222</a></li>
-		<li><a th:href="@{/}">333</a></li>
-		<li><a th:href="@{/}">444</a></li>
-		<li><a th:href="@{/}">555</a></li>
-	</ul>
-</div>
-<div>
-	<h3>仓库</h3>
-	<ul>
-		<li><a th:href="@{/Cangku/TypeList}">获取仓库所有链接</a></li>
-		<li><a th:href="@{/}">222</a></li>
-		<li><a th:href="@{/}">333</a></li>
-		<li><a th:href="@{/}">444</a></li>
-		<li><a th:href="@{/}">555</a></li>
-	</ul>
-</div>
+	<div class='left_side_div'>
+		<div>
+			<h3>多线程方法</h3>
+			<ul>
+				<li><a th:href="@{/Thread/Testlist}">测试1号</a></li>
+				<li><a th:href="@{/Thread/Moeimg}">Moeimg</a></li>
+				<li><a th:href="@{/Thread/SssGif}">SssGif</a></li>
+				<li><a th:href="@{/Thread/Xvideos}">Xvideos:11</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>获取高匿IP</h3>
+			<ul>
+				<li><a th:href="@{/Tooltest/toolIP61}">获取国内高匿IP</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>仓库</h3>
+			<ul>
+				<li><a th:href="@{/Cangku/TypeList}">获取仓库所有链接</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class='left_side_div'>
+		<div>
+			<h3>测试新模块</h3>
+			<ul>
+				<li><a th:href="@{/Tooltest/TestElement}">读取本地配置文件</a></li>
+				<li><a th:href="@{/Thread/Moeimg}">Moeimg</a></li>
+				<li><a th:href="@{/Thread/SssGif}">SssGif</a></li>
+				<li><a th:href="@{/Thread/Xvideos}">Xvideos:11</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>获取高匿IP</h3>
+			<ul>
+				<li><a th:href="@{/Tooltest/toolIP61}">获取国内高匿IP</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>仓库</h3>
+			<ul>
+				<li><a th:href="@{/Cangku/TypeList}">获取仓库所有链接</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	<div class='left_side_div'>
+		<div>
+			<h3>多线程方法</h3>
+			<ul>
+				<li><a th:href="@{/Thread/Testlist}">测试1号</a></li>
+				<li><a th:href="@{/Thread/Moeimg}">Moeimg</a></li>
+				<li><a th:href="@{/Thread/SssGif}">SssGif</a></li>
+				<li><a th:href="@{/Thread/Xvideos}">Xvideos:11</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>获取高匿IP</h3>
+			<ul>
+				<li><a th:href="@{/Tooltest/toolIP61}">获取国内高匿IP</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>仓库</h3>
+			<ul>
+				<li><a th:href="@{/Cangku/TypeList}">获取仓库所有链接</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class='left_side_div'>
+		<div>
+			<h3>多线程方法</h3>
+			<ul>
+				<li><a th:href="@{/Thread/Testlist}">测试1号</a></li>
+				<li><a th:href="@{/Thread/Moeimg}">Moeimg</a></li>
+				<li><a th:href="@{/Thread/SssGif}">SssGif</a></li>
+				<li><a th:href="@{/Thread/Xvideos}">Xvideos:11</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+				<li><a th:href="@{/Thread/Kr36}">Kr36</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>获取高匿IP</h3>
+			<ul>
+				<li><a th:href="@{/Tooltest/toolIP61}">获取国内高匿IP</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>仓库</h3>
+			<ul>
+				<li><a th:href="@{/Cangku/TypeList}">获取仓库所有链接</a></li>
+				<li><a th:href="@{/}">222</a></li>
+				<li><a th:href="@{/}">333</a></li>
+				<li><a th:href="@{/}">444</a></li>
+				<li><a th:href="@{/}">555</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	
 
 
 

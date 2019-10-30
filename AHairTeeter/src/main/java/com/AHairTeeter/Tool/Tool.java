@@ -37,6 +37,7 @@ public class Tool {
 	MD5 md5 = new MD5();
 	IOLocalFile IOLocalFile = new IOLocalFile();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
+	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
 
 	/**
 	 * 静态代码块 (存入缓存当中)
@@ -49,7 +50,7 @@ public class Tool {
 		DTMap.put("DT3", DT3);
 		DTMap.put("DT4", DT4);
 		DTMap.put("DT5", DT5);
-
+		logger.info(" 静态代码块赋值结束------------------------------------------------------------"); // info级别的信息
 	}
 
 	/**
@@ -245,13 +246,18 @@ public class Tool {
 		IOLocalFile.input(text, "IOSave_" + name + "_" + GetNewDateTime(5));
 	}
 
+	
+	
+	///////////////////////////////////////////////读取外部文件数据/////////////////////////////////////////////////////
+	
 	/**
-	 * 查询指定表号需要显示的字段
+	 * 查询指定文件需要显示的字段
 	 * 
 	 * @param tableId
 	 * @return
 	 */
-	protected List<String> getDisplayColumns(String tableId) {
+//	protected List<String> getDisplayColumns(String tableId) {
+	public static List<String> getDisplayColumns(String tableId) {
 		List<Element> element = loadXml();
 		List<String> list = new ArrayList<String>();
 		for (Element elem : element) {
@@ -268,11 +274,12 @@ public class Tool {
 	 * 
 	 * @return
 	 * @date 2017-5-2 上午11:38:27
-	 * @author zhangmin
+	 * @author 
 	 */
-	protected List<Element> loadXml() {
+//	protected List<Element> loadXml() {
+	public static List<Element> loadXml() {
 		SAXReader reader = new SAXReader();
-		String osp_home = System.getenv("OSP_HOME") + "/conf/TableColumsDisplayConfig.xml";
+		
 		// System.out.println(osp_home);
 		File file = new File(osp_home);
 		try {
@@ -297,9 +304,10 @@ public class Tool {
 	 * @param map
 	 * @return
 	 * @date 2017-5-2 下午5:05:25
-	 * @author zhangmin
+	 * @author 
 	 */
-	protected List<String> readNode(Element element, List<String> list) {
+//	protected List<String> readNode(Element element, List<String> list) {
+	public static List<String> readNode(Element element, List<String> list) {
 		// System.out.println("---：：：：" + element.getName());
 
 		if (!(element.getTextTrim().equals(""))) {
