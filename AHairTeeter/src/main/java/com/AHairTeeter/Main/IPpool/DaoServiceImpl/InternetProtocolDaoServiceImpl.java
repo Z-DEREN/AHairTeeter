@@ -59,7 +59,7 @@ public class InternetProtocolDaoServiceImpl implements InternetProtocolDaoServic
 		logger.info("获取全部测试ip 共:"+IPList.size()+"条");
 		String present = IPpool.Localip();// 获取本机ip
 		for (int i = 0; i < IPList.size(); i++) {
-			IPpool.GetPerfectCHIP(IPList.get(i), present);
+			IPpool.GetPerfectCHIP(IPList.get(i), present,(IPList.size()-i));
 		}
 	}
 

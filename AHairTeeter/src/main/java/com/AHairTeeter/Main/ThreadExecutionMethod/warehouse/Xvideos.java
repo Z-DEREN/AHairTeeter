@@ -27,10 +27,10 @@ public class Xvideos extends IoHandlerAdapter {
 
 	private int ADI = 22; // Ãÿ ‚DIÕ∑
 	Tool Tool = new Tool();
-	String fronturl = "https://www.xvideos.com/lang/chinese/";
+	String fronturl = "https://www.xvideos.com/?k=china&p=";
 	String laterurl = "";
 //	String laterurl = "/Teen-13";
-	
+	//https://www.xvideos.com/?k=cosplay&p=3
 //	https://www.xvideos.com/c/
 //	https://www.xvideos.com/lang/chinese
 //		https://www.xvideos.com/?k=chinese

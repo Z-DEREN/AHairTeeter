@@ -149,11 +149,11 @@ public class IPpool extends IoHandlerAdapter {
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public void GetPerfectCHIP(Map<String, Object> ChinaIPList, String present) {
+	public void GetPerfectCHIP(Map<String, Object> ChinaIPList, String present,int number) {
 		Spiders Spiders = new Spiders();
 		List<String> list = new ArrayList<String>();
 		String Iptext = "";
-		logger.info("正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT"));
+		logger.info("剩余:"+number+",正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT"));
 		long startTime = System.currentTimeMillis(); // 获取开始时间
 		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("IP").toString());
 		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("PORT").toString());
