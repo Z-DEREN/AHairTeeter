@@ -91,15 +91,15 @@ public class MD5 {
 	}
 
 	//
-	public static void main(String[] args) {
-		MD5 pe = new MD5();
-		String MD5 = pe.saltMD5("helloworld");
-		// 加盐MD5加密
-		String yan = "";// 盐值
-		String password = "helloworld";// 加密值
-		MD5 encoderSha = null;
-		encoderSha = new MD5(yan, "SHA");// 先加盐
-		String pass2 = encoderSha.encode(password);// 后加加密值
-	}
+//	public static void main(String[] args) {
+//		MD5 pe = new MD5();
+//		String MD5 = pe.saltMD5("helloworld");
+//		// 加盐MD5加密
+//		String yan = "";// 盐值
+//		String password = "helloworld";// 加密值
+//		MD5 encoderSha = null;
+//		encoderSha = new MD5(yan, "SHA");// 先加盐
+//		String pass2 = encoderSha.encode(password);// 后加加密值
+//	}
 
 }

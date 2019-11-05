@@ -19,20 +19,20 @@ public class ParaphraseMethod {
 
 	Route Route = new Route();
 
-	/**
-	 * 获取 执行 返回
-	 */
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		ThreadServiceImpl ThExeMet = new ThreadServiceImpl();
-		System.out.println("输入使用方法");
-		System.out.println("0.TestList");
-		System.out.println("1.SssGif");
-		System.out.println("2.Moeimg");
-		System.out.println("3.xvideos");
-		System.out.println("4.我的仓库");
-		ThExeMet.middleman(input.nextInt());
-	}
+//	/**
+//	 * 获取 执行 返回
+//	 */
+//	public static void main(String[] args) {
+//		Scanner input = new Scanner(System.in);
+//		ThreadServiceImpl ThExeMet = new ThreadServiceImpl();
+//		System.out.println("输入使用方法");
+//		System.out.println("0.TestList");
+//		System.out.println("1.SssGif");
+//		System.out.println("2.Moeimg");
+//		System.out.println("3.xvideos");
+//		System.out.println("4.我的仓库");
+//		ThExeMet.middleman(input.nextInt());
+//	}
 
 	/**
 	 * 图片下载方法(防盗链)
