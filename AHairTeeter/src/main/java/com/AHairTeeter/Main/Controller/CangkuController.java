@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
@@ -21,6 +22,7 @@ import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
 import com.AHairTeeter.Tool.Tool;
 
 @Controller
+@ResponseBody
 @RequestMapping("/Cangku")
 public class CangkuController {
 	private static final Logger logger = LogManager.getLogger(CangkuController.class.getName());
@@ -30,9 +32,10 @@ public class CangkuController {
 	private CangkuDaoServiceImpl CangkuDaoServiceImpl;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(Model model) {
-		model.addAttribute("Time", Tool.GetNewDateTime(2));
-		return "/main/cangku/Changku";
+	public Object home(ModelAndView model) {
+		model.addObject("Time", Tool.GetNewDateTime(2));
+		model.setViewName("main/cangku/Changku");
+		return model;
 	}
 
 	/**
@@ -50,10 +53,11 @@ public class CangkuController {
 		Map<String, String> map = CangkuDaoServiceImpl.seleminid(type);// 获取id
 		if (map != null) {
 			model.addObject("retmap", map);
-			model.setViewName("/main/cangku/Changkupan");
+			model.setViewName("main/cangku/Changkupan");
 			return model;
 		} else {
-			return "redirect:/AHairTeeter/navigation";
+			model.setViewName("redirect:/AHairTeeter/navigation");
+			return model;
 		}
 
 	}
@@ -71,7 +75,7 @@ public class CangkuController {
 		System.out.println("集合");
 		List<Map<String, Object>> TypeList = CangkuDaoServiceImpl.Alltype();
 		model.addObject("TypeList", TypeList);
-		model.setViewName("/main/cangku/Changku");
+		model.setViewName("main/cangku/Changku");
 		return model;
 	}
 

@@ -7,11 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 import com.AHairTeeter.Tool.Route;
 import com.AHairTeeter.Tool.Tool;
 @Controller
+@ResponseBody
 @RequestMapping("/Tooltest")
 public class ToolCabinetController {
 	@Autowired	
@@ -25,9 +28,10 @@ public class ToolCabinetController {
 	 * @return
 	 */
 	@RequestMapping(value = "/toolIP61", method = {RequestMethod.GET,RequestMethod.POST})
-	public String TestSQL3(Model model) {
+	public Object TestSQL3(ModelAndView model) {
 		InternetProtocolDaoServiceImpl.ToolIPSave("61");
-		return "redirect:/AHairTeeter/navigation";
+		model.setViewName("redirect:/AHairTeeter/navigation");
+		return model;
 	}
 	
 	Route rou = new Route();
@@ -38,9 +42,10 @@ public class ToolCabinetController {
 	 * @return
 	 */
 	@RequestMapping(value = "/TestElement", method = {RequestMethod.GET,RequestMethod.POST})
-	public String TestElement(Model model) {
+	public Object TestElement(ModelAndView model) {
+		model.setViewName("redirect:/AHairTeeter/navigation");
 		System.out.println(rou.getWarehouseCookieName());
-		return "redirect:/AHairTeeter/navigation";
+		return model;
 	}
 	
 	

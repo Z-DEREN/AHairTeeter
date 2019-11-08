@@ -38,7 +38,7 @@ public class Tool {
 	IOLocalFile IOLocalFile = new IOLocalFile();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 //	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
-	private final static String osp_home = "file:/home/pi/rdzgsq/Database/ALi120/configuration.xml";
+	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
 
 	/**
 	 * 静态代码块 (存入缓存当中)

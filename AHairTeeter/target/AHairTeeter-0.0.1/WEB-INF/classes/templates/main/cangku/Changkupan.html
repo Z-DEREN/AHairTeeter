@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<!-- 或者  <meta charset="UTF-8" ></meta> -->
+<title>仓库</title>
+<!-- <script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/jquery-2.1.1.min.js"></script> -->
+
+<link rel="stylesheet" th:href="@{/static/css/cangku/changkucss.css}" />
+<script th:src="@{/static/js/clipboard.min.js}"></script>
+<script th:src="@{/static/js/index-show.js}"></script>
+<script th:src="@{/static/js/indexHome.js}"></script>
+<script th:src="@{/static/js/jquery-1.12.4.js}"></script>
+<script th:src="@{/static/js/jquery.code.js}"></script>
+
+</head>
+<body>
+	<script>
+		function copytiqu() {
+			var mima = new ClipboardJS('.btn', {
+				target : function() {
+					return document.getElementById('tiqu');
+				}
+			});
+		}
+	</script>
+	<script>
+		function copymima() {
+			var mima = new ClipboardJS('.btn', {
+				target : function() {
+					return document.getElementById('mima');
+				}
+			});
+		}
+	</script>
+
+
+	<div id="lite">
+		<ul>
+			<li><a href="">刷新</a></li>
+			</br>
+			<li><span id="num" th:text="${retmap.num}"></span></li>
+			</br>
+			<button class="btn" onClick="copytiqu()">提取</button>
+			<li><span id="tiqu" th:text="${retmap.tiqu}"></span></li>
+			<button class="btn" onClick="copymima()">密码</button>
+			<li><span id="mima" th:text="${retmap.mima}"></span></li>
+		</ul>
+	</div>
+
+	<iframe id="gsqdkj" name="baidupan" th:src="${retmap.pan}" width="1200"
+		height="750" frameborder="0"></iframe>
+</body>
+</html>

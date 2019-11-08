@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: AHairTeeter Maven Webapp
+Implementation-Version: 0.0.1
+Built-By: 好人
+Implementation-Vendor-Id: com.AHairTeeter.ZDR
+Build-Jdk: 1.8.0_161
+Implementation-URL: http://maven.apache.org
+Created-By: Maven Integration for Eclipse
+

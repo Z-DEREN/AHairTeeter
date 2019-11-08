@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<!-- 或者  <meta charset="UTF-8" ></meta> -->
+<title>仓库</title>
+<!-- <script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/jquery-2.1.1.min.js"></script> -->
+
+<link rel="stylesheet"
+	href="/main/cangku/changkucss.css"/>
+</head>
+<body>
+	<h2 th:text="${Time}"></h2>
+	<text th:text="${test}"></text>
+	<h2 th:text="整理仓库"></h2>
+	<br/><br/>
+	<div class="body_div1">
+	<ul th:each="m : ${TypeList}" style="list-style-type:none">
+		<li><span>库存剩余:</span><span th:text = "${m[pan]}"></span><span>~~</span><a th:href="@{'/Cangku/GetListType/'+${m[TYPE]}}" th:text = "${m[TYPE]}"></a></li>
+	</ul>
+	</div>
+</body>
+</html>
