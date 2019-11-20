@@ -20,6 +20,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jsoup.Jsoup;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
+import com.AHairTeeter.Main.Vo.ZUSER;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,12 @@ public class Tool {
 	private static SimpleDateFormat DT3 = new SimpleDateFormat("HH:mm:ss");
 	private static SimpleDateFormat DT4 = new SimpleDateFormat("HH:mm");
 	private static SimpleDateFormat DT5 = new SimpleDateFormat("yyyyMMddHHmmss");
+	ShaMD5 shamd5 = new ShaMD5();
 	MD5 md5 = new MD5();
 	IOLocalFile IOLocalFile = new IOLocalFile();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
-//	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
-	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
+	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
+//	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
 
 	/**
 	 * 静态代码块 (存入缓存当中)
@@ -277,20 +279,16 @@ public class Tool {
 	 * @date 2017-5-2 上午11:38:27
 	 * @author 
 	 */
-//	protected List<Element> loadXml() {
 	public static List<Element> loadXml() {
 		SAXReader reader = new SAXReader();
 		
-		// System.out.println(osp_home);
 		File file = new File(osp_home);
 		try {
 			Document document = reader.read(file);
 			Element root = document.getRootElement();
 			List<Element> elements = root.elements();
-
 			// 查看配置了的每张表的显示列
 			List<String> list = new ArrayList<String>();
-
 			return elements;
 		} catch (DocumentException e) {
 			System.out.println("读取通道配置文件异常，请检查是否正确配置" + e);
@@ -307,7 +305,6 @@ public class Tool {
 	 * @date 2017-5-2 下午5:05:25
 	 * @author 
 	 */
-//	protected List<String> readNode(Element element, List<String> list) {
 	public static List<String> readNode(Element element, List<String> list) {
 		// System.out.println("---：：：：" + element.getName());
 
@@ -328,5 +325,118 @@ public class Tool {
 		}
 		return list;
 	}
+	
+///////////////////////////////////////////////数据加密解密方法/////////////////////////////////////////////////////
+	
+	
+	
+	/**
+	 * MD5
+	 */
+	public String Md5(String pass) {
+		String MD5 = md5.Encode(pass);
+		return MD5;
+	}
+	
+	/**
+	 * MD5加盐
+	 */
+	public String Md5(String pass,String sha) {
+		ShaMD5 encoderSha =  new ShaMD5(sha, "SHA");// 先加盐
+		String MD5 = encoderSha.encode(pass);// 后加加密值
+		return MD5;
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * puzzlekey 固定
+	 * SPARE1~5
+	 * MD5DI 每登录一次更换一次
+	 * NAME 用户名
+	 * @param EPKEY 密钥
+	 * @return
+	 * 
+	 * 
+	 * 数据库保存一条md5
+	 * 输入账号密码后
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 账号密码加密
+	 * 
+	 * 数据库md5解密
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	public ZUSER GetInfoEpilepsy(List<Object> EPKEY , String puzzlekey ,ZUSER zuser) {
+		codec codec = new codec();
+		String MD5 = Md5(zuser.getPass());
+		String key = "";
+		String [] puzzKey = puzzlekey.split("");
+		String passMD5 = MD5;
+		for(int num = 0;num < puzzKey.length ; num++) {
+			passMD5 = codec.puzzEncrypt(EPKEY.get(num).toString(), passMD5,puzzKey[num]);
+		}
+		String shaMD5 = Md5(zuser.getPass()+MD5,passMD5);
+		System.out.println(shaMD5);
+		
+		if(zuser.getZMD5().equals(shaMD5)) {
+			System.out.println("登录验证成功");
+			String USERTYPE = shaMD5;
+			for(int num = 0;num < puzzKey.length ; num++) {
+				USERTYPE = codec.puzzEncrypt(EPKEY.get(num).toString(), USERTYPE,puzzKey[num]);
+			}
+			
+			System.out.println("用户登录状态标识:"+USERTYPE);
+			System.out.println("用户登录状态标识:"+USERTYPE.substring(0,zuser.getPass().length()));
+			zuser.setD7788b7e0ba4b6e3aa57b35bbf93dfc6(USERTYPE.substring(0,zuser.getPass().length()));
+		}else {
+			System.out.println("登录验证失败,对访问者进行监视");
+			
+		}
+		zuser.setZMD5("233333333");
+		zuser.setPass("233333333");
+		
+		return zuser;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

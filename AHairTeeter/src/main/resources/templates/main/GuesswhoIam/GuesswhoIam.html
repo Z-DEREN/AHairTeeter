@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>登录</title>
+</head>
+<body>
+	<h2 th:text="${Time}"></h2>
+	<div class="container-fluid">
+		<!--表单-->
+		<div class="formBack" id="form">
+			<form class="col-md-10" method="post"
+				th:action="@{/login/dataValidation}">
+				<div class="form-group">
+					<input type="text" placeholder="02777dd215647ddc8b63844bc9f289cc"
+						name="02777dd215647ddc8b63844bc9f289cc">
+				</div>
+				<div>
+					<input type="password"
+						placeholder="d1320cebfd37f60f0faac45c613eb86c"
+						name="d1320cebfd37f60f0faac45c613eb86c">
+				</div>
+				<button type="submit">管他什么意思,点就完了</button>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>

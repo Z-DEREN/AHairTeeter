@@ -39,9 +39,9 @@ public class Route {
 		mail_user = Element.get(5);
 		mail_password = Element.get(6);
 		
-		for (String ss : Element) {
-			System.out.println(ss);
-		}
+//		for (String ss : Element) {
+//			System.out.println(ss);
+//		}
 	}
 	
 	

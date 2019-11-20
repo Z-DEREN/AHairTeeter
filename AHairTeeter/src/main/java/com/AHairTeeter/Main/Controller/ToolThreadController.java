@@ -65,6 +65,14 @@ public class ToolThreadController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ChangKu", method = RequestMethod.GET)
+	public Object ChangKu(ModelAndView model) {
+		model.addObject("text", "执行多线程ChangKu");
+		ThreadServiceImpl.middleman(23);
+		model.setViewName("redirect:/AHairTeeter/navigation");
+		return model;
+	}
+	
 	
 	
 	

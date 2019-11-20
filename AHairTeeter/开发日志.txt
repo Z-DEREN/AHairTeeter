@@ -28,5 +28,45 @@
 
 
 
+打印cookie
+cookie打印:--javax.servlet.http.Cookie@664fcdb0
+打印cookie结束
+打印:E47A2456D7DDC2412891B2E469DCA5BE
+打印:null
+打印:UTF-8
+打印:UTF-8
+打印:-1
+打印:-1
+打印:null
+打印:127.0.0.1
+打印:127.0.0.1
+打印:8080
+打印:GET
+打印:null
+打印:null
+打印:HTTP/1.1
+我证明用户没有登录
+
+// 注册拦截器
+        LoginInterceptor loginInterceptor = new LoginInterceptor();
+        InterceptorRegistration loginRegistry = registry.addInterceptor(loginInterceptor);
+        // 拦截路径
+        loginRegistry.addPathPatterns("/**");//.excludePathPatterns("/view/toLogin","/login","/view/toReg","/loginout");
+        // 排除路径
+        loginRegistry.excludePathPatterns("/login");
+        loginRegistry.excludePathPatterns("/loginout");
+        loginRegistry.excludePathPatterns("/view/toLogin");
+        loginRegistry.excludePathPatterns("/view/toReg");
+        loginRegistry.excludePathPatterns("/user/UserReg");
+ 
+        loginRegistry.excludePathPatterns("/static/user/css/*.css");
+        loginRegistry.excludePathPatterns("/static/user/js/*.js");
+        loginRegistry.excludePathPatterns("/static/user/images/*");
+————————————————
+版权声明：本文为CSDN博主「185的阿平」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_42740540/article/details/88594441
+
+
+
 
 

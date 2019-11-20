@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.AHairTeeter.Main.GentlemanCangku.CangkuDaoServiceImpl;
+import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Main.Vo.CangkuVo;
 
@@ -30,10 +33,18 @@ public class ChangKu extends IoHandlerAdapter {
 	Route rou = new Route();
 	Tool Tool = new Tool();
 	CangkuVo CangkuVo = new CangkuVo();
+	String CangkuSURL = "https://cangku.moe";
+	String CangKuNRP = "https://cangku.moe/archives/";
+	private static final Logger logger = LogManager.getLogger(ChangKu.class.getName());
 
 	@Autowired
 	protected ToolDaoImpl ToolDaoImpl;
 	private static ChangKu ChangKu;
+
+	public static void main(String[] args) {
+		ChangKu cangku = new ChangKu();
+		cangku.first_no1(1, 5);
+	}
 
 	@PostConstruct // 通过@PostConstruct实现初始化bean之前进行的操作
 	public void init() {
@@ -42,35 +53,30 @@ public class ChangKu extends IoHandlerAdapter {
 		// 初使化时将已静态化的testService实例化
 	}
 
-	int beginIndex;
-	int endIndex;
-	String textno1;
-	String textno2;
-	String[] textno3;
-	String text;
-	String url = "https://cangku.moe";
-
 	public List<Map<String, Object>> first_no1(int begin, int end) {
-		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		System.setProperty("webdriver.chrome.driver", rou.getWarehouseCookieName());
+		System.setProperty("webdriver.chrome.driver", rou.getAddressDynamicCrawlerModule());
 		WebDriver webDriver = new ChromeDriver();
 		WebElement webElement = null;
+		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String cookiename = rou.getWarehouseCookieName();
 		String cookievalue = rou.getWarehouseCookieValue();
+		// 进入仓库首页
+		webDriver.get(CangkuSURL);
 		Cookie Cookies = new Cookie(cookiename, cookievalue);
 		webDriver.manage().addCookie(Cookies);
-		webDriver.get(url);
 		webDriver.navigate().refresh();
-		String urltext = "https://cangku.moe/page/";
-
+		// 仓库页码头
+		String UrlP = "https://cangku.moe/page/";
+		//页面源码
+		String HtmlText = "";
 		for (int zhi = begin; zhi <= end; zhi++) {
-			System.out.println("当前页数为:" + zhi);
+			logger.info(" 当前页数为:" + zhi + "-----------------------------------------------------------"); // info级别的信息
+
 			try {
-				urltext = urltext + zhi;
 				// 爬取
-				text = GetWebDriver(webDriver, urltext);
-				listmap.addAll(Pagination(urltext, webDriver));
-			}  catch (Exception e) {
+				HtmlText = GetWebDriver(webDriver, UrlP + zhi);
+				listmap.addAll(Pagination(HtmlText, webDriver));
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				continue;
@@ -86,36 +92,41 @@ public class ChangKu extends IoHandlerAdapter {
 	 * @return
 	 */
 	public List<Map<String, Object>> Pagination(String urltext, WebDriver webDriver) {
+		int beginIndex;
+		int endIndex;
+		String textno1;
+		String textno2;
+		String[] textno3;
+		String NRPHtmlText = "";
+
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
-		beginIndex = text.indexOf("post-list");
-		endIndex = text.indexOf("page-pagination");
+		beginIndex = urltext.indexOf("post-list");
+		endIndex = urltext.indexOf("page-pagination");
 		if (beginIndex < 0 || endIndex < 0) {
 			return listmap;
 		}
 		try {
-			textno1 = text.substring(beginIndex, endIndex);
+			textno1 = urltext.substring(beginIndex, endIndex);
 			String[] testno3 = textno1.split("title-wrap");
 			for (int i = 1; i < testno3.length; i++) {
 				beginIndex = testno3[i].indexOf("archives");
 				textno2 = testno3[i].substring(beginIndex + 9);
 				beginIndex = textno2.indexOf("\"");
-				textno2 = textno2.substring(0, beginIndex);
-				System.out.println("当前ID:" + textno2 + "::" + new Date());
-				urltext = "https://cangku.moe/archives/" + textno2;
+				String ChangKuID = textno2.substring(0, beginIndex);
+				logger.info("仓库当前ID:" + ChangKuID + "::" + new Date()); // info级别的信息
 				// 爬取
-				text = GetWebDriver(webDriver, urltext);
-
-				if (text.contains("404 not found")) {
-					System.out.println("404 not found");
+				NRPHtmlText = GetWebDriver(webDriver, CangKuNRP + ChangKuID);
+				if (NRPHtmlText.contains("404 not found")) {
+					logger.info("仓库出现 404 not found"); // info级别的信息
 					continue;
-				} else if (text.contains("NaN-NaN-NaN")) {
-					System.out.println("NaN-NaN-NaN");
+				} else if (NRPHtmlText.contains("NaN-NaN-NaN")) {
+					logger.info("仓库出现 NaN-NaN-NaN"); // info级别的信息
 					continue;
-				} else if (text.contains("资源加载失败")) {
-					System.out.println("NaN-NaN-NaN");
+				} else if (NRPHtmlText.contains("资源加载失败")) {
+					logger.info("仓库出现 资源加载失败"); // info级别的信息
 					continue;
 				} else {
-					listmap.addAll(first_no3(text, endIndex));
+					listmap.addAll(first_no3(NRPHtmlText, ChangKuID));
 				}
 			}
 		} catch (Exception e) {
@@ -125,25 +136,30 @@ public class ChangKu extends IoHandlerAdapter {
 		}
 	}
 
-	public List<Map<String, Object>> first_no3(String text, int zhi) {
+	public List<Map<String, Object>> first_no3(String NRPHtmlText, String ChangKuID) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String type;
-		int newid;
 		String panName;
 		String tiqu;
 		String mima;
 		String time;
 		String pan;
 
-		beginIndex = text.indexOf("</aside>");
-		endIndex = text.indexOf("tag-wrap");
+		int beginIndex;
+		int endIndex;
+		String textno1;
+		String textno2;
+		String[] textno3;
+
+		beginIndex = NRPHtmlText.indexOf("</aside>");
+		endIndex = NRPHtmlText.indexOf("tag-wrap");
 
 		if (beginIndex < 0 || endIndex < 0) {
 			return listmap;
 		}
 		try {
 			// 所需区域
-			textno1 = text.substring(beginIndex, endIndex);
+			textno1 = NRPHtmlText.substring(beginIndex, endIndex);
 
 			// 类型and名字
 			beginIndex = textno1.indexOf("<h1>");
@@ -151,8 +167,6 @@ public class ChangKu extends IoHandlerAdapter {
 			textno2 = textno1.substring(beginIndex, endIndex);
 
 			// ID
-			newid = zhi;
-			// System.out.println("ID==" + newid);
 
 			// 类型
 			beginIndex = textno2.indexOf("[");
@@ -235,7 +249,7 @@ public class ChangKu extends IoHandlerAdapter {
 				// System.out.println("名字==" + panName);
 
 				CangkuVo.setType(type);// 分类
-				CangkuVo.setNewid(newid + "");// id
+				CangkuVo.setNewid(ChangKuID);// id
 				CangkuVo.setPanName(panName);// 名字
 				CangkuVo.setTiqu(tiqu);// 提取码
 				CangkuVo.setMima(mima);// 密码
@@ -248,15 +262,16 @@ public class ChangKu extends IoHandlerAdapter {
 				map.put("ADI", ADI);// 特殊DI头
 				map.put("ZDI", null);// 特殊DI码
 				map.put("type", 1);// 存储类型
-				map.put("classify", url);// 存储标识,区分数据源头
+				map.put("classify", ChangKuID);// 存储标识,区分数据源头
 				map.put("title", "ACG");// 存储标题
 				map.put("line", type);// 存储行数据
 				map.put("url", pan);// 链接
-				map.put("uniqueid", newid);// 存储数据自带id
+				map.put("uniqueid", CangkuSURL);// 存储数据自带id
 				map.put("text", null);// 大容量主体数据存储体
 				map.put("recorddate", time);// 数据内时间
 				map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
-				if (ChangKu.ToolDaoImpl.SaveOneCrawlersql(map)) {
+				if (ChangKu.ToolDaoImpl.cangku_pan_insert(CangkuVo)) {
+					ChangKu.ToolDaoImpl.SaveOneCrawlersql(map);
 					// 入库操作
 					// 入单库双库判断
 					listmap.add(map);
@@ -290,7 +305,7 @@ public class ChangKu extends IoHandlerAdapter {
 		}
 		// 睡眠
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

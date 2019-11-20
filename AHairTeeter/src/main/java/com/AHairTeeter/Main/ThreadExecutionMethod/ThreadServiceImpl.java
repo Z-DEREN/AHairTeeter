@@ -39,6 +39,7 @@ public class ThreadServiceImpl {
 	private ToolDaoImpl ToolDaoImpl;
 
 	
+	
 	/**
 	 * 多线程执行主方法
 	 * 
@@ -67,8 +68,6 @@ public class ThreadServiceImpl {
 				AllocationThreadExecute(listmap,name,num,url);
 				logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 //			}
-			
-			
 			break;
 		case 21:
 			// 特殊字段21
@@ -98,8 +97,9 @@ public class ThreadServiceImpl {
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 23:
+			//仓库
 			ChangKu cangku = new ChangKu();
-			cangku.first_no1(1, 5);
+			cangku.first_no1(6, 100);
 			break;
 
 		default:

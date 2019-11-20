@@ -3,5 +3,10 @@
 	width: 20%;
 	height: 100px;
 }
+.Logout_left_top{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
 
 

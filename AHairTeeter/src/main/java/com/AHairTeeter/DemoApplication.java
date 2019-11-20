@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,10 +23,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableTransactionManagement
 @EnableScheduling
 //Ê÷Ý®ÅÉµØÖ·
-@PropertySource(value = {
-		"file:/home/pi/rdzgsq/Database/ALi120/application.properties" }, ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
 //@PropertySource(value = {
-//		"file:F://rdzgsq//Database//ALi120//application.properties" }, ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
+//		"file:/home/pi/rdzgsq/Database/ALi120/application.properties" }, ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
+@PropertySource(value = {
+		"file:F://rdzgsq//Database//ALi120//application.properties" }, ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
 //public class DemoApplication extends SpringBootServletInitializer {
 public class DemoApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 	// log
@@ -54,5 +55,6 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 	}
+	
 
 }

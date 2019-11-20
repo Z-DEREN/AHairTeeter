@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.AHairTeeter.Main.ToolCabinet.ToolDao.ToolDao;
+import com.AHairTeeter.Main.Vo.CangkuVo;
 import com.AHairTeeter.Tool.MD5;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
@@ -91,8 +92,11 @@ public class ToolDaoImpl implements ToolDao {
 
 	/**
 	 * 测试数据库数据获取方法 String sql 查询sql Object[] Value 参数,可为null String type 返回值类型
-	 * ListMap : List<Map<String, Object>> ArrayObject : List<Object> HashMap :
-	 * Map<String, Object> ArrayList : Object[] String : 第一个值
+	 * ListMap : List<Map<String, Object>> 
+	 * ArrayObject : List<Object> 
+	 * HashMap :Map<String, Object> 
+	 * ArrayList : Object[] 
+	 * String : 第一个值
 	 */
 	@Override
 	public Object GetSelObjsql(String sql, Object[] Value, String type) {
@@ -413,5 +417,31 @@ public class ToolDaoImpl implements ToolDao {
 		}
 
 	}
+	
+	
+	
+	/**
+	 * 仓库传统数据库
+	 * @param cangku
+	 * @return
+	 */
+	public boolean cangku_pan_insert(CangkuVo cangku) {
+		// TODO Auto-generated method stub
+		String sql = "insert into cangku_pan(pan,newid,type,panName,tiqu,mima,time,`update`)"
+				+ " values ('"+cangku.getPan()+"',"+cangku.getNewid()+",'"+cangku.getType()+"','"+cangku.getPanName()+"','"+cangku.getTiqu()+
+				"','"+cangku.getMima()+"','"+cangku.getTime()+"','"+Tool.GetNewDateTime(2)+"')";
+		boolean TF  = SingleSaveUpdeteSql(sql, null);
+		return TF;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

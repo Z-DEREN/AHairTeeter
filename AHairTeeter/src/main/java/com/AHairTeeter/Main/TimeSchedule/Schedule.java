@@ -33,7 +33,7 @@ public class Schedule {
 //		}
 //	}
 
-	@Scheduled(cron = "0 0/30 9-20 * * ?") // 每一秒运行一次
+//	@Scheduled(cron = "0 0/30 9-20 * * ?") // 每一秒运行一次
 	public void Date2() {
 		try {
 			ThreadServiceImpl.middleman(24);
@@ -43,7 +43,7 @@ public class Schedule {
 		}
 	}
 	
-	@Scheduled(cron = "0 0 8-22/2 * * ? ") // 每一秒运行一次
+//	@Scheduled(cron = "0 0 8-22/2 * * ? ") // 每一秒运行一次
 	public void Date3() {
 		try {
 			InternetProtocolDaoServiceImpl.ToolIPSave("61");
