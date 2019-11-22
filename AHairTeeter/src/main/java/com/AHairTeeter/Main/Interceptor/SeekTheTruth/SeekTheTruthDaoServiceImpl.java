@@ -87,10 +87,10 @@ public class SeekTheTruthDaoServiceImpl {
 			List<Object> EPKEY = (List<Object>) MAP.get("UserEPKEY");
 			String puzzlekey = (String) MAP.get("UserPuzzlekey");
 			zuser = Tool.GetInfoEpilepsy(EPKEY,puzzlekey,zuser);
-			
 		}
 		return zuser;
 	}
+	
 	
 	
 	
@@ -102,19 +102,20 @@ public class SeekTheTruthDaoServiceImpl {
 	 * 并且入库保存
 	 * @return
 	 */
-	public boolean FBIexamineWaterMeter(HttpServletRequest request,HttpSession session) {
+	public boolean FBIexamineWaterMeter(HttpServletRequest request,HttpSession session,ZUSER zuser) {
 		boolean TF = false;
 		
 		
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
-		if (userInfo == null) {
-			logger.info("访问者未登录"); // info级别的信息
-			
+		
+		
+		if (userInfo != null &&  userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
+			logger.info("访问者获得授权已登录"); // info级别的信息
+			System.out.println(userInfo.getNAME());
+			System.out.println(userInfo.getPass());
 			
 		}else {
-			logger.info("访问者获得授权已登录"); // info级别的信息
-			
-			
+			logger.info("访问者未登录"); // info级别的信息
 		}
 		
 		String host = request.getRemoteHost();
@@ -133,22 +134,27 @@ public class SeekTheTruthDaoServiceImpl {
 		
 		
 		logger.info("打印访问者携带的其他信息"); // info级别的信息
+		logger.info("访问者"); // info级别的信息
+		logger.info("访问者局部地址"+request.getLocalAddr()); // info级别的信息
+		logger.info("地名"+request.getLocalName()); // info级别的信息
+		logger.info("端口名"+request.getLocalPort()); // info级别的信息
+		
 		Object loginName = request.getSession().getAttribute("user");
 		List<String> listStrings = new ArrayList<String>();
-		listStrings.add(request.changeSessionId());
-		listStrings.add(request.getAuthType());
-		listStrings.add(request.getCharacterEncoding());
-		listStrings.add(request.getCharacterEncoding());
-		listStrings.add(request.getContentLength() + "");
-		listStrings.add(request.getContentLengthLong() + "");
-		listStrings.add(request.getContentType());
-		listStrings.add(request.getLocalAddr());
-		listStrings.add(request.getLocalName());
-		listStrings.add(request.getLocalPort() + "");
-		listStrings.add(request.getMethod());
-		listStrings.add(request.getPathInfo());
-		listStrings.add(request.getPathTranslated());
-		listStrings.add(request.getProtocol());
+		listStrings.add("1"+request.changeSessionId());
+		listStrings.add("2"+request.getAuthType());
+		listStrings.add("3"+request.getCharacterEncoding());
+		listStrings.add("4"+request.getCharacterEncoding());
+		listStrings.add("5"+request.getContentLength() + "");
+		listStrings.add("6"+request.getContentLengthLong() + "");
+		listStrings.add("7"+request.getContentType());
+		listStrings.add("8"+request.getLocalAddr());
+		listStrings.add("9"+request.getLocalName());
+		listStrings.add("10"+request.getLocalPort() + "");
+		listStrings.add("11"+request.getMethod());
+		listStrings.add("12"+request.getPathInfo());
+		listStrings.add("13"+request.getPathTranslated());
+		listStrings.add("14"+request.getProtocol());
 //		listStrings.add(e);
 		for (int i = 0; i < listStrings.size(); i++) {
 			logger.info("request信息:"+listStrings.get(i)); // info级别的信息

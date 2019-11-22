@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
+import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
 @Component
 public class Xvideos extends IoHandlerAdapter {
@@ -30,7 +31,7 @@ public class Xvideos extends IoHandlerAdapter {
 	String fronturl = "https://www.xvideos.com/?k=台灣高中生+taiwan&p=";
 	String laterurl = "";
 //	String laterurl = "/Teen-13";
-	//https://www.xvideos.com/?k=cosplay&p=3
+	// https://www.xvideos.com/?k=cosplay&p=3
 //	https://www.xvideos.com/c/
 //	https://www.xvideos.com/lang/chinese
 //		https://www.xvideos.com/?k=chinese
@@ -48,14 +49,9 @@ public class Xvideos extends IoHandlerAdapter {
 //						https://www.xvideos.com/tags/cumshot
 //							https://www.xvideos.com/tags/petite-teen
 //								https://www.xvideos.com/tags/party
-	
-								
-	
-	
-	
+
 	String GetVideoUrl = "https://www.xvideos.com/video-download/";
-	
-	
+
 	String classify = "https://www.xvideos.com/";
 
 	@Autowired
@@ -220,6 +216,74 @@ public class Xvideos extends IoHandlerAdapter {
 			System.out.println(textno1);
 		}
 		return textno1;
+	}
+
+	public static void main(String[] args) {
+		Xvideos Xvideos = new Xvideos();
+		IOLocalFile IOLocalFile = new IOLocalFile();
+		String text = IOLocalFile.output("F:\\rdzgsq\\Laboratory\\爬虫\\xvideosXiangGuan.txt");
+		Xvideos.videoWAP_correlation(text);
+	}
+
+	/**
+	 * 相关推荐
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public List<Map<String, Object>> videoWAP_correlation(String url) {
+		Spiders spiders = new Spiders();
+		String text = spiders.spiders(url, 99999);
+		
+		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
+		int beginIndex = 0;
+		int endIndex = 0;
+		String textno1 = "";
+		String videoNum = "";
+		beginIndex = text.indexOf("<script>var video_related");
+		if (beginIndex < 0) {
+			logger.info(" 当前页数据未获取到------------------------------------------------------------"); // info级别的信息
+			return listmap;
+		}
+		textno1 = text.substring(beginIndex);
+		endIndex = textno1.indexOf("</script>");
+		textno1 = textno1.substring(0, endIndex);
+		String[] textno3 = Tool.split(textno1,"},{");
+		
+		for (int i = 1; i < textno3.length - 1; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			beginIndex = textno3[i].indexOf("\"id\":");
+			endIndex = textno3[i].indexOf(",\"u\"");
+			videoNum = textno3[i].substring(beginIndex+5, endIndex);
+			map.put("SID", null);// 字符串id
+			map.put("ADI", ADI);// 特殊DI头
+			map.put("ZDI", null);// 特殊DI码
+			map.put("type", 1);// 存储类型
+			map.put("classify", classify);// 链接
+			map.put("title", "视频id");// 存储标题
+			map.put("line", null);// 存储标题
+			map.put("url", videoNum);// 链接
+			map.put("uniqueid", videoNum);// 存储数据自带id
+			map.put("text", null);// 大容量主体数据存储体
+			map.put("recorddate", null);// 数据内时间
+			map.put("acquiredate", Tool.GetNewDateTime(2));// 爬取时间
+//			map.put("specialIO", GetVideoUrl(videoNum));// 特殊位,产生文件用
+
+			System.out.println(videoNum);
+
+//			if (Xvideos.ToolDaoImpl.SaveOneCrawlersql(map)) {
+//				// 入库操作
+//				// 入单库双库判断
+//				listmap.add(map);
+//			}
+		}
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			return listmap;
+		}
 	}
 
 }

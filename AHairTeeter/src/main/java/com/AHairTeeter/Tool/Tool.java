@@ -115,7 +115,6 @@ public class Tool {
 	private static Document doc = null;
 	private static String Sdoc = null;
 
-
 	/**
 	 * 获取对应ipDI码以及相关参数
 	 * 
@@ -249,10 +248,8 @@ public class Tool {
 		IOLocalFile.input(text, "IOSave_" + name + "_" + GetNewDateTime(5));
 	}
 
-	
-	
-	///////////////////////////////////////////////读取外部文件数据/////////////////////////////////////////////////////
-	
+	/////////////////////////////////////////////// 读取外部文件数据/////////////////////////////////////////////////////
+
 	/**
 	 * 查询指定文件需要显示的字段
 	 * 
@@ -277,11 +274,11 @@ public class Tool {
 	 * 
 	 * @return
 	 * @date 2017-5-2 上午11:38:27
-	 * @author 
+	 * @author
 	 */
 	public static List<Element> loadXml() {
 		SAXReader reader = new SAXReader();
-		
+
 		File file = new File(osp_home);
 		try {
 			Document document = reader.read(file);
@@ -295,7 +292,7 @@ public class Tool {
 			return new ArrayList<Element>();
 		}
 	}
-	
+
 	/**
 	 * 循环出配置文件中的设备表要显示的列
 	 * 
@@ -303,7 +300,7 @@ public class Tool {
 	 * @param map
 	 * @return
 	 * @date 2017-5-2 下午5:05:25
-	 * @author 
+	 * @author
 	 */
 	public static List<String> readNode(Element element, List<String> list) {
 		// System.out.println("---：：：：" + element.getName());
@@ -325,11 +322,9 @@ public class Tool {
 		}
 		return list;
 	}
-	
+
 ///////////////////////////////////////////////数据加密解密方法/////////////////////////////////////////////////////
-	
-	
-	
+
 	/**
 	 * MD5
 	 */
@@ -337,106 +332,96 @@ public class Tool {
 		String MD5 = md5.Encode(pass);
 		return MD5;
 	}
-	
+
 	/**
 	 * MD5加盐
 	 */
-	public String Md5(String pass,String sha) {
-		ShaMD5 encoderSha =  new ShaMD5(sha, "SHA");// 先加盐
+	public String Md5(String pass, String sha) {
+		ShaMD5 encoderSha = new ShaMD5(sha, "SHA");// 先加盐
 		String MD5 = encoderSha.encode(pass);// 后加加密值
 		return MD5;
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
-	 * puzzlekey 固定
-	 * SPARE1~5
-	 * MD5DI 每登录一次更换一次
-	 * NAME 用户名
+	 * puzzlekey 固定 SPARE1~5 MD5DI 每登录一次更换一次 NAME 用户名
+	 * 
 	 * @param EPKEY 密钥
 	 * @return
 	 * 
 	 * 
-	 * 数据库保存一条md5
-	 * 输入账号密码后
+	 *         数据库保存一条md5 输入账号密码后
 	 * 
 	 * 
 	 * 
 	 * 
 	 * 
 	 * 
-	 * 账号密码加密
+	 *         账号密码加密
 	 * 
-	 * 数据库md5解密
+	 *         数据库md5解密
 	 * 
 	 * 
 	 * 
 	 * 
 	 * 
 	 */
-	public ZUSER GetInfoEpilepsy(List<Object> EPKEY , String puzzlekey ,ZUSER zuser) {
+	public ZUSER GetInfoEpilepsy(List<Object> EPKEY, String puzzlekey, ZUSER zuser) {
 		codec codec = new codec();
 		String MD5 = Md5(zuser.getPass());
 		String key = "";
-		String [] puzzKey = puzzlekey.split("");
+		String[] puzzKey = puzzlekey.split("");
 		String passMD5 = MD5;
-		for(int num = 0;num < puzzKey.length ; num++) {
-			passMD5 = codec.puzzEncrypt(EPKEY.get(num).toString(), passMD5,puzzKey[num]);
+		for (int num = 0; num < puzzKey.length; num++) {
+			passMD5 = codec.puzzEncrypt(EPKEY.get(num).toString(), passMD5, puzzKey[num]);
 		}
-		String shaMD5 = Md5(zuser.getPass()+MD5,passMD5);
+		String shaMD5 = Md5(zuser.getPass() + MD5, passMD5);
 		System.out.println(shaMD5);
-		
-		if(zuser.getZMD5().equals(shaMD5)) {
+
+		if (zuser.getZMD5().equals(shaMD5)) {
 			System.out.println("登录验证成功");
 			String USERTYPE = shaMD5;
-			for(int num = 0;num < puzzKey.length ; num++) {
-				USERTYPE = codec.puzzEncrypt(EPKEY.get(num).toString(), USERTYPE,puzzKey[num]);
+			for (int num = 0; num < puzzKey.length; num++) {
+				USERTYPE = codec.puzzEncrypt(EPKEY.get(num).toString(), USERTYPE, puzzKey[num]);
 			}
-			
-			System.out.println("用户登录状态标识:"+USERTYPE);
-			System.out.println("用户登录状态标识:"+USERTYPE.substring(0,zuser.getPass().length()));
-			zuser.setD7788b7e0ba4b6e3aa57b35bbf93dfc6(USERTYPE.substring(0,zuser.getPass().length()));
-		}else {
+
+			System.out.println("用户登录状态标识:" + USERTYPE);
+			System.out.println("用户登录状态标识:" + USERTYPE.substring(0, zuser.getPass().length()));
+			zuser.setD7788b7e0ba4b6e3aa57b35bbf93dfc6(USERTYPE.substring(0, zuser.getPass().length()));
+		} else {
 			System.out.println("登录验证失败,对访问者进行监视");
-			
+
 		}
 		zuser.setZMD5("233333333");
 		zuser.setPass("233333333");
-		
+
 		return zuser;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	///////////////////////////////// 无需正则表达的split方法0///////////////////////////////////////////
+
+	/**
+	 * 无需正则表达的split方法
+	 * @param text 需要拆分的字符串
+	 * @param regex 根据所给字符串拆分
+	 * @return
+	 */
+	public String[] split(String text, String regex) {
+		List<String> Listtestno3 = new ArrayList<String>();
+		String split = "},{";
+		Boolean TF = true;
+		do {
+			if (text.indexOf(split) > 0) {
+				Listtestno3.add(text.substring(0, text.indexOf(split)));
+				text = text.substring(text.indexOf(split) + split.length());
+			} else {
+				Listtestno3.add(text);
+				TF = false;
+			}
+		} while (TF);
+
+		String[] textno3 = new String[Listtestno3.size()];
+		Listtestno3.toArray(textno3);
+		return textno3;
+	}
 
 }

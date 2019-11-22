@@ -33,13 +33,11 @@ public class ThreadServiceImpl {
 	private static final Logger logger = LogManager.getLogger(ThreadServiceImpl.class.getName());
 
 	private Tool Tool = new Tool();
-	private EmailType EmailType = new  EmailType();;
-	
+	private EmailType EmailType = new EmailType();;
+
 	@Resource
 	private ToolDaoImpl ToolDaoImpl;
 
-	
-	
 	/**
 	 * 多线程执行主方法
 	 * 
@@ -58,15 +56,15 @@ public class ThreadServiceImpl {
 			break;
 		case 20:
 			// 特殊字段20
-			//先对网络进行检测
-			
+			// 先对网络进行检测
+
 //			if() {
-				SssGif img = new SssGif();
-				listmap = img.first_no1(21, 30, "pics");
-				name = "SssGif文件夹";
-				url = "https://www.sex.com/";
-				AllocationThreadExecute(listmap,name,num,url);
-				logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+			SssGif img = new SssGif();
+			listmap = img.first_no1(21, 30, "pics");
+			name = "SssGif文件夹";
+			url = "https://www.sex.com/";
+			AllocationThreadExecute(listmap, name, num, url);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 //			}
 			break;
 		case 21:
@@ -75,7 +73,7 @@ public class ThreadServiceImpl {
 			listmap = moeimg.moeimg_img(13800, 13801);
 			name = "Moeimg文件夹";
 			url = "http://moeimg.net/";
-			AllocationThreadExecute(listmap,name,num,url);
+			AllocationThreadExecute(listmap, name, num, url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 22:
@@ -97,7 +95,7 @@ public class ThreadServiceImpl {
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
 		case 23:
-			//仓库
+			// 仓库
 			ChangKu cangku = new ChangKu();
 			cangku.first_no1(6, 100);
 			break;
@@ -109,22 +107,21 @@ public class ThreadServiceImpl {
 
 		// 保存本地文件方法
 //		Tool.IOSaveFile(listmap);
-		//线程执行方法
+		// 线程执行方法
 //		AllocationThreadExecute(listmap,name,num,url);
-		//执行邮件插件
-		
-		
+		// 执行邮件插件
+
 	}
-	
-	
+
 	/**
 	 * 分配并执行线程
+	 * 
 	 * @param listmap
 	 * @param name
 	 * @param num
 	 * @param url
 	 */
-	public void AllocationThreadExecute(List<Map<String, Object>> listmap,String name ,int num , String url) {
+	public void AllocationThreadExecute(List<Map<String, Object>> listmap, String name, int num, String url) {
 		if (listmap.size() > 0) {
 
 			List<List<Map<String, Object>>> ROlist = Tool.SplitSet(listmap, 5);
@@ -149,19 +146,46 @@ public class ThreadServiceImpl {
 			Queue<Integer> queueno5 = new LinkedBlockingQueue<>();
 			queueno5.add(ROlist.get(4).size());
 			new threadNNo5(queueno5, ROlist.get(4).size() - 1, ROlist.get(4), name, num, url).start();
-		}else {
+		} else {
 			logger.info(" ThExeMet返回数据没有长度------------------------------------------------------------"); // info级别的信息
 		}
 	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+/**
+ * 单独调用方法
+ * @param num
+ * @param url
+ */
+	public void alone_use_way(int num, String url) {
+		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
+		String name = "LaJiWenJIan";// 默认文件名
+		switch (num) {
+		case 0:
+			break;
+		case 20:
+			break;
+		case 21:
+			break;
+		case 22:
+			Xvideos xvideos = new Xvideos();
+			listmap = xvideos.videoWAP_correlation(url);
+			name = "xvideosUrl";
+			Tool.IOSaveFile(listmap);
+//			AllocationThreadExecute(listmap,name,num,url);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+			break;
+		case 23:
+			break;
+		case 24:
+			break;
+
+		default:
+			logger.info(" ThExeMet选择单独调用方法别输入参数有误------------------------------------------------------------"); // info级别的信息
+			break;
+		}
+
+	}
 
 }

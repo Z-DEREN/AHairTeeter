@@ -37,7 +37,7 @@ public class JumController {
 	public Object go(HttpServletRequest request,HttpSession session,ModelAndView model) {
 		logger.info(" 进入登录页面------------------------------------------------------------"); // info级别的信息
 		//收集访问者信息
-		SeekTheTruth.FBIexamineWaterMeter(request,session);
+		SeekTheTruth.FBIexamineWaterMeter(request,session,null);
 		model.addObject("Time", Tool.GetNewDateTime(2));
 		ZUSER zuser = new ZUSER();
 		zuser = (ZUSER) session.getAttribute("GuesswhoIam");
@@ -81,7 +81,7 @@ public class JumController {
 		zuser.setNAME(zusername);
 		zuser.setPass(zpassword);
 		//登录验证
-		
+		SeekTheTruth.FBIexamineWaterMeter(request,session,zuser);
 		zuser = SeekTheTruth.Login(zuser);
 		
 		

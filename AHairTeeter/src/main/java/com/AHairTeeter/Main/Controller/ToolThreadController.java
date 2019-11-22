@@ -1,10 +1,14 @@
 package com.AHairTeeter.Main.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,14 +21,14 @@ import com.AHairTeeter.Tool.Tool;
 @ResponseBody
 @RequestMapping("/Thread")
 public class ToolThreadController {
-	@Autowired	
+	@Autowired
 	public ToolServiceImpl ToolServiceImpl;
-	
-	@Autowired	
+
+	@Autowired
 	public ThreadServiceImpl ThreadServiceImpl;
-	
-	Tool Tool =new Tool();
-	
+
+	Tool Tool = new Tool();
+
 	@RequestMapping(value = "/Testlist", method = RequestMethod.GET)
 	public Object Testlist(ModelAndView model) {
 		model.addObject("text", "执行多线程Testlist");
@@ -32,7 +36,7 @@ public class ToolThreadController {
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/Moeimg", method = RequestMethod.GET)
 	public Object Moeimg(ModelAndView model) {
 		model.addObject("text", "执行多线程Moeimg");
@@ -40,7 +44,7 @@ public class ToolThreadController {
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/SssGif", method = RequestMethod.GET)
 	public Object SssGif(ModelAndView model) {
 		model.addObject("text", "执行多线程SssGif");
@@ -48,7 +52,7 @@ public class ToolThreadController {
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/Xvideos", method = RequestMethod.GET)
 	public Object Xvideos(ModelAndView model) {
 		model.addObject("text", "执行多线程Xvideos");
@@ -56,7 +60,7 @@ public class ToolThreadController {
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/Kr36", method = RequestMethod.GET)
 	public Object Kr36(ModelAndView model) {
 		model.addObject("text", "执行多线程Kr36");
@@ -64,11 +68,30 @@ public class ToolThreadController {
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/ChangKu", method = RequestMethod.GET)
 	public Object ChangKu(ModelAndView model) {
 		model.addObject("text", "执行多线程ChangKu");
 		ThreadServiceImpl.middleman(23);
+		model.setViewName("redirect:/AHairTeeter/navigation");
+		return model;
+	}
+
+	@RequestMapping(value = "/alone_use_way")
+	public ModelAndView alone_use_way(ModelAndView model) {
+		model.addObject("text", "进入alone_use_way");
+		model.setViewName("main/alone_use_way/alone_use_way");
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/Xvideos")
+	public ModelAndView XvideosMORE(@RequestParam(value = "Xvideosurl", required = false) String Xvideosurl, HttpSession session,
+			HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
+		model.addObject("text", "执行Xvideos相关推荐");
+		ThreadServiceImpl.alone_use_way(22,Xvideosurl);
+		
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
@@ -77,4 +100,14 @@ public class ToolThreadController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

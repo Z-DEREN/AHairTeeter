@@ -1,28 +1,13 @@
 package com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.AHairTeeter.Main.ToolCabinet.ToolService.ToolService;
-import com.AHairTeeter.Tool.MD5;
+import com.AHairTeeter.Tool.ShaMD5;
 import com.AHairTeeter.Tool.Tool;
-import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo1;
-import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo2;
-import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo3;
-import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo4;
-import com.AHairTeeter.Main.ThreadExecutionMethod.singleThread.threadNNo5;
-import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Moeimg;
-import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.SssGif;
-import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.TestList;
-import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Xvideos;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 @Service
 public class ToolServiceImpl  {
@@ -42,7 +27,7 @@ public class ToolServiceImpl  {
 	 */
 	public Object GetintZDInum(String type, String retModel) {
 		Tool Tool = new Tool();
-		MD5 md5 = new MD5();
+		ShaMD5 md5 = new ShaMD5();
 		Object[] array = new Object[7];
 		String sql = "";
 		String savesql = "INSERT INTO tonuminvi (ZDI,ZNAME,DATETIME,UPDATETIME,MD5DI,TYPE,MODEL) VALUES (?,?,?,?,?,?,?)";

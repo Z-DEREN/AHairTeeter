@@ -43,11 +43,11 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		SeekTheTruth.FBIexamineWaterMeter(request,session);
+		SeekTheTruth.FBIexamineWaterMeter(request,session,null);
 		
 		///////////////////////// 登录记录///////////////////////////
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
-		if (userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
+		if (userInfo != null && userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
 			System.out.println("用户已经登录");
 		}else {
 			System.out.println("用户没有登录");
