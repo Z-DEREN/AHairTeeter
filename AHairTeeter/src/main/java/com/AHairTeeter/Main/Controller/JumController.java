@@ -65,7 +65,6 @@ public class JumController {
 			@RequestParam(value = "d1320cebfd37f60f0faac45c613eb86c", required = false) String zpassword,
 			HttpSession session, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
-
 		String host = request.getRemoteHost();
 		logger.info("IP为---->>> " + host + " <<<-----访问了系统"); // info级别的信息
 		logger.info(" 用户名:" + zusername + " 密码:" + zpassword
@@ -76,15 +75,12 @@ public class JumController {
 			model.setViewName("login");// 返回登录页
 			return model;
 		}
-
 		ZUSER zuser = new ZUSER();
 		zuser.setNAME(zusername);
 		zuser.setPass(zpassword);
 		//登录验证
 		SeekTheTruth.FBIexamineWaterMeter(request,session,zuser);
 		zuser = SeekTheTruth.Login(zuser);
-		
-		
 		//用户数信息数据库验证
 		if (zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
 			logger.info(" 用户登录成功------------------------------------------------------------:"); // info级别的信息

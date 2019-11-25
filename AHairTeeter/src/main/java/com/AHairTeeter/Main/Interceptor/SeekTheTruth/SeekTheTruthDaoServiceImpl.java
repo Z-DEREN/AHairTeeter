@@ -1,5 +1,7 @@
 package com.AHairTeeter.Main.Interceptor.SeekTheTruth;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,161 +23,172 @@ import com.AHairTeeter.Tool.Tool;
 
 @Service
 public class SeekTheTruthDaoServiceImpl {
-	
+
 	private static final Logger logger = LogManager.getLogger(SeekTheTruthDaoServiceImpl.class.getName());
-	
+
 	@Resource
 	public ToolDaoImpl ToolDaoImpl;
-	
+
 	Tool Tool = new Tool();
-	
+
 	/**
-	 * ºËÊµµÇÂ¼µÄÈËÔ±ĞÅÏ¢
-	 *»ñÈ¡Êı¾İ
+	 * æ ¸å®ç™»å½•çš„äººå‘˜ä¿¡æ¯ è·å–æ•°æ®
 	 */
-	public Map<String,Object> USERJDBCINFO(String Zname){
-		Map<String,Object> MAP = new HashMap<String,Object>();
-		
-		logger.info("ÓÃ»§--"+Zname+"--¼´½«µÇÂ¼,»ñÈ¡ÓÃ»§UserEPKEY");
-		String UserEPKEYSql =  "SELECT SPARE1,SPARE2,SPARE3,SPARE4,SPARE5  FROM userz WHERE NAME = ? "; 
-		List<Object> UserEPKEYS = (List<Object>) ToolDaoImpl.GetSelObjsql(UserEPKEYSql,new Object[] {Zname}, "ArrayObject");
-		
+	public Map<String, Object> USERJDBCINFO(String Zname) {
+		Map<String, Object> MAP = new HashMap<String, Object>();
+
+		logger.info("ç”¨æˆ·--" + Zname + "--å³å°†ç™»å½•,è·å–ç”¨æˆ·UserEPKEY");
+		String UserEPKEYSql = "SELECT SPARE1,SPARE2,SPARE3,SPARE4,SPARE5  FROM userz WHERE NAME = ? ";
+		List<Object> UserEPKEYS = (List<Object>) ToolDaoImpl.GetSelObjsql(UserEPKEYSql, new Object[] { Zname },
+				"ArrayObject");
+
 		MAP.put("UserEPKEY", UserEPKEYS);
-		
-		logger.info("ÓÃ»§--"+Zname+"--¼´½«µÇÂ¼,»ñÈ¡ÓÃ»§UserPuzzlekey");
-		String UserPuzzlekeySql =  "SELECT puzzlekey FROM userz WHERE NAME = ? "; 
-		String Puzzlekey = (String) ToolDaoImpl.GetSelObjsql(UserPuzzlekeySql,new Object[] {Zname}, "String");
-		
+
+		logger.info("ç”¨æˆ·--" + Zname + "--å³å°†ç™»å½•,è·å–ç”¨æˆ·UserPuzzlekey");
+		String UserPuzzlekeySql = "SELECT puzzlekey FROM userz WHERE NAME = ? ";
+		String Puzzlekey = (String) ToolDaoImpl.GetSelObjsql(UserPuzzlekeySql, new Object[] { Zname }, "String");
+
 		MAP.put("UserPuzzlekey", Puzzlekey);
-		
-		logger.info("ÓÃ»§--"+Zname+"--¼´½«µÇÂ¼,»ñÈ¡ÓÃ»§MD5DI");
-		String MD5DISql =  "SELECT MD5DI FROM userz WHERE NAME = ? "; 
-		String MD5DI = (String) ToolDaoImpl.GetSelObjsql(MD5DISql,new Object[] {Zname}, "String");
-		
+
+		logger.info("ç”¨æˆ·--" + Zname + "--å³å°†ç™»å½•,è·å–ç”¨æˆ·MD5DI");
+		String MD5DISql = "SELECT MD5DI FROM userz WHERE NAME = ? ";
+		String MD5DI = (String) ToolDaoImpl.GetSelObjsql(MD5DISql, new Object[] { Zname }, "String");
+
 		MAP.put("MD5DI", MD5DI);
-		
-		
-		return MAP; 
+
+		return MAP;
 	}
-	
+
 	/**
-	 * ºËÊµµÇÂ¼µÄÈËÔ±ĞÅÏ¢
-	 *»ñÈ¡Êı¾İ
+	 * æ ¸å®ç™»å½•çš„äººå‘˜ä¿¡æ¯ è·å–æ•°æ®
 	 */
 	public boolean Userzusername(String Zname) {
 		boolean TF = false;
-		logger.info("ÓÃ»§--"+Zname+"--¼´½«µÇÂ¼,»ñÈ¡ÓÃ»§UserPuzzlekey");
-		String userSeekSeleSql =  "SELECT COUNT(NAME)  FROM userz WHERE  NAME =  ? "; 
-		Long name = (Long) ToolDaoImpl.GetSelObjsql(userSeekSeleSql,new Object[] {Zname}, "String");
-		if(name==1) {
+		logger.info("ç”¨æˆ·--" + Zname + "--å³å°†ç™»å½•,è·å–ç”¨æˆ·UserPuzzlekey");
+		String userSeekSeleSql = "SELECT COUNT(NAME)  FROM userz WHERE  NAME =  ? ";
+		Long name = (Long) ToolDaoImpl.GetSelObjsql(userSeekSeleSql, new Object[] { Zname }, "String");
+		if (name == 1) {
 			TF = true;
 		}
 		return TF;
 	}
-	
-	
-	
+
 	/**
-	 * ºËÊµµÇÂ¼µÄÈËÔ±ĞÅÏ¢
-	 *»ñÈ¡Êı¾İ
+	 * æ ¸å®ç™»å½•çš„äººå‘˜ä¿¡æ¯ è·å–æ•°æ®
 	 */
 	public ZUSER Login(ZUSER zuser) {
-		if(Userzusername(zuser.getNAME())) {
-			logger.info("·ÃÎÊÕßÊäÈëÓÃ»§ÃûÎª--"+zuser.getNAME()+"--½øĞĞµÇÂ¼");
-			Map<String,Object> MAP = USERJDBCINFO(zuser.getNAME());
+		if (Userzusername(zuser.getNAME())) {
+			logger.info("è®¿é—®è€…è¾“å…¥ç”¨æˆ·åä¸º--" + zuser.getNAME() + "--è¿›è¡Œç™»å½•");
+			Map<String, Object> MAP = USERJDBCINFO(zuser.getNAME());
 			zuser.setZMD5(MAP.get("MD5DI").toString());
 			List<Object> EPKEY = (List<Object>) MAP.get("UserEPKEY");
 			String puzzlekey = (String) MAP.get("UserPuzzlekey");
-			zuser = Tool.GetInfoEpilepsy(EPKEY,puzzlekey,zuser);
+			zuser = Tool.GetInfoEpilepsy(EPKEY, puzzlekey, zuser);
 		}
 		return zuser;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	/**
-	 * ÊÕ¼¯·ÃÎÊÕßĞÅÏ¢
-	 * ²¢ÇÒÈë¿â±£´æ
+	 * æ”¶é›†è®¿é—®è€…ä¿¡æ¯ å¹¶ä¸”å…¥åº“ä¿å­˜
+	 * 
 	 * @return
 	 */
-	public boolean FBIexamineWaterMeter(HttpServletRequest request,HttpSession session,ZUSER zuser) {
+	public boolean FBIexamineWaterMeter(HttpServletRequest request, HttpSession session, ZUSER zuser) {
 		boolean TF = false;
-		
-		
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
-		
-		
-		if (userInfo != null &&  userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
-			logger.info("·ÃÎÊÕß»ñµÃÊÚÈ¨ÒÑµÇÂ¼"); // info¼¶±ğµÄĞÅÏ¢
+		if (userInfo != null && userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null
+				&& !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
+			logger.info("è®¿é—®è€…è·å¾—æˆæƒå·²ç™»å½•"); // infoçº§åˆ«çš„ä¿¡æ¯
 			System.out.println(userInfo.getNAME());
 			System.out.println(userInfo.getPass());
-			
-		}else {
-			logger.info("·ÃÎÊÕßÎ´µÇÂ¼"); // info¼¶±ğµÄĞÅÏ¢
+		} else {
+			logger.info("è®¿é—®è€…æœªç™»å½•"); // infoçº§åˆ«çš„ä¿¡æ¯
 		}
-		
 		String host = request.getRemoteHost();
-		logger.info("IPÎª---->>> " + host + " <<<-----·ÃÎÊÁËÏµÍ³"); // info¼¶±ğµÄĞÅÏ¢
-		System.out.println("´òÓ¡cookie");
-		logger.info("´òÓ¡·ÃÎÊÕßĞ¯´øcookie"); // info¼¶±ğµÄĞÅÏ¢
+		logger.info("IPä¸º---->>> " + host + " <<<-----è®¿é—®äº†ç³»ç»Ÿ"); // infoçº§åˆ«çš„ä¿¡æ¯
+		System.out.println("æ‰“å°cookie");
+		logger.info("æ‰“å°è®¿é—®è€…æºå¸¦cookie"); // infoçº§åˆ«çš„ä¿¡æ¯
 		Cookie[] zcookie = request.getCookies();
-		if(zcookie != null && zcookie.length > 0) {
+		if (zcookie != null && zcookie.length > 0) {
 			for (int i = 0; i < zcookie.length; i++) {
-				logger.info("cookie´òÓ¡:--" + zcookie[i]); // info¼¶±ğµÄĞÅÏ¢
+				logger.info("cookieæ‰“å°:--" + zcookie[i]); // infoçº§åˆ«çš„ä¿¡æ¯
 			}
-		}else {
-			logger.info("<<<·ÃÎÊÕßÎ´Ğ¯´øcookie>>>"); // info¼¶±ğµÄĞÅÏ¢
+		} else {
+			logger.info("<<<è®¿é—®è€…æœªæºå¸¦cookie>>>"); // infoçº§åˆ«çš„ä¿¡æ¯
 		}
-		logger.info("´òÓ¡cookie½áÊø"); // info¼¶±ğµÄĞÅÏ¢
-		
-		
-		logger.info("´òÓ¡·ÃÎÊÕßĞ¯´øµÄÆäËûĞÅÏ¢"); // info¼¶±ğµÄĞÅÏ¢
-		logger.info("·ÃÎÊÕß"); // info¼¶±ğµÄĞÅÏ¢
-		logger.info("·ÃÎÊÕß¾Ö²¿µØÖ·"+request.getLocalAddr()); // info¼¶±ğµÄĞÅÏ¢
-		logger.info("µØÃû"+request.getLocalName()); // info¼¶±ğµÄĞÅÏ¢
-		logger.info("¶Ë¿ÚÃû"+request.getLocalPort()); // info¼¶±ğµÄĞÅÏ¢
-		
+		logger.info("æ‰“å°cookieç»“æŸ"); // infoçº§åˆ«çš„ä¿¡æ¯
+
+		logger.info("æ‰“å°è®¿é—®è€…æºå¸¦çš„å…¶ä»–ä¿¡æ¯"); // infoçº§åˆ«çš„ä¿¡æ¯
+		logger.info("è®¿é—®è€…"); // infoçº§åˆ«çš„ä¿¡æ¯
+		logger.info("è®¿é—®è€…å±€éƒ¨åœ°å€" + request.getLocalAddr()); // infoçº§åˆ«çš„ä¿¡æ¯
+		logger.info("åœ°å" + request.getLocalName()); // infoçº§åˆ«çš„ä¿¡æ¯
+		logger.info("ç«¯å£å" + request.getLocalPort()); // infoçº§åˆ«çš„ä¿¡æ¯
+
 		Object loginName = request.getSession().getAttribute("user");
 		List<String> listStrings = new ArrayList<String>();
-		listStrings.add("1"+request.changeSessionId());
-		listStrings.add("2"+request.getAuthType());
-		listStrings.add("3"+request.getCharacterEncoding());
-		listStrings.add("4"+request.getCharacterEncoding());
-		listStrings.add("5"+request.getContentLength() + "");
-		listStrings.add("6"+request.getContentLengthLong() + "");
-		listStrings.add("7"+request.getContentType());
-		listStrings.add("8"+request.getLocalAddr());
-		listStrings.add("9"+request.getLocalName());
-		listStrings.add("10"+request.getLocalPort() + "");
-		listStrings.add("11"+request.getMethod());
-		listStrings.add("12"+request.getPathInfo());
-		listStrings.add("13"+request.getPathTranslated());
-		listStrings.add("14"+request.getProtocol());
+		listStrings.add("1" + request.changeSessionId());
+		listStrings.add("2" + request.getAuthType());
+		listStrings.add("3" + request.getCharacterEncoding());
+		listStrings.add("4" + request.getCharacterEncoding());
+		listStrings.add("5" + request.getContentLength() + "");
+		listStrings.add("6" + request.getContentLengthLong() + "");
+		listStrings.add("7" + request.getContentType());
+		listStrings.add("8" + request.getLocalAddr());
+		listStrings.add("9" + request.getLocalName());
+		listStrings.add("10" + request.getLocalPort() + "");
+		listStrings.add("11" + request.getMethod());
+		listStrings.add("12" + request.getPathInfo());
+		listStrings.add("13" + request.getPathTranslated());
+		listStrings.add("14" + request.getProtocol());
 //		listStrings.add(e);
 		for (int i = 0; i < listStrings.size(); i++) {
-			logger.info("requestĞÅÏ¢:"+listStrings.get(i)); // info¼¶±ğµÄĞÅÏ¢
+			logger.info("requestä¿¡æ¯:" + listStrings.get(i)); // infoçº§åˆ«çš„ä¿¡æ¯
 		}
-		logger.info("´òÓ¡·ÃÎÊÕßĞ¯´øµÄÆäËûĞÅÏ¢½áÊø"); // info¼¶±ğµÄĞÅÏ¢
-		
-		
+		logger.info("æ‰“å°è®¿é—®è€…æºå¸¦çš„å…¶ä»–ä¿¡æ¯ç»“æŸ"); // infoçº§åˆ«çš„ä¿¡æ¯
+
+		// å…¥åº“è®¿é—®è€…ä¿¡æ¯
+		getIpAddr(request);
 		return TF;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public String getIpAddr(HttpServletRequest request) {
+		String ipAddress = null;
+		try {
+			ipAddress = request.getHeader("x-forwarded-for");
+			System.out.println(ipAddress);
+			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+				ipAddress = request.getHeader("Proxy-Client-IP");
+			}
+			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+				ipAddress = request.getHeader("WL-Proxy-Client-IP");
+			}
+			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+				ipAddress = request.getRemoteAddr();
+				if (ipAddress.equals("127.0.0.1")) {
+					// æ ¹æ®ç½‘å¡å–æœ¬æœºé…ç½®çš„IP
+					InetAddress inet = null;
+					try {
+						inet = InetAddress.getLocalHost();
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+					ipAddress = inet.getHostAddress();
+				}
+			}
+			// å¯¹äºé€šè¿‡å¤šä¸ªä»£ç†çš„æƒ…å†µï¼Œç¬¬ä¸€ä¸ªIPä¸ºå®¢æˆ·ç«¯çœŸå®IP,å¤šä¸ªIPæŒ‰ç…§','åˆ†å‰²
+			if (ipAddress != null && ipAddress.length() > 15) {
+				System.out.println(ipAddress);
+				// "***.***.***.***".length()
+				// = 15
+//				if (ipAddress.indexOf(",") > 0) {
+//					ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+//				}
+			}
+		} catch (Exception e) {
+			ipAddress = "";
+		}
+//		 ipAddress = this.getRequest().getRemoteAddr();
+		return ipAddress;
+	}
 
 }

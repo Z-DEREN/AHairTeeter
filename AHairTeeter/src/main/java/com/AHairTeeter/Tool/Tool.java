@@ -53,7 +53,6 @@ public class Tool {
 		DTMap.put("DT3", DT3);
 		DTMap.put("DT4", DT4);
 		DTMap.put("DT5", DT5);
-		logger.info(" 静态代码块赋值结束------------------------------------------------------------"); // info级别的信息
 	}
 
 	/**
