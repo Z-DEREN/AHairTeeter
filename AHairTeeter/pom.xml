@@ -194,6 +194,14 @@
 			<version>1.13</version>
 		</dependency>
 
+		<!-- 获取访问者信息 -->
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.20</version>
+		</dependency>
+		
+
 	</dependencies>
 
 

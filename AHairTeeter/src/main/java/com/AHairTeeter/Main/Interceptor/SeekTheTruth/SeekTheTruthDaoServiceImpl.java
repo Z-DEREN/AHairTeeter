@@ -3,23 +3,32 @@ package com.AHairTeeter.Main.Interceptor.SeekTheTruth;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.AHairTeeter.Main.IPpool.IPpool;
 import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl;
 import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
+import com.AHairTeeter.Main.Vo.InterceptorUser;
 import com.AHairTeeter.Main.Vo.ZUSER;
 import com.AHairTeeter.Tool.Tool;
+
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
 
 @Service
 public class SeekTheTruthDaoServiceImpl {
@@ -89,12 +98,35 @@ public class SeekTheTruthDaoServiceImpl {
 	}
 
 	/**
+	 * 保存访问者的数据信息
+	 * 
+	 * 
+	 */
+	public boolean insert(InterceptorUser InterceptorUser) {
+		boolean TF = false;
+		String sql = "INSERT INTO crewalllog "
+				+ "	(DATETIME, NAME, vsIP, vsPor, UserAgent, vsBroNamer, vsOS, vsOSName, SID , "
+				+ "IPdata_no1, IPdata_no2, IPdata_no3, compIPv6, mapIPv6	)"
+				+ "	VALUES" + "	(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+		Object[] value = {Tool.GetNewDateTime(2),InterceptorUser.getUsername(),InterceptorUser.getVsIP(),InterceptorUser.getVsPor(),
+				InterceptorUser.getUserAgent(),InterceptorUser.getVsBroNamer(),InterceptorUser.getVsOS(),
+				InterceptorUser.getVsOSName(),ToolDaoImpl.GetSID("crewalllog"),InterceptorUser.getIPdata_no1(),
+				InterceptorUser.getIPdata_no2(),InterceptorUser.getIPdata_no2(),InterceptorUser.getCompIPv6(),InterceptorUser.getMapIPv6()};
+
+		TF = ToolDaoImpl.SingleSaveUpdeteSql(sql, value);
+		return TF;
+	}
+
+	/**
 	 * 收集访问者信息 并且入库保存
 	 * 
 	 * @return
 	 */
 	public boolean FBIexamineWaterMeter(HttpServletRequest request, HttpSession session, ZUSER zuser) {
 		boolean TF = false;
+		// 访问者信息
+		InterceptorUser InterceptorUser = new InterceptorUser();
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
 		if (userInfo != null && userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null
 				&& !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
@@ -103,6 +135,26 @@ public class SeekTheTruthDaoServiceImpl {
 			System.out.println(userInfo.getPass());
 		} else {
 			logger.info("访问者未登录"); // info级别的信息
+
+			if(zuser != null &&zuser.getNAME() != null ) {
+				InterceptorUser.setUsername(zuser.getNAME());
+			}else {
+				InterceptorUser.setUsername("");
+			}
+			// 保存ip
+			InterceptorUser.setVsIP(request.getLocalAddr());
+			// 保存端口号
+			InterceptorUser.setVsPor(request.getLocalPort() + "");
+			// 访问者真实ip
+//			getIpAddr(request);
+//			获取浏览器信息
+			InterceptorUser = GetinvadeINFO(request, InterceptorUser);
+			IPpool IPpool = new IPpool();
+			//查询访问者ip地址
+			InterceptorUser = IPpool.GetaccordingIP(request.getLocalAddr(), InterceptorUser);
+			insert(InterceptorUser);
+			
+			
 		}
 		String host = request.getRemoteHost();
 		logger.info("IP为---->>> " + host + " <<<-----访问了系统"); // info级别的信息
@@ -123,35 +175,66 @@ public class SeekTheTruthDaoServiceImpl {
 		logger.info("访问者局部地址" + request.getLocalAddr()); // info级别的信息
 		logger.info("地名" + request.getLocalName()); // info级别的信息
 		logger.info("端口名" + request.getLocalPort()); // info级别的信息
-
-		Object loginName = request.getSession().getAttribute("user");
-		List<String> listStrings = new ArrayList<String>();
-		listStrings.add("1" + request.changeSessionId());
-		listStrings.add("2" + request.getAuthType());
-		listStrings.add("3" + request.getCharacterEncoding());
-		listStrings.add("4" + request.getCharacterEncoding());
-		listStrings.add("5" + request.getContentLength() + "");
-		listStrings.add("6" + request.getContentLengthLong() + "");
-		listStrings.add("7" + request.getContentType());
-		listStrings.add("8" + request.getLocalAddr());
-		listStrings.add("9" + request.getLocalName());
-		listStrings.add("10" + request.getLocalPort() + "");
-		listStrings.add("11" + request.getMethod());
-		listStrings.add("12" + request.getPathInfo());
-		listStrings.add("13" + request.getPathTranslated());
-		listStrings.add("14" + request.getProtocol());
-//		listStrings.add(e);
-		for (int i = 0; i < listStrings.size(); i++) {
-			logger.info("request信息:" + listStrings.get(i)); // info级别的信息
-		}
 		logger.info("打印访问者携带的其他信息结束"); // info级别的信息
-
-		// 入库访问者信息
-		getIpAddr(request);
 		return TF;
 	}
 
+	/**
+	 * 获取访问者的操作系统以及浏览器信息
+	 * 
+	 * @return
+	 */
+	public InterceptorUser GetinvadeINFO(HttpServletRequest request, InterceptorUser InterceptorUser) {
+		String winUserAgent = request.getHeader("User-Agent");
+		Usaeragent Usaeragent = new Usaeragent();
+		System.out.println("浏览器组：" + Usaeragent.getBorderGroup(winUserAgent));
+		System.out.println("浏览器名字：" + Usaeragent.getBorderName(winUserAgent));
+		System.out.println("浏览器类型" + Usaeragent.getBorderType(winUserAgent));
+		System.out.println("浏览器生产商：" + Usaeragent.getBrowserManufacturer(winUserAgent));
+		System.out.println("浏览器版本：" + Usaeragent.getBrowserVersion(winUserAgent));
+		System.out.println("设备生产厂商:" + Usaeragent.getDeviceManufacturer(winUserAgent));
+		System.out.println("设备类型:" + Usaeragent.getDevicetype(winUserAgent));
+		System.out.println("设备操作系统：" + Usaeragent.getOs(winUserAgent));
+		System.out.println("操作系统的名字：" + Usaeragent.getOsName(winUserAgent));
+		System.out.println("操作系统的版本号：" + Usaeragent.getOsVersion(winUserAgent));
+		System.out.println("操作系统浏览器的渲染引擎:" + Usaeragent.getBorderRenderingEngine(winUserAgent));
+
+		// 访问者UserAgent
+		InterceptorUser.setUserAgent(winUserAgent);
+		// 浏览器名字
+		InterceptorUser.setVsBroNamer(Usaeragent.getBorderName(winUserAgent));
+		// 浏览器版本
+		InterceptorUser.setVsBroNamer(Usaeragent.getBrowserVersion(winUserAgent));
+		// 访问者操作系统名
+		InterceptorUser.setVsOS(Usaeragent.getOs(winUserAgent));
+		// 访问者操作系统版本
+		InterceptorUser.setVsOSName(Usaeragent.getOsName(winUserAgent));
+
+		return InterceptorUser;
+	}
+
+	/**
+	 * 获取访问者所有ip
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public String getIpAddr(HttpServletRequest request) {
+
+		System.out.println("测试方法一获取真实ip们");
+		List<String> list = new ArrayList<String>();
+
+		list.add(request.getHeader("X-Forwarded-For"));
+		list.add(request.getHeader("Proxy-Client-IP"));
+		list.add(request.getHeader("WL-Proxy-Client-IP"));
+		list.add(request.getHeader("HTTP_CLIENT_IP"));
+		list.add(request.getHeader("HTTP_X_FORWARDED_FOR"));
+		for (int i = 0; i < list.size(); i++) {
+			logger.info("真实ip:" + list.get(i)); // info级别的信息
+		}
+
+		System.out.println("测试方法一结束");
+
 		String ipAddress = null;
 		try {
 			ipAddress = request.getHeader("x-forwarded-for");
@@ -164,7 +247,7 @@ public class SeekTheTruthDaoServiceImpl {
 			}
 			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if (ipAddress.equals("127.0.0.1")) {
+				if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
 					// 根据网卡取本机配置的IP
 					InetAddress inet = null;
 					try {

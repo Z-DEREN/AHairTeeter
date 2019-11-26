@@ -19,6 +19,7 @@ import com.AHairTeeter.Tool.Tool;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 import com.AHairTeeter.Tool.Crawler.pickpocket.Spiders;
 import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl;
+import com.AHairTeeter.Main.Vo.InterceptorUser;
 
 /**
  * ip代理池
@@ -29,7 +30,6 @@ import com.AHairTeeter.Main.IPpool.DaoServiceImpl.InternetProtocolDaoServiceImpl
 @Component
 public class IPpool extends IoHandlerAdapter {
 	Tool Tool = new Tool();
-	
 
 	@Autowired
 	protected InternetProtocolDaoServiceImpl InternetProtocolDaoServiceImpl;
@@ -41,18 +41,13 @@ public class IPpool extends IoHandlerAdapter {
 		IPpool.InternetProtocolDaoServiceImpl = this.InternetProtocolDaoServiceImpl;
 		// 初使化时将已静态化的testService实例化
 	}
-	
+
 	private static final Logger logger = LogManager.getLogger(IPpool.class.getName());
-	
-	
+
+	Spiders Spiders = new Spiders();
 
 	private String IPTest = "http://pv.sohu.com/cityjson?ie=utf-8";// ip测试页
 
-	
-	
-	
-	
-	
 /////////////////////////// 爬取//////////////////////
 
 	private String ChinaIPCryp = "https://www.xicidaili.com/nn/";// 国内高匿ip
@@ -129,11 +124,9 @@ public class IPpool extends IoHandlerAdapter {
 				map.put("area", area);
 				map.put("SAVETIME", Tool.GetNewDateTime(2));
 				map.put("TYPE", "1");
-				
-				
+
 				IPpool.InternetProtocolDaoServiceImpl.SaveIPList(map);
-				
-				
+
 				num++;
 			}
 		}
@@ -149,11 +142,12 @@ public class IPpool extends IoHandlerAdapter {
 	 * @return 测试通过ip map键ip地址:"ip",端口号:"port",地名:"area",响应时间(毫秒):"msec"
 	 * 
 	 */
-	public void GetPerfectCHIP(Map<String, Object> ChinaIPList, String present,int number) {
+	public void GetPerfectCHIP(Map<String, Object> ChinaIPList, String present, int number) {
 		Spiders Spiders = new Spiders();
 		List<String> list = new ArrayList<String>();
 		String Iptext = "";
-		logger.info("剩余:"+number+",正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT"));
+		logger.info("剩余:" + number + ",正在测试的是" + ChinaIPList.get("AREA") + "--" + ChinaIPList.get("IP") + "--"
+				+ ChinaIPList.get("PORT"));
 		long startTime = System.currentTimeMillis(); // 获取开始时间
 		System.getProperties().setProperty("http.proxyHost", ChinaIPList.get("IP").toString());
 		System.getProperties().setProperty("http.proxyPort", ChinaIPList.get("PORT").toString());
@@ -163,10 +157,12 @@ public class IPpool extends IoHandlerAdapter {
 		Long time = endTime - startTime;
 		// 是否为本机ip
 		if (!Iptext.contains(present)) {
-			logger.info("true	测试通过==IP-----" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"+ChinaIPList.get("AREA")+ ":" + time + "毫秒");
+			logger.info("true	测试通过==IP-----" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"
+					+ ChinaIPList.get("AREA") + ":" + time + "毫秒");
 			IPpool.InternetProtocolDaoServiceImpl.SaveIPlistnum(time.toString(), ChinaIPList);
 		} else {
-			logger.info("false	测试失败==IP-----" +ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"+ ChinaIPList.get("AREA") + ":" + time / 1000 + "秒");
+			logger.info("false	测试失败==IP-----" + ChinaIPList.get("IP") + "--" + ChinaIPList.get("PORT") + ":"
+					+ ChinaIPList.get("AREA") + ":" + time / 1000 + "秒");
 		}
 		IPpool.InternetProtocolDaoServiceImpl.DelTestIP(ChinaIPList);
 	}
@@ -176,7 +172,7 @@ public class IPpool extends IoHandlerAdapter {
 	 * 
 	 */
 	public String Localip() {
-		Spiders Spiders = new Spiders();
+
 		String text = Spiders.spiders("http://pv.sohu.com/cityjson?ie=utf-8", 99999);// 测试接口
 		int beginIndex;
 		int endIndex;
@@ -186,5 +182,54 @@ public class IPpool extends IoHandlerAdapter {
 		return text;
 	}
 	///////////////////////////////////////// {测试ip用}/////////////////////////////////////////////////////////////
+
+	/**
+	 * 根据所给ip查询ip地址
+	 * @param ip 指定ip
+	 * @param InterceptorUser 实体
+	 * @return
+	 */
+	public InterceptorUser GetaccordingIP(String ip  , InterceptorUser InterceptorUser) {
+		String text = Spiders.spiders("http://www.ip138.com/ips1388.asp?ip="+ip+"&action=2", 99999);// 测试接口
+		int beginIndex;
+		int endIndex;
+		String IPdata_no1 = "";
+		String IPdata_no2 = "";
+		String IPdata_no3 = "";
+		String compIPv6 = "";
+		String mapIPv6 = "";
+
+		beginIndex = text.indexOf("本站数据");
+		text = text.substring(beginIndex);
+		endIndex = text.indexOf("</li>");
+		IPdata_no1 = text.substring(5, endIndex);
+		InterceptorUser.setIPdata_no1(IPdata_no1);
+
+		beginIndex = text.indexOf("参考数据1");
+		text = text.substring(beginIndex);
+		endIndex = text.indexOf("</li>");
+		IPdata_no2 = text.substring(6, endIndex);
+		InterceptorUser.setIPdata_no2(IPdata_no2);
+
+		beginIndex = text.indexOf("参考数据2");
+		text = text.substring(beginIndex);
+		endIndex = text.indexOf("</li>");
+		IPdata_no3 = text.substring(6, endIndex);
+		InterceptorUser.setIPdata_no3(IPdata_no3);
+
+		beginIndex = text.indexOf("兼容IPv6地址");
+		text = text.substring(beginIndex);
+		endIndex = text.indexOf("</li>");
+		compIPv6 = text.substring(11, endIndex);
+		InterceptorUser.setCompIPv6(compIPv6);
+
+		beginIndex = text.indexOf("映射IPv6地址");
+		text = text.substring(beginIndex);
+		endIndex = text.indexOf("</li>");
+		mapIPv6 = text.substring(11, endIndex);
+		InterceptorUser.setMapIPv6(mapIPv6);
+		
+		return InterceptorUser;
+	}
 
 }

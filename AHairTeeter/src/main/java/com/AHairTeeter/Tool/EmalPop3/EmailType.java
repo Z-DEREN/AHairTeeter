@@ -39,7 +39,7 @@ public class EmailType {
 			}
 			Etext +=map.get("recorddate") + "<br>";
 		}
-		System.out.println(Etext);
+//		System.out.println(Etext);
 		try {
 			for (String Email : EtoMailAddresss) {
 				SampleMail.SendEmail(Email, Etitle, Etext);
