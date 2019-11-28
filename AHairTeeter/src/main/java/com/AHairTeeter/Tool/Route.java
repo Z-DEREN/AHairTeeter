@@ -24,6 +24,9 @@ public class Route {
 	private static final String mail_user;
 	//ÓÊÏäÃÜÂë
 	private static final String mail_password;
+	//ÓÊÏäÃÜÂë
+	private static final String IPAPI_KEY;
+	
 	
 	/**
 	 * ¾²Ì¬´úÂë¿é (´æÈë»º´æµ±ÖĞ)
@@ -38,6 +41,7 @@ public class Route {
 		Picture_crawler = Element.get(4);
 		mail_user = Element.get(5);
 		mail_password = Element.get(6);
+		IPAPI_KEY = Element.get(7);
 		
 //		for (String ss : Element) {
 //			System.out.println(ss);
@@ -45,7 +49,9 @@ public class Route {
 	}
 	
 	
-	
+	public  String getIPAPI_KEY() {
+		return IPAPI_KEY;
+	}
 
 	public  String getAddressDynamicCrawlerModule() {
 		return Address_dynamic_crawler_module;

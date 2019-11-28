@@ -1,7 +1,12 @@
 package com.AHairTeeter.Tool;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +28,10 @@ import com.AHairTeeter.Main.ToolCabinet.ToolDaoImpl.ToolDaoImpl;
 import com.AHairTeeter.Main.Vo.ZUSER;
 import com.AHairTeeter.Tool.fileIO.IOLocalFile;
 
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -38,6 +47,7 @@ public class Tool {
 	ShaMD5 shamd5 = new ShaMD5();
 	MD5 md5 = new MD5();
 	IOLocalFile IOLocalFile = new IOLocalFile();
+	Route rou = new Route();
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
 	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
 //	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
@@ -400,7 +410,8 @@ public class Tool {
 
 	/**
 	 * 无需正则表达的split方法
-	 * @param text 需要拆分的字符串
+	 * 
+	 * @param text  需要拆分的字符串
 	 * @param regex 根据所给字符串拆分
 	 * @return
 	 */
@@ -422,5 +433,59 @@ public class Tool {
 		Listtestno3.toArray(textno3);
 		return textno3;
 	}
+
+	//////////////////////////////////// 解析json方法s
+	//////////////////////////////////// ///////////////////////////////////////////////////////////////
+
+	/**
+	 * 使用站长之家的ip查询接口
+	 * @param jsonString
+	 * @return
+	 */
+	public Map<String, Object> GetIPJsonMaps(String queryIP) {
+		callAPImeans callAPImeans = new callAPImeans();
+		String jsonString;
+		try {
+			jsonString = callAPImeans.load("http://apidata.chinaz.com/CallAPI/ip", "key="+rou.getIPAPI_KEY()+"&ip="+queryIP);
+		
+		
+		JSONObject object = JSONObject.fromObject(jsonString);// 将字符串转化成json对象
+		long StateCode = object.getLong("StateCode");
+		String Reason = object.getString("Reason");
+		// 获取Result里数据
+		JSONObject Reason1 = object.getJSONObject("Result");
+		String IP = Reason1.getString("IP");
+		String Country = Reason1.getString("Country");
+		String Province = Reason1.getString("Province");
+		String City = Reason1.getString("City");
+		String District = Reason1.getString("District");
+		String Isp = Reason1.getString("Isp");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("StateCode", StateCode);
+		map.put("Reason", Reason);
+		map.put("IP", IP);
+		map.put("Country", Country);
+		map.put("City", City);
+		map.put("District", District);
+		map.put("StateCode", StateCode);
+		map.put("Isp", Isp);
+		map.put("Province", Province);
+		for(String key : map.keySet()) {
+			System.out.println(key+":"+map.get(key));
+		}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+//	public static void main(String[] args) {
+//		Tool Tool = new Tool();
+//		Tool.GetJsonMaps("");
+//	}
 
 }

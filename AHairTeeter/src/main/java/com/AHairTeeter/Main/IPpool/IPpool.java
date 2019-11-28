@@ -183,53 +183,62 @@ public class IPpool extends IoHandlerAdapter {
 	}
 	///////////////////////////////////////// {测试ip用}/////////////////////////////////////////////////////////////
 
-	/**
-	 * 根据所给ip查询ip地址
-	 * @param ip 指定ip
-	 * @param InterceptorUser 实体
-	 * @return
-	 */
-	public InterceptorUser GetaccordingIP(String ip  , InterceptorUser InterceptorUser) {
-		String text = Spiders.spiders("http://www.ip138.com/ips1388.asp?ip="+ip+"&action=2", 99999);// 测试接口
-		int beginIndex;
-		int endIndex;
-		String IPdata_no1 = "";
-		String IPdata_no2 = "";
-		String IPdata_no3 = "";
-		String compIPv6 = "";
-		String mapIPv6 = "";
-
-		beginIndex = text.indexOf("本站数据");
-		text = text.substring(beginIndex);
-		endIndex = text.indexOf("</li>");
-		IPdata_no1 = text.substring(5, endIndex);
-		InterceptorUser.setIPdata_no1(IPdata_no1);
-
-		beginIndex = text.indexOf("参考数据1");
-		text = text.substring(beginIndex);
-		endIndex = text.indexOf("</li>");
-		IPdata_no2 = text.substring(6, endIndex);
-		InterceptorUser.setIPdata_no2(IPdata_no2);
-
-		beginIndex = text.indexOf("参考数据2");
-		text = text.substring(beginIndex);
-		endIndex = text.indexOf("</li>");
-		IPdata_no3 = text.substring(6, endIndex);
-		InterceptorUser.setIPdata_no3(IPdata_no3);
-
-		beginIndex = text.indexOf("兼容IPv6地址");
-		text = text.substring(beginIndex);
-		endIndex = text.indexOf("</li>");
-		compIPv6 = text.substring(11, endIndex);
-		InterceptorUser.setCompIPv6(compIPv6);
-
-		beginIndex = text.indexOf("映射IPv6地址");
-		text = text.substring(beginIndex);
-		endIndex = text.indexOf("</li>");
-		mapIPv6 = text.substring(11, endIndex);
-		InterceptorUser.setMapIPv6(mapIPv6);
-		
-		return InterceptorUser;
-	}
+//	/**
+//	 * 根据所给ip查询ip地址
+//	 * 
+//	 * @param ip              指定ip
+//	 * @param InterceptorUser 实体
+//	 * @return
+//	 */
+//	public InterceptorUser GetaccordingIP(String ip, InterceptorUser InterceptorUser) {
+//		String text = Spiders.spiders("http://www.ip138.com/ips1388.asp?ip=" + ip + "&action=2", 99999);// 测试接口
+//		int beginIndex;
+//		int endIndex;
+//		String IPdata_no1 = "";
+//		String IPdata_no2 = "";
+//		String IPdata_no3 = "";
+//		String compIPv6 = "";
+//		String mapIPv6 = "";
+//
+//		beginIndex = text.indexOf("本站数据");
+//		if (beginIndex > 0) {
+//		text = text.substring(beginIndex);
+//		endIndex = text.indexOf("</li>");
+//		IPdata_no1 = text.substring(5, endIndex);
+//		InterceptorUser.setIPdata_no1(IPdata_no1);
+//
+//		beginIndex = text.indexOf("参考数据1");
+//		text = text.substring(beginIndex);
+//		endIndex = text.indexOf("</li>");
+//		IPdata_no2 = text.substring(6, endIndex);
+//		InterceptorUser.setIPdata_no2(IPdata_no2);
+//
+//		beginIndex = text.indexOf("参考数据2");
+//		text = text.substring(beginIndex);
+//		endIndex = text.indexOf("</li>");
+//		IPdata_no3 = text.substring(6, endIndex);
+//		InterceptorUser.setIPdata_no3(IPdata_no3);
+//
+//		beginIndex = text.indexOf("兼容IPv6地址");
+//		text = text.substring(beginIndex);
+//		endIndex = text.indexOf("</li>");
+//		compIPv6 = text.substring(11, endIndex);
+//		InterceptorUser.setCompIPv6(compIPv6);
+//
+//		beginIndex = text.indexOf("映射IPv6地址");
+//		text = text.substring(beginIndex);
+//		endIndex = text.indexOf("</li>");
+//		mapIPv6 = text.substring(11, endIndex);
+//		InterceptorUser.setMapIPv6(mapIPv6);
+//		}else {
+//			InterceptorUser.setIPdata_no1("");
+//			InterceptorUser.setIPdata_no1("");
+//			InterceptorUser.setIPdata_no1("");
+//			InterceptorUser.setCompIPv6("");
+//			InterceptorUser.setMapIPv6("");
+//		}
+//		
+//		return InterceptorUser;
+//	}
 
 }

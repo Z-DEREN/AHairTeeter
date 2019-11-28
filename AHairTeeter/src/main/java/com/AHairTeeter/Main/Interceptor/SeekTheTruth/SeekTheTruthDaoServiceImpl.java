@@ -106,13 +106,14 @@ public class SeekTheTruthDaoServiceImpl {
 		boolean TF = false;
 		String sql = "INSERT INTO crewalllog "
 				+ "	(DATETIME, NAME, vsIP, vsPor, UserAgent, vsBroNamer, vsOS, vsOSName, SID , "
-				+ "IPdata_no1, IPdata_no2, IPdata_no3, compIPv6, mapIPv6	)"
-				+ "	VALUES" + "	(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				+ "Country, Province, City, Isp, District )" + "	VALUES"
+				+ "	(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-		Object[] value = {Tool.GetNewDateTime(2),InterceptorUser.getUsername(),InterceptorUser.getVsIP(),InterceptorUser.getVsPor(),
-				InterceptorUser.getUserAgent(),InterceptorUser.getVsBroNamer(),InterceptorUser.getVsOS(),
-				InterceptorUser.getVsOSName(),ToolDaoImpl.GetSID("crewalllog"),InterceptorUser.getIPdata_no1(),
-				InterceptorUser.getIPdata_no2(),InterceptorUser.getIPdata_no2(),InterceptorUser.getCompIPv6(),InterceptorUser.getMapIPv6()};
+		Object[] value = { Tool.GetNewDateTime(2), InterceptorUser.getUsername(), InterceptorUser.getVsIP(),
+				InterceptorUser.getVsPor(), InterceptorUser.getUserAgent(), InterceptorUser.getVsBroNamer(),
+				InterceptorUser.getVsOS(), InterceptorUser.getVsOSName(), ToolDaoImpl.GetSID("crewalllog"),
+				InterceptorUser.getCountry(), InterceptorUser.getProvince(), InterceptorUser.getCity(),
+				InterceptorUser.getIsp(), InterceptorUser.getDistrict() };
 
 		TF = ToolDaoImpl.SingleSaveUpdeteSql(sql, value);
 		return TF;
@@ -125,6 +126,27 @@ public class SeekTheTruthDaoServiceImpl {
 	 */
 	public boolean FBIexamineWaterMeter(HttpServletRequest request, HttpSession session, ZUSER zuser) {
 		boolean TF = false;
+
+		// 访问者端口号
+		String Port = request.getRemotePort() + "";
+		// 访问者IP地址
+		String HostIP = request.getRemoteHost();
+//		/访问者Addr地址
+		String AddrIP = request.getRemoteAddr();
+		// 访问者SessionId
+		String SessionId = request.getRequestedSessionId();
+		// 访问者当前访问的URI
+		String URI = request.getRequestURI();
+
+		logger.info("打印访问者携带的其他信息"); // info级别的信息
+		logger.info("访问者"); // info级别的信息
+		logger.info("访问者IP地址" + HostIP); // info级别的信息
+		logger.info("访问者Addr地址" + AddrIP); // info级别的信息
+		logger.info("访问者端口号" + Port); // info级别的信息
+		logger.info("访问者SessionId" + SessionId); // info级别的信息
+		logger.info("访问者当前访问的URI" + request.getRequestURI()); // info级别的信息
+		logger.info("打印访问者携带的其他信息结束"); // info级别的信息
+
 		// 访问者信息
 		InterceptorUser InterceptorUser = new InterceptorUser();
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
@@ -135,47 +157,52 @@ public class SeekTheTruthDaoServiceImpl {
 			System.out.println(userInfo.getPass());
 		} else {
 			logger.info("访问者未登录"); // info级别的信息
-
-			if(zuser != null &&zuser.getNAME() != null ) {
+			if (zuser != null && zuser.getNAME() != null) {
 				InterceptorUser.setUsername(zuser.getNAME());
-			}else {
+			} else {
 				InterceptorUser.setUsername("");
 			}
-			// 保存ip
-			InterceptorUser.setVsIP(request.getLocalAddr());
-			// 保存端口号
-			InterceptorUser.setVsPor(request.getLocalPort() + "");
-			// 访问者真实ip
-//			getIpAddr(request);
 //			获取浏览器信息
 			InterceptorUser = GetinvadeINFO(request, InterceptorUser);
+			// 保存ip
+			InterceptorUser.setVsIP(HostIP);
+			// 保存端口号
+			InterceptorUser.setVsPor(Port);
+
 			IPpool IPpool = new IPpool();
-			//查询访问者ip地址
-			InterceptorUser = IPpool.GetaccordingIP(request.getLocalAddr(), InterceptorUser);
+
+			// 查询访问者ip地址
+
+			Map<String, Object> map = Tool.GetIPJsonMaps(HostIP);
+
+			InterceptorUser.setCity(map.get("city").toString());
+			InterceptorUser.setCountry(map.get("Country").toString());
+			InterceptorUser.setProvince(map.get("Province").toString());
+			InterceptorUser.setIsp(map.get("Isp").toString());
+			InterceptorUser.setDistrict(map.get("District").toString());
+
+//			InterceptorUser = IPpool.GetaccordingIP(request.getLocalAddr(), InterceptorUser);
+
 			insert(InterceptorUser);
-			
-			
+
+//			 访问者真实ip
+//			getIpAddr(request);
+
 		}
 		String host = request.getRemoteHost();
 		logger.info("IP为---->>> " + host + " <<<-----访问了系统"); // info级别的信息
-		System.out.println("打印cookie");
-		logger.info("打印访问者携带cookie"); // info级别的信息
-		Cookie[] zcookie = request.getCookies();
-		if (zcookie != null && zcookie.length > 0) {
-			for (int i = 0; i < zcookie.length; i++) {
-				logger.info("cookie打印:--" + zcookie[i]); // info级别的信息
-			}
-		} else {
-			logger.info("<<<访问者未携带cookie>>>"); // info级别的信息
-		}
-		logger.info("打印cookie结束"); // info级别的信息
+//		System.out.println("打印cookie");
+//		logger.info("打印访问者携带cookie"); // info级别的信息
+//		Cookie[] zcookie = request.getCookies();
+//		if (zcookie != null && zcookie.length > 0) {
+//			for (int i = 0; i < zcookie.length; i++) {
+//				logger.info("cookie打印:--" + zcookie[i]); // info级别的信息
+//			}
+//		} else {
+//			logger.info("<<<访问者未携带cookie>>>"); // info级别的信息
+//		}
+//		logger.info("打印cookie结束"); // info级别的信息
 
-		logger.info("打印访问者携带的其他信息"); // info级别的信息
-		logger.info("访问者"); // info级别的信息
-		logger.info("访问者局部地址" + request.getLocalAddr()); // info级别的信息
-		logger.info("地名" + request.getLocalName()); // info级别的信息
-		logger.info("端口名" + request.getLocalPort()); // info级别的信息
-		logger.info("打印访问者携带的其他信息结束"); // info级别的信息
 		return TF;
 	}
 
