@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class callAPImeans {
 	
 	private static final Logger logger = LogManager.getLogger(callAPImeans.class.getName());
-	public String load(String url, String query) throws Exception {
+	public String GetPOSTAPIinfo(String url, String query) throws Exception {
 		URL restURL = new URL(url);
 		/*
 		 * 此处的urlConnection对象实际上是根据URL的请求协议(此处是http)生成的URLConnection类

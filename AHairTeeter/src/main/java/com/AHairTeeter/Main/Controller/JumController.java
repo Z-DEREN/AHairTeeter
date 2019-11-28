@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.AHairTeeter.Main.Interceptor.SeekTheTruth.SeekTheTruthDaoServiceImpl;
+import com.AHairTeeter.Main.Interceptor.SeekTheTruth.SeekTheTruth;
 import com.AHairTeeter.Main.Vo.ZUSER;
 import com.AHairTeeter.Tool.Tool;
 
@@ -24,7 +25,9 @@ public class JumController {
 	Tool Tool =new Tool();
 	
 	@Autowired
-	private SeekTheTruthDaoServiceImpl SeekTheTruth ;
+	private SeekTheTruthDaoServiceImpl SeekTheTruthDaoServiceImpl ;
+	@Autowired
+	private SeekTheTruth SeekTheTruth ;
 	
 	
 	/**
@@ -80,7 +83,7 @@ public class JumController {
 		zuser.setPass(zpassword);
 		//登录验证
 		SeekTheTruth.FBIexamineWaterMeter(request,session,zuser);
-		zuser = SeekTheTruth.Login(zuser);
+		zuser = SeekTheTruthDaoServiceImpl.VerifyVisitorinfo(zuser);
 		//用户数信息数据库验证
 		if (zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
 			logger.info(" 用户登录成功------------------------------------------------------------:"); // info级别的信息

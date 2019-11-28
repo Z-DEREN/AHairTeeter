@@ -444,11 +444,10 @@ public class Tool {
 	 */
 	public Map<String, Object> GetIPJsonMaps(String queryIP) {
 		callAPImeans callAPImeans = new callAPImeans();
-		String jsonString;
+		String jsonString = "";
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			jsonString = callAPImeans.load("http://apidata.chinaz.com/CallAPI/ip", "key="+rou.getIPAPI_KEY()+"&ip="+queryIP);
-		
-		
+			jsonString = callAPImeans.GetPOSTAPIinfo("http://apidata.chinaz.com/CallAPI/ip", "key="+rou.getIPAPI_KEY()+"&ip="+queryIP);
 		JSONObject object = JSONObject.fromObject(jsonString);// 将字符串转化成json对象
 		long StateCode = object.getLong("StateCode");
 		String Reason = object.getString("Reason");
@@ -460,8 +459,6 @@ public class Tool {
 		String City = Reason1.getString("City");
 		String District = Reason1.getString("District");
 		String Isp = Reason1.getString("Isp");
-
-		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("StateCode", StateCode);
 		map.put("Reason", Reason);
 		map.put("IP", IP);
@@ -472,15 +469,14 @@ public class Tool {
 		map.put("Isp", Isp);
 		map.put("Province", Province);
 		for(String key : map.keySet()) {
-			System.out.println(key+":"+map.get(key));
+			logger.info("第三方IP接口返回信息:"+key+":"+map.get(key)); // info级别的信息
 		}
-		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.info("第三方IP查询接口返回json为空"); // info级别的信息
 		}
-
-		return null;
+		return map;
 	}
 
 //	public static void main(String[] args) {
