@@ -93,7 +93,7 @@ public class SeekTheTruth {
 			if( InterceptorUser.getCity() == null) {
 			// 使用第三方的接口获取ip的详细信息
 			Map<String, Object> map = Tool.GetIPJsonMaps(HostIP);
-			InterceptorUser.setCity(map.get("city").toString());
+			InterceptorUser.setCity(map.get("City").toString());
 			InterceptorUser.setCountry(map.get("Country").toString());
 			InterceptorUser.setProvince(map.get("Province").toString());
 			InterceptorUser.setIsp(map.get("Isp").toString());
