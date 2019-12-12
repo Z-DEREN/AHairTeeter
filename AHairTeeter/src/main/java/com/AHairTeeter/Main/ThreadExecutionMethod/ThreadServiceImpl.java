@@ -79,7 +79,7 @@ public class ThreadServiceImpl {
 		case 22:
 			// 特殊字段22
 			Xvideos xvideos = new Xvideos();
-			listmap = xvideos.videoNum(1, 5, "teen");
+			listmap = xvideos.videoNum(1, 5, "");
 			name = "xvideosUrl";
 			Tool.IOSaveFile(listmap);
 //			AllocationThreadExecute(listmap,name,num,url);
@@ -161,6 +161,7 @@ public class ThreadServiceImpl {
 	public void alone_use_way(int num, String url) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		String name = "LaJiWenJIan";// 默认文件名
+		Xvideos xvideos = new Xvideos();
 		switch (num) {
 		case 0:
 			break;
@@ -168,8 +169,15 @@ public class ThreadServiceImpl {
 			break;
 		case 21:
 			break;
+		case 221:
+			xvideos.getxvideoURL(url);
+			listmap = xvideos.videoNum(1, 5, "");
+			name = "xvideosUrl";
+			Tool.IOSaveFile(listmap);
+//			AllocationThreadExecute(listmap,name,num,url);
+			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+			break;
 		case 22:
-			Xvideos xvideos = new Xvideos();
 			listmap = xvideos.videoWAP_correlation(url);
 			name = "xvideosUrl";
 			Tool.IOSaveFile(listmap);

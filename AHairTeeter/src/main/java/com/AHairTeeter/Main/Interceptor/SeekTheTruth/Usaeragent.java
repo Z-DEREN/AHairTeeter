@@ -13,8 +13,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 public class Usaeragent {
 
 //	private static final Logger logger = LogManager.getLogger(usaeragent.class.getName());
-	
-	
+
 	/**
 	 * 根据http获取userAgent信息
 	 * 
@@ -309,7 +308,7 @@ public class Usaeragent {
 	 * 获取浏览器版本
 	 * 
 	 * @param request
-	 * @return 
+	 * @return
 	 */
 	public static String getBrowserVersion(String userAgent) {
 		Browser browser = getBrowser(userAgent);
@@ -317,16 +316,6 @@ public class Usaeragent {
 		return borderVersion;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public static void main(String[] args) {
 //		String androidUserAgent = "Mozilla/5.0 (Linux; Android 8.0; LON-AL00 Build/HUAWEILON-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044204 Mobile Safari/537.36 V1_AND_SQ_7.7.8_908_YYB_D QQ/7.7.8.3705 NetType/WIFI WebP/0.3.0 Pixel/1440";
 //		String iosUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A366 QQ/7.7.8.421 V1_IPH_SQ_7.7.8_1_APP_A Pixel/750 Core/UIWebView Device/Apple(iPhone 6s) NetType/WIFI QBWebViewType/1";
@@ -345,18 +334,7 @@ public class Usaeragent {
 		System.out.println("操作系统的名字：" + getOsName(winUserAgent));
 		System.out.println("操作系统的版本号：" + getOsVersion(winUserAgent));
 		System.out.println("操作系统浏览器的渲染引擎:" + getBorderRenderingEngine(winUserAgent));
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
+
 }

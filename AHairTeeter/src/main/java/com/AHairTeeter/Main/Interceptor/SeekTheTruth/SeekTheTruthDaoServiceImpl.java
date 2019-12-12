@@ -50,15 +50,11 @@ public class SeekTheTruthDaoServiceImpl {
 		String UserEPKEYSql = "SELECT SPARE1,SPARE2,SPARE3,SPARE4,SPARE5  FROM userz WHERE NAME = ? ";
 		List<Object> UserEPKEYS = (List<Object>) ToolDaoImpl.GetSelObjsql(UserEPKEYSql, new Object[] { Zname },
 				"ArrayObject");
-
 		MAP.put("UserEPKEY", UserEPKEYS);
-
 		logger.info("用户--" + Zname + "--即将登录,获取用户UserPuzzlekey");
 		String UserPuzzlekeySql = "SELECT puzzlekey FROM userz WHERE NAME = ? ";
 		String Puzzlekey = (String) ToolDaoImpl.GetSelObjsql(UserPuzzlekeySql, new Object[] { Zname }, "String");
-
 		MAP.put("UserPuzzlekey", Puzzlekey);
-
 		logger.info("用户--" + Zname + "--即将登录,获取用户MD5DI");
 		String MD5DISql = "SELECT MD5DI FROM userz WHERE NAME = ? ";
 		String MD5DI = (String) ToolDaoImpl.GetSelObjsql(MD5DISql, new Object[] { Zname }, "String");

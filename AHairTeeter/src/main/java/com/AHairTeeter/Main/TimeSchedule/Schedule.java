@@ -33,7 +33,7 @@ public class Schedule {
 //		}
 //	}
 
-	@Scheduled(cron = "0 0/30 9-20 * * ?") // 每半小时执行一次
+//	@Scheduled(cron = "0 0/30 9-20 * * ?") // 每半小时执行一次
 	public void Date2() {
 		try {
 			ThreadServiceImpl.middleman(24);

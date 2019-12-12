@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.AHairTeeter.Main.ThreadExecutionMethod.ThreadServiceImpl;
-
+import com.AHairTeeter.Main.ThreadExecutionMethod.warehouse.Xvideos;
 import com.AHairTeeter.Main.ToolCabinet.ToolServiceImpl.ToolServiceImpl;
 import com.AHairTeeter.Tool.Tool;
 
@@ -83,31 +83,33 @@ public class ToolThreadController {
 		model.setViewName("main/alone_use_way/alone_use_way");
 		return model;
 	}
-	
-	
-	@RequestMapping(value = "/Xvideos")
-	public ModelAndView XvideosMORE(@RequestParam(value = "Xvideosurl", required = false) String Xvideosurl, HttpSession session,
+
+	@RequestMapping(value = "/typeurl")
+	public ModelAndView XvideosMORE(@RequestParam(value = "typenum", required = false) String typenum,
+			@RequestParam(value = "Xvideosurl", required = false) String Xvideosurl, HttpSession session,
 			HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
-		model.addObject("text", "执行Xvideos相关推荐");
-		ThreadServiceImpl.alone_use_way(22,Xvideosurl);
-		
+		System.out.println(typenum);
+		switch (typenum) {
+		case "volvo_alone":
+			ThreadServiceImpl.alone_use_way(22, Xvideosurl);
+			model.addObject("text", "执行Xvideos推荐");
+			break;
+		case "volvo_listings_alone":
+			ThreadServiceImpl.alone_use_way(221, Xvideosurl);
+			model.addObject("text", "执行Xvideos搜索");
+			break;
+//		case "volvo_alone":
+//
+//			break;
+//		case "volvo_alone":
+//
+//			break;
+		default:
+			break;
+		}
 		model.setViewName("redirect:/AHairTeeter/navigation");
 		return model;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
