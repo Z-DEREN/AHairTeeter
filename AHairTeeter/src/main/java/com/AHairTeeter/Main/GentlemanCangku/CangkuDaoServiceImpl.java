@@ -80,7 +80,7 @@ public class CangkuDaoServiceImpl implements CangkuDaoService {
 			map.put("pan", list.get(0).getPan());
 			map.put("tiqu", list.get(0).getTiqu());
 			map.put("mima", list.get(0).getMima() + "_");
-			if (list.get(0).getMima().equals("") || list.get(0).getMima() != null) {
+			if ("".equals(list.get(0).getMima()) || list.get(0).getMima() != null) {
 				map.put("newmima", "ÃÜÂë");
 			}
 			map.put("type", list.get(0).getType());

@@ -39,7 +39,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter {
 		
 		///////////////////////// 登录记录///////////////////////////
 		ZUSER userInfo = (ZUSER) session.getAttribute("GuesswhoIam");
-		if (userInfo != null && userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
+		if (userInfo != null && userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !"".equals(userInfo.getD7788b7e0ba4b6e3aa57b35bbf93dfc6())) {
 			System.out.println("用户已经登录");
 		}else {
 			System.out.println("用户没有登录");

@@ -314,7 +314,7 @@ public class Tool {
 	public static List<String> readNode(Element element, List<String> list) {
 		// System.out.println("---£º£º£º£º" + element.getName());
 
-		if (!(element.getTextTrim().equals(""))) {
+		if (!("".equals(element.getTextTrim()))) {
 			// System.out.println("ÎÄ±¾ÄÚÈÝ£º£º£º£º" + element.getText());
 			if ("column".equals(element.getName())) {
 				list.add(element.getText().trim());

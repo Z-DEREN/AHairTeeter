@@ -73,7 +73,7 @@ public class JumController {
 		logger.info(" 用户名:" + zusername + " 密码:" + zpassword
 				+ "-----------------------------------------------------------"); // info级别的信息
 
-		if ((zusername.equals("") || zusername == null) || (zpassword.equals("") || zpassword == null)) {
+		if (("".equals(zusername) || zusername == null) || ("".equals(zpassword) || zpassword == null)) {
 			logger.info(" 用户名或密码为空------------------------------------------------------------:"); // info级别的信息
 			model.setViewName("login");// 返回登录页
 			return model;
@@ -85,7 +85,7 @@ public class JumController {
 		SeekTheTruth.FBIexamineWaterMeter(request,session,zuser);
 		zuser = SeekTheTruthDaoServiceImpl.VerifyVisitorinfo(zuser);
 		//用户数信息数据库验证
-		if (zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6().equals("")) {
+		if (zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6() != null && !"".equals(zuser.getD7788b7e0ba4b6e3aa57b35bbf93dfc6())) {
 			logger.info(" 用户登录成功------------------------------------------------------------:"); // info级别的信息
 			logger.info("欢迎"+zuser.getNAME()+"登录成功------------------------------------------------------------:"); // info级别的信息
 		}else {

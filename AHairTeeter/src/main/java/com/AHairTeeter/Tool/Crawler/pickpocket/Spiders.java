@@ -55,7 +55,6 @@ public class Spiders {
 				TF = false;
 				logger.info(" 爬取方法spiders参数有误:" + num + "------------------------------"); // info级别的信息
 				break;
-
 			}
 			if (TF) {
 				Sdoc = unicode(Sdoc);

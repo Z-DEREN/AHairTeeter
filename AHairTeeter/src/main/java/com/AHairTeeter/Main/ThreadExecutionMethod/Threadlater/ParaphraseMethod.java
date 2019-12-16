@@ -56,7 +56,7 @@ public class ParaphraseMethod {
 		case 20:
 		case 21:
 			String urlList = map.get("url").toString();
-			imageDownload.downloadPicture(urlList, Route.getPictureCrawler()+name+"\\", url);
+			imageDownload.downloadPicture(urlList, Route.getPictureCrawler()+name+"\\", url,null);
 			break;
 		case 3:
 

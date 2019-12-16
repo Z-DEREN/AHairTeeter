@@ -237,7 +237,7 @@ public class codec {
 	 * @return
 	 */
 	public String puzzEncrypt( String EPKEY ,String pass, String switchs) {
-		if(switchs.equals("1")) {
+		if("1".equals(switchs)) {
 			pass = encode32(EPKEY, pass);
 		}else {
 			pass = encode64(EPKEY, pass);
@@ -252,7 +252,7 @@ public class codec {
 	 * @return
 	 */
 	public String puzzdecrypt( String EPKEY ,String pass, String switchs) {
-		if(switchs.equals("1")) {
+		if("1".equals(switchs)) {
 			pass = decode32(EPKEY, pass);
 		}else {
 			pass = decode64(EPKEY, pass);

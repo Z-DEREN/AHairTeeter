@@ -22,18 +22,25 @@ public class imageDownload {
 	 * @param referrer   主页链接
 	 * @return
 	 */
-	public String downloadPicture(String urlList, String imagerName, String referrer) {
+	public String downloadPicture(String urlList, String imagerName, String referrer,String newname) {
 		URL url = null;
 		try {
 			url = new URL(urlList);
 			String houzui = urlList.substring(urlList.lastIndexOf("."));
 			String name = urlList.substring(urlList.lastIndexOf("/"), urlList.lastIndexOf("."));
 			String image = "";
-			if (imagerName == null || imagerName.equals("")) {
+			
+			if(newname!=null || !"".equals(newname)) {
+				name = newname;
+			}
+			
+			if (imagerName == null || "".equals(imagerName)) {
 				image =rou.getAddressDynamicCrawlerModule() + name + houzui;
 			} else {
 				image = imagerName + name + houzui;
 			}
+			
+			
 			File file = new File(image);
 			File fileParent = file.getParentFile();
 			if (!fileParent.exists()) {
@@ -43,7 +50,7 @@ public class imageDownload {
 			conn.setRequestMethod("GET");
 			conn.addRequestProperty("User-Agent",
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36 OPR/63.0.3368.94");
-			if (!referrer.equals("") || referrer != null) {
+			if (!"".equals(referrer) || referrer != null) {
 				conn.addRequestProperty("referer", referrer);
 			}
 			InputStream is = conn.getInputStream();// 通过输入流获取图片数据

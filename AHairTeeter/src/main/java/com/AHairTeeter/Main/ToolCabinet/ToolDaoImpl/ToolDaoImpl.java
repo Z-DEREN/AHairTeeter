@@ -240,7 +240,7 @@ public class ToolDaoImpl implements ToolDao {
 		SID = GetSID("legal_information_heyhey");
 		ZDI = GetintZDInum(map.get("ADI").toString()).toString();
 
-		if (SID != null && !SID.equals("") && ZDI != null && !ZDI.equals("")) {
+		if (SID != null && !"".equals(SID) && ZDI != null && !"".equals(ZDI)) {
 			logger.info(" 爬取数据准备入库------------------------------------------------------------"); // info级别的信息
 			String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '" + map.get("classify")
 					+ "' AND uniqueid = '" + map.get("uniqueid") + "';";
@@ -334,7 +334,7 @@ public class ToolDaoImpl implements ToolDao {
 
 			SID = GetSID("legal_information_heyhey");
 			ZDI = GetintZDInum(map.get("ADI").toString()).toString();
-			if (SID != null && !SID.equals("") && ZDI != null && !ZDI.equals("")) {
+			if (SID != null && !"".equals(SID) && ZDI != null && !"".equals(ZDI)) {
 				logger.info(" 爬取数据准备入库------------------------------------------------------------"); // info级别的信息
 				String TFSQL = " SELECT ZDI FROM legal_information_heyhey WHERE classify = '" + map.get("classify")
 						+ "' AND uniqueid = '" + map.get("uniqueid") + "';";
