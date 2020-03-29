@@ -54,6 +54,8 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
 		// ������������λ
 	}
 
+
+
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 	}
