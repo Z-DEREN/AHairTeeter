@@ -44,10 +44,12 @@
 #lite {
 	position: absolute;
 	top: 200px;
-	left: 180px;
+	left: 190px;
 	z-index: 5;
 	cursor: hand;
+	float:left;
 }
+
 #gsqdkj {
 	float: right;
 }
