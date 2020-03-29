@@ -39,7 +39,7 @@ public class CangkuController {
 	}
 
 	/**
-	 * 获取链接方式,并进行展示
+	 * 锟斤拷取锟斤拷锟接凤拷式,锟斤拷锟斤拷锟斤拷展示
 	 * 
 	 * @param response
 	 * @param request
@@ -49,8 +49,8 @@ public class CangkuController {
 	@RequestMapping(value = "/GetListType/{type}", method = { RequestMethod.POST, RequestMethod.GET })
 	public Object user(HttpServletResponse response, HttpServletRequest request, ModelAndView model,
 			@PathVariable String type) {
-		System.out.println("调用一次 值为:" + type);
-		Map<String, String> map = CangkuDaoServiceImpl.seleminid(type);// 获取id
+		System.out.println("锟斤拷锟斤拷一锟斤拷 值为:" + type);
+		Map<String, String> map = CangkuDaoServiceImpl.seleminid(type);// 锟斤拷取id
 		if (map != null) {
 			model.addObject("retmap", map);
 			model.setViewName("main/cangku/Changkupan");
@@ -60,19 +60,18 @@ public class CangkuController {
 			return model;
 		}
 
+
 	}
 
 	/**
-	 * 获取链接方式,并进行展示
+	 * 锟斤拷取锟斤拷锟接凤拷式,锟斤拷锟斤拷锟斤拷展示
 	 * 
-	 * @param response
-	 * @param request
-	 * @param type
+
 	 * @return
 	 */
 	@RequestMapping(value = "/TypeList", method = { RequestMethod.POST, RequestMethod.GET })
 	public Object TypeList(ModelAndView model) {
-		System.out.println("集合");
+		System.out.println("锟斤拷锟斤拷");
 		List<Map<String, Object>> TypeList = CangkuDaoServiceImpl.Alltype();
 		model.addObject("TypeList", TypeList);
 		model.setViewName("main/cangku/Changku");

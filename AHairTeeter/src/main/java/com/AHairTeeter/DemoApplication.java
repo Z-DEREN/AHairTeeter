@@ -18,11 +18,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @RestController
-@EnableAutoConfiguration
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
-//Ê÷Ý®ÅÉµØÖ·
+//ï¿½ï¿½Ý®ï¿½Éµï¿½Ö·
 //@PropertySource(value = {
 //		"file:/home/pi/rdzgsq/Database/ALi120/application.properties" }, ignoreResourceNotFound = false, encoding = "UTF-8", name = "application.properties")
 @PropertySource(value = {
@@ -32,15 +31,18 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
 	// log
 	private static final Logger logger = LogManager.getLogger(DemoApplication.class.getName());
 
+
+
+
 	/**
-	 * ´ò°üÓÃ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(DemoApplication.class);
 	}
 
 	/**
-	 * Æô¶¯Main
+	 * ï¿½ï¿½ï¿½ï¿½Main
 	 * 
 	 * @param args
 	 */
@@ -48,8 +50,8 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
 		SpringApplication springApplication = new SpringApplication(DemoApplication.class);
 		springApplication.setBannerMode(Banner.Mode.OFF);
 		springApplication.run(args);
-		logger.info("ÏîÄ¿Æô¶¯³É¹¦------------------------------"); // info¼¶±ðµÄÐÅÏ¢
-		// ½øÐÐÆô¶¯²âÊÔÎ»
+		logger.info("ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½------------------------------"); // infoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»
 	}
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
