@@ -2,7 +2,6 @@
 <Configuration status="OFF" monitorInterval="1800">
 	<properties>
 		<property name="LOG_HOME">E:/Database/LogBoot</property>
-		<!--<property name="LOG_HOME">/WEB-INF/Boot</property>-->
 		<property name="FILE_NAME">finance-pay</property>
 	</properties>
 	<Appenders>

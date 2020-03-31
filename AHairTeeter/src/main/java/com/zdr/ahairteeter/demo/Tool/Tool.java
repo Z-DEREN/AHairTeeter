@@ -3,11 +3,8 @@ package com.zdr.ahairteeter.demo.Tool;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dom4j.Document;
@@ -17,6 +14,7 @@ import org.dom4j.io.SAXReader;
 import com.zdr.ahairteeter.demo.Main.Vo.ZUSER;
 import com.zdr.ahairteeter.demo.Tool.fileIO.IOLocalFile;
 import net.sf.json.JSONObject;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -466,6 +464,29 @@ public class Tool {
 			e.printStackTrace();
 		}
 	}
+
+
+
+	///////////////////////////////////////////////////爬虫自动化工具方法/////////////////////////////////////////////
+
+	public void closeWindow(WebDriver driver) {
+		try {
+			String winHandleBefore = driver.getWindowHandle();//关闭当前窗口前，获取当前窗口句柄
+			Set<String> winHandles = driver.getWindowHandles();//使用set集合获取所有窗口句柄
+			driver.close();//关闭窗口
+			Iterator<String> it = winHandles.iterator();//创建迭代器，迭代winHandles里的句柄
+			while (it.hasNext()) {//用it.hasNext()判断时候有下一个窗口,如果有就切换到下一个窗口
+				String win = it.next();//获取集合中的元素
+				if (!win.equals(winHandleBefore)) { //如果此窗口不是关闭前的窗口
+					driver.switchTo().window(win);//切换到新窗口
+					break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }
