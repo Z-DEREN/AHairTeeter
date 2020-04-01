@@ -18,6 +18,9 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 废弃,当时为了看漫画写的一个方法,仅供学习使用,当然估计已经由于网站更新已经不能使用了
+ */
 @Component
 public class KUkuManHua extends IoHandlerAdapter {
 
