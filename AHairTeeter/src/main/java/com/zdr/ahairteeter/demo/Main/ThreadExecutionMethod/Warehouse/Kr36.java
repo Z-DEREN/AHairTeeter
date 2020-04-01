@@ -39,6 +39,22 @@ public class Kr36 extends IoHandlerAdapter {
 	private static final Logger logger = LogManager.getLogger(Kr36.class.getName());
 
 	/**
+	 * 单机测试用
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+
+
+
+	}
+
+
+
+
+
+
+	/**
 	 * 根据页码进行爬取
 	 * 
 	 * @throws InterruptedException
