@@ -37,6 +37,13 @@ public class Route {
 	private static final String Xvideos_Cookie_value;
 	//36Kr页码(每次会在网站上获取,写出来只是为了统一)
 	private static final String Kr36_pagination;
+	//非常有名的gif网站
+	private static final String SssGif_pagination;
+	//不用说都懂
+	private static final String Xvideos_pagination;
+
+
+
 
 
 	//存储页码等成对出现的数值类型
@@ -63,21 +70,21 @@ public class Route {
 		List<String> valueS = Tool.getDisplayColumns("valueS");
 		warehouse_pagination = valueS.get(0);
 		Kr36_pagination =  valueS.get(1);
-=  valueS.get(2);
-=  valueS.get(3);
-=  valueS.get(4);
-=  valueS.get(5);
-=  valueS.get(6);
-
-
-
+		SssGif_pagination =  valueS.get(2);
+		Xvideos_pagination =  valueS.get(3);
 
 
 		Numeric_Types.put("cangku_F",PartitionInt(warehouse_pagination,0));
-		Numeric_Types.put("cangku_L",PartitionInt(warehouse_pagination,0));
+		Numeric_Types.put("cangku_L",PartitionInt(warehouse_pagination,1));
 
-		Numeric_Types.put("36Kr_L",PartitionInt(Kr36_pagination,0));
-		Numeric_Types.put("36Kr_L",PartitionInt(Kr36_pagination,0));
+		Numeric_Types.put("Kr36_F",PartitionInt(Kr36_pagination,0));
+		Numeric_Types.put("Kr36_L",PartitionInt(Kr36_pagination,1));
+
+		Numeric_Types.put("SssGif_F",PartitionInt(SssGif_pagination,0));
+		Numeric_Types.put("SssGif_L",PartitionInt(SssGif_pagination,1));
+
+		Numeric_Types.put("Xvideos_F",PartitionInt(Xvideos_pagination,0));
+		Numeric_Types.put("Xvideos_L",PartitionInt(Xvideos_pagination,1));
 
 
 
@@ -139,10 +146,19 @@ public class Route {
 		return Kr36_pagination;
 	}
 
-	public  Map<String,Integer> getNumeric_Types() {
-		return Numeric_Types;
+	public  String getSssGif_pagination() {
+		return SssGif_pagination;
+	}
+
+	public  String getXvideos_pagination() {
+		return Xvideos_pagination;
 	}
 
 
 
+
+
+	public Integer getNumeric_Types(String name) {
+		return Numeric_Types.get(name);
+	}
 }

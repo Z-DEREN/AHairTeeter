@@ -162,9 +162,8 @@ public class ThreadServiceImpl {
 		try {
 			WarehouseImpl wareho = Factory.GetThreadService(typeName);
 
-			route.get
-
-			wareho.Webautomate(1,2,url);
+			route.getNumeric_Types(typeName);
+			wareho.Webautomate(route.getNumeric_Types(typeName+"_F"),route.getNumeric_Types(typeName+"_L"),url);
 			int num = Integer.parseInt(typeName);
 			AllocationThreadExecute(listmap, name, num, url);
 
