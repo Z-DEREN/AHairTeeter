@@ -34,7 +34,7 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
     private static final Logger logger = LogManager.getLogger(DemoApplication.class.getName());
 
     /**
-     * 打包用
+     * 打包用=
      */
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(DemoApplication.class);
