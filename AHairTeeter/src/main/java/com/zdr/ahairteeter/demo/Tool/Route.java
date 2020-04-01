@@ -3,6 +3,7 @@ package com.zdr.ahairteeter.demo.Tool;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 本地链接
@@ -33,8 +34,12 @@ public class Route {
 	private static final String IPAPI_KEY;
 	// videosCookie
 	private static final String Xvideos_Cookie_value;
+	//36Kr页码(每次会在网站上获取,写出来只是为了统一)
+	private static final String Kr36_pagination;
 
 
+
+	private static Map<String,Integer> Numeric_Types;
 
 
 	
@@ -56,12 +61,43 @@ public class Route {
 		
 		List<String> valueS = Tool.getDisplayColumns("valueS");
 		warehouse_pagination = valueS.get(0);
-		
+		Kr36_pagination =  valueS.get(1);
+
+
+
+
+
+
+		Numeric_Types.put("cangku_F",PartitionInt(warehouse_pagination,0));
+		Numeric_Types.put("cangku_L",PartitionInt(warehouse_pagination,0));
+
+		Numeric_Types.put("36Kr_L",PartitionInt(Kr36_pagination,0));
+		Numeric_Types.put("36Kr_L",PartitionInt(Kr36_pagination,0));
+
+
+
 		
 //		for (String ss : Element) {
 //			System.out.println(ss);
 //		}
 	}
+
+
+	public static Integer PartitionInt(String StrInt , int place){
+		String []  ArrayStrInt = StrInt.split("P");
+		Integer[] ParInt = {Integer.parseInt(ArrayStrInt[0]),Integer.parseInt(ArrayStrInt[1])};
+		return ParInt[place];
+	}
+
+
+	public Integer[] GetPageNum(String name){
+
+		Integer[] Pnum = {0,0};
+
+		return
+	}
+
+
 	
 	
 	public  String getIPAPI_KEY() {
@@ -80,9 +116,7 @@ public class Route {
 		return warehouse_cookie_value;
 	}
 
-	public  String getLocalStorageAddress() {
-		return Local_storage_address;
-	}
+	public  String getLocalStorageAddress() { return Local_storage_address; }
 
 	public  String getPictureCrawler() {
 		return Picture_crawler;
@@ -103,6 +137,10 @@ public class Route {
 	public  String getWarehouse_pagination() {
 		return warehouse_pagination;
 	}
-	
+
+	public  String getKr36_pagination() {
+		return Kr36_pagination;
+	}
+
 
 }

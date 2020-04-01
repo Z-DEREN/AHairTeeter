@@ -24,7 +24,7 @@ public class ThreadServiceImpl {
 
 	private static final Logger logger = LogManager.getLogger(ThreadServiceImpl.class.getName());
 	@Autowired
-	private Route rou;
+	private Route route;
 	@Autowired
 	private Tool Tool;
 	@Autowired
@@ -96,7 +96,7 @@ public class ThreadServiceImpl {
 		case 23:
 			// 仓库
 			//获取指定页码
-			String []  PA = rou.getWarehouse_pagination().split("P");
+			String []  PA = route.getWarehouse_pagination().split("P");
 			cangku.first_no1(Integer.parseInt(PA[0]), Integer.parseInt(PA[1]));
 			break;
 			
@@ -161,6 +161,9 @@ public class ThreadServiceImpl {
 		String name = "LaJiWenJIan";// 默认文件名
 		try {
 			WarehouseImpl wareho = Factory.GetThreadService(typeName);
+
+			route.get
+
 			wareho.Webautomate(1,2,url);
 			int num = Integer.parseInt(typeName);
 			AllocationThreadExecute(listmap, name, num, url);

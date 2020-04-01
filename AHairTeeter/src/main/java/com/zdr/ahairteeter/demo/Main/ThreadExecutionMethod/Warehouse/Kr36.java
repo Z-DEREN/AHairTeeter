@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import com.zdr.ahairteeter.demo.Main.SerToolCabinet.ToolDaoImpl.ToolDaoImpl;
 
 @Component
-public class Kr36 extends IoHandlerAdapter {
+public class Kr36 extends IoHandlerAdapter implements WarehouseImpl{
 	private final String url = "https://36kr.com";
 	@Autowired
 	private Tool tool ;
@@ -43,13 +43,31 @@ public class Kr36 extends IoHandlerAdapter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
-
+		Kr36 Kr36 = new Kr36();
+		String url = Kr36.newurl(200, 201);
 
 
 	}
 
+	@Override
+	public List<Map<String, Object>> Webautomate(int P1, int P2, String url) {
+		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
+		String StrID = "";
+		int ID = 0;
+		int NEWID = 0;
+		try {
+			StrID = Kr36.ToolDaoImpl.GetSelObjsql(" SELECT uniqueid FROM  legal_information_heyhey  WHERE  ZDI = ( SELECT MAX(ZDI) FROM legal_information_heyhey WHERE ZDI LIKE '24%' ) ", null, "String").toString();
+			ID = Integer.parseInt(StrID);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // 获数据库最新的ID
+		NEWID = newID(); // 当前网址的最新ID
+		String kr36url = newurl(ID+1, NEWID);
 
+
+		return null;
+	}
 
 
 
@@ -226,4 +244,6 @@ public class Kr36 extends IoHandlerAdapter {
 		logger.info(" 最终爬取地址" + http + "------------------------------------------------------------"); // info级别的信息
 		return http;
 	}
+
+
 }
