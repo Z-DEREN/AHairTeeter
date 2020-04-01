@@ -2,6 +2,7 @@ package com.zdr.ahairteeter.demo.Tool;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,8 @@ public class Route {
 	private static final String Kr36_pagination;
 
 
-
-	private static Map<String,Integer> Numeric_Types;
+	//存储页码等成对出现的数值类型
+	private static final Map<String,Integer> Numeric_Types = new HashMap<String,Integer>();
 
 
 	
@@ -62,7 +63,11 @@ public class Route {
 		List<String> valueS = Tool.getDisplayColumns("valueS");
 		warehouse_pagination = valueS.get(0);
 		Kr36_pagination =  valueS.get(1);
-
+=  valueS.get(2);
+=  valueS.get(3);
+=  valueS.get(4);
+=  valueS.get(5);
+=  valueS.get(6);
 
 
 
@@ -90,15 +95,7 @@ public class Route {
 	}
 
 
-	public Integer[] GetPageNum(String name){
 
-		Integer[] Pnum = {0,0};
-
-		return
-	}
-
-
-	
 	
 	public  String getIPAPI_KEY() {
 		return IPAPI_KEY;
@@ -141,6 +138,11 @@ public class Route {
 	public  String getKr36_pagination() {
 		return Kr36_pagination;
 	}
+
+	public  Map<String,Integer> getNumeric_Types() {
+		return Numeric_Types;
+	}
+
 
 
 }

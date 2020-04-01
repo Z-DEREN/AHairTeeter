@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * ACG图片链接获取方法
- * 
+ * 废弃,或者暂时不会启用,获取日本ACG图片方法,用处不大
  * @author 好人
  *
  */
