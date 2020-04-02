@@ -35,8 +35,8 @@ public class Tool {
 	private Route rou;
 
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
-	private final static String osp_home = "E:\\Database\\ALi120\\configuration.xml";
-	//private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
+	//private final static String osp_home = "E:\\Database\\ALi120\\configuration.xml";
+	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
 //	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
 
 	/**

@@ -9,18 +9,51 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.zdr.ahairteeter.demo.Tool.IConnect;
 import com.zdr.ahairteeter.demo.Tool.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 
-@Component
-public class SampleMail {
+public class SampleMail implements IConnect {
 	private static final String ALIDM_SMTP_HOST = "SMTP.163.com";
 	private static final String ALIDM_SMTP_PORT = "80";// 或"80"
+	private String mail_user;
+	private String mail_password;
+	private String IPAPI_KEY;
+
+
 	@Autowired
-	private Route Route ;
+	private Route Route;
+
+	@Override
+	public void connect() {
+		System.out.println("connect:"+this.mail_user +"  "+ this.mail_password +"  "+ this.IPAPI_KEY);
+	}
+
+	public SampleMail(String mail_user, String mail_password, String IPAPI_KEY) {
+		this.mail_user = mail_user;
+		this.mail_password = mail_password;
+		this.IPAPI_KEY = IPAPI_KEY;
+	}
+
+	public SampleMail() {
+	}
+
+	public void setMail_user(String mail_user) {
+		this.mail_user = mail_user;
+	}
+
+	public void setMail_password(String mail_password) {
+		this.mail_password = mail_password;
+	}
+
+	public void setIPAPI_KEY(String IPAPI_KEY) {
+		this.IPAPI_KEY = IPAPI_KEY;
+	}
+
 
 	public void SendEmail(String toMailAddress, String title, String text) throws UnsupportedEncodingException {
 		// 配置发送邮件的环境属性
@@ -103,4 +136,7 @@ public class SampleMail {
 			System.out.println(err);
 		}
 	}
+
+
+
 }

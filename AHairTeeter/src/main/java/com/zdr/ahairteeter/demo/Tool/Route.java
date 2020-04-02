@@ -31,7 +31,7 @@ public class Route {
 	private static final String mail_user;
 	//邮箱密码
 	private static final String mail_password;
-	//邮箱密码
+	//邮箱密钥
 	private static final String IPAPI_KEY;
 	// videosCookie
 	private static final String Xvideos_Cookie_value;

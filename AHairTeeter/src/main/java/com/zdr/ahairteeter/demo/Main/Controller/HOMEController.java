@@ -1,5 +1,6 @@
 package com.zdr.ahairteeter.demo.Main.Controller;
 
+import com.zdr.ahairteeter.demo.Tool.IConnect;
 import com.zdr.ahairteeter.demo.Tool.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,19 @@ public class HOMEController {
 	}
 
 
-	@RequestMapping(value = "/cangku", method = RequestMethod.GET)
+	/////////////////////////////测试接口用////////////////////////////////
+	@Autowired
+	private IConnect IConnect;
+
+	@RequestMapping(value = "/test1", method = RequestMethod.GET)
 	public Object cabgkyu(ModelAndView model) {
+		IConnect.connect();
 		model.addObject("Time", tool.GetNewDateTime(2));
-		model.setViewName("main/cangku/encryption/cangku");
+		model.setViewName("main/HOME/navigation");
 		return model;
 	}
+
+
 
 
 
