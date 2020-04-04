@@ -159,7 +159,7 @@ public class Xvideos extends IoHandlerAdapter implements WarehouseImpl {
 	public String GetVideoUrl(String ID) {
 		String returnstr = "";
 		try {
-			Thread.sleep(1000 * 1);
+			Thread.sleep(1000 * 3);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -380,6 +380,13 @@ public class Xvideos extends IoHandlerAdapter implements WarehouseImpl {
 		} finally {
 			return listmap;
 		}
+	}
+
+
+
+    public List<String> getXMLurl(){
+        List<String> list = Tool.getDisplayColumns("Xurl");
+        return list;
 	}
 
 

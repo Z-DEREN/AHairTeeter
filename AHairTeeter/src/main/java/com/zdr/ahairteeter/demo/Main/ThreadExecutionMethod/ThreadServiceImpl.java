@@ -203,29 +203,6 @@ public class ThreadServiceImpl {
 			break;
 		case "21":
 			break;
-		case "22_1":
-			xvideos.getxvideoURL(url);
-			listmap = xvideos.videoNum(1, 5, "");
-			name = "xvideosUrl";
-			Tool.IOSaveFile(listmap);
-//			AllocationThreadExecute(listmap,name,num,url);
-			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
-			break;
-		case "22_2":
-
-			listmap = xvideos.video_Reco_multi(url, null);
-			name = "xvideosUrl_multi";
-			Tool.IOSaveFile(listmap);
-			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
-			break;
-		case "22_3":
-			
-			listmap = xvideos.video_Reco_alone(url, null);
-			name = "xvideosUrl";
-			Tool.IOSaveFile(listmap);
-//			AllocationThreadExecute(listmap,name,num,url);
-			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
-			break;
 		case "22":
 			listmap = xvideos.video_Reco(url, null);
 			name = "xvideosUrl";
@@ -233,6 +210,40 @@ public class ThreadServiceImpl {
 //			AllocationThreadExecute(listmap,name,num,url);
 			logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
 			break;
+            case "22_1":
+                xvideos.getxvideoURL(url);
+                listmap = xvideos.videoNum(1, 5, "");
+                name = "xvideosUrl";
+                Tool.IOSaveFile(listmap);
+//			AllocationThreadExecute(listmap,name,num,url);
+                logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+                break;
+            case "22_2":
+
+                listmap = xvideos.video_Reco_multi(url, null);
+                name = "xvideosUrl_multi";
+                Tool.IOSaveFile(listmap);
+                logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+                break;
+            case "22_3":
+
+                listmap = xvideos.video_Reco_alone(url, null);
+                name = "xvideosUrl";
+                Tool.IOSaveFile(listmap);
+//			AllocationThreadExecute(listmap,name,num,url);
+                logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+                break;
+            case "22_4":
+
+                List<String> listurl = xvideos.getXMLurl();
+                for(String Xurl : listurl){
+                    logger.info(" 正在获取:"+Xurl); // info级别的信息
+                    listmap = xvideos.video_Reco(Xurl, null);
+                    name = "xvideosUrl";
+                    Tool.IOSaveFile(listmap);
+                    logger.info(" ThExeMet数据入库操作结束------------------------------------------------------------"); // info级别的信息
+                }
+                break;
 		case "23":
 			break;
 		case "24":

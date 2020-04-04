@@ -35,9 +35,10 @@ public class Tool {
 	private Route rou;
 
 	private static Map<String, SimpleDateFormat> DTMap = new HashMap<String, SimpleDateFormat>();
-	//private final static String osp_home = "E:\\Database\\ALi120\\configuration.xml";
-	private final static String osp_home = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
-//	private final static String osp_home = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
+	private static Map<String,String> osp_home = new HashMap<String,String>();
+	private final static String osp_home_no1 = "E:\\Database\\ALi120\\configuration.xml";
+	private final static String osp_home_no2 = "F:\\rdzgsq\\Database\\ALi120\\configuration.xml";
+	private final static String osp_home_no3 = "/home/pi/rdzgsq/Database/ALi120/configuration.xml";
 
 	/**
 	 * 静态代码块 (存入缓存当中)
@@ -50,6 +51,11 @@ public class Tool {
 		DTMap.put("DT3", DT3);
 		DTMap.put("DT4", DT4);
 		DTMap.put("DT5", DT5);
+
+		osp_home.put("no1",osp_home_no1);
+		osp_home.put("no2",osp_home_no2);
+		osp_home.put("no3",osp_home_no3);
+
 	}
 
 	/**
@@ -274,8 +280,14 @@ public class Tool {
 	 */
 	public static List<Element> loadXml() {
 		SAXReader reader = new SAXReader();
-
-		File file = new File(osp_home);
+		File file = null;
+		for(String fileurl : osp_home.keySet()){
+			file = new File(osp_home.get(fileurl));
+			if(file.exists()){
+				System.out.println("当前系统地址为:"+osp_home.get(fileurl));
+				break;
+			}
+		}
 		try {
 			Document document = reader.read(file);
 			Element root = document.getRootElement();

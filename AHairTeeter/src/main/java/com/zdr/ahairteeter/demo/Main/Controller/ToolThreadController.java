@@ -77,6 +77,17 @@ public class ToolThreadController {
 		return model;
 	}
 
+	@RequestMapping(value = "/XvideosList")
+	public ModelAndView XvideosList(ModelAndView model) {
+		model.addObject("text", "进入alone_use_way");
+		ThreadServiceImpl.middleman(22_4);
+		model.setViewName("main/alone_use_way/alone_use_way");
+		return model;
+	}
+
+
+
+
 	@RequestMapping(value = "/typeurl")
 	public ModelAndView XvideosMORE(@RequestParam(value = "typenum", required = false) String typenum,
 			@RequestParam(value = "Xvideosurl", required = false) String Xvideosurl, HttpSession session,

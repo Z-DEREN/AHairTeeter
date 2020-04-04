@@ -1,7 +1,9 @@
 package com.zdr.ahairteeter.demo;
 
+import com.zdr.ahairteeter.demo.Tool.IConnect;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -40,6 +42,7 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
         return application.sources(DemoApplication.class);
     }
 
+
     /**
      * 启动Main
      *
@@ -48,6 +51,7 @@ public class DemoApplication extends SpringBootServletInitializer implements Web
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(DemoApplication.class);
         springApplication.setBannerMode(Banner.Mode.OFF);
+
         springApplication.run(args);
         logger.info("info level");
         logger.warn("warn level");
